@@ -1,7 +1,1 @@
-{
-  "functions": {
-    "api/create-checkout-session.js": {
-      "runtime": "nodejs18.x"
-    }
-  }
-}
+
