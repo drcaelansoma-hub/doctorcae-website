@@ -157,13 +157,13 @@
 
       try {
         // Replace with your backend endpoint URL
-        const response = await fetch('YOUR_BACKEND_URL/create-checkout-session', {
+        const response = await fetch('https://doctorcae-website-kqau.vercel.app/api/create-checkout-session', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            priceId: 'price_YOUR_PRICE_ID', // Replace with your Stripe Price ID
+            priceId: 'price_1StCthB3UFcbTuoTqbohql61', // Replace with your Stripe Price ID
             successUrl: window.location.origin + '/success.html',
             cancelUrl: window.location.origin + '/checkout.html',
           }),
