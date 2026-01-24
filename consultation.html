@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Parent Consultation - Dr. Caelan Soma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f6f8;
+      --primary: #3b6c94;
+      --primary-soft: #7fa4c1;
+      --brown: #a4744a;
+      --text-main: #29333b;
+      --text-muted: #6b7280;
+      --card-bg: #ffffff;
+      --border-subtle: #dde2e7;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 2rem 0;
+    }
+
+    .consultation-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .consultation-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .consultation-logo {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      margin: 0 auto 1.5rem;
+      display: block;
+    }
+
+    .consultation-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .consultation-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    .consultation-content {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 1.3rem;
+      padding: 3rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
+    }
+
+    .price-section {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .price-label {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .price-amount {
+      font-size: 3rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .price-description {
+      font-size: 1.1rem;
+      color: var(--text-main);
+      line-height: 1.8;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .whats-included {
+      margin-top: 2rem;
+    }
+
+    .whats-included h2 {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .included-list {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .included-list li {
+      padding-left: 2rem;
+      margin-bottom: 1rem;
+      position: relative;
+      color: var(--text-main);
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .included-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    .contact-section {
+      background: rgba(59, 108, 148, 0.05);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-top: 2.5rem;
+      text-align: center;
+      border: 1px solid rgba(59, 108, 148, 0.1);
+    }
+
+    .contact-section h3 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .email-link {
+      display: inline-block;
+      font-size: 1.2rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.75rem 1.5rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 0.5rem;
+      border: 1px solid var(--border-subtle);
+      transition: all 0.2s ease;
+    }
+
+    .email-link:hover {
+      background: var(--primary);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 108, 148, 0.2);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 500;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 36px rgba(15, 23, 42, 0.2);
+    }
+
+    @media (max-width: 640px) {
+      .consultation-container {
+        padding: 0 1.3rem;
+      }
+      .consultation-title {
+        font-size: 2rem;
+      }
+      .consultation-content {
+        padding: 2rem 1.5rem;
+      }
+      .price-amount {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="consultation-container">
+    <header class="consultation-header">
+      <img src="doctorcaelogo.png" alt="Dr. Caelan Soma logo" class="consultation-logo" />
+      <h1 class="consultation-title">Parent Consultation</h1>
+      <p class="consultation-subtitle">Support for parents and caregivers</p>
+    </header>
+
+    <div class="consultation-content">
+      <div class="price-section">
+        <div class="price-label">Cost per consultation</div>
+        <div class="price-amount">$300</div>
+        <p class="price-description">
+          Cost per consultation is $300 which includes a one hour session.
+        </p>
+      </div>
+
+      <div class="whats-included">
+        <h2>What's Included</h2>
+        <ul class="included-list">
+          <li>One hour consultation session</li>
+          <li>Discussion, information collection and assessment</li>
+          <li>Full written summary with recommendations</li>
+        </ul>
+      </div>
+
+      <div class="contact-section">
+        <h3>Schedule Your Consultation</h3>
+        <p style="margin-bottom: 1rem; color: var(--text-muted);">Email me to schedule your consultation:</p>
+        <a href="mailto:drcaelansoma@gmail.com" class="email-link">drcaelansoma@gmail.com</a>
+      </div>
+    </div>
+
+    <a href="index.html#resources" class="back-link">← Back to Home</a>
+  </div>
+</body>
+</html>
