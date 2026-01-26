@@ -22,6 +22,7 @@
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      background-attachment: fixed;
       color: var(--text-main);
       line-height: 1.7;
       min-height: 100vh;
@@ -34,12 +35,13 @@
     .checkout-container {
       max-width: 500px;
       width: 100%;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.75);
       border-radius: 1.3rem;
       padding: 3rem;
       border: 1px solid var(--border-subtle);
       box-shadow: 0 18px 45px rgba(148, 163, 184, 0.16);
       text-align: center;
+      backdrop-filter: blur(10px);
     }
 
     .logo {
@@ -129,7 +131,7 @@
 </head>
 <body>
   <div class="checkout-container">
-    <img src="doctorcaelogo.png" alt="Dr. Caelan Soma logo" class="logo" />
+    <img src="Logo.svg" alt="Dr. Caelan Soma logo" class="logo" />
     <h1>Regulation, Confidence and Success Guide</h1>
     <p class="product-description">
       A practical, relationship-based guide for thoughtful parents who want to help their child thrive emotionally, socially, and academically through connection, not perfection.
