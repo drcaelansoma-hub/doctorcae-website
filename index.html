@@ -1,445 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Dr. Caelan Soma - Child & Adolescent Psychologist</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #f4f6f8;
-      --primary: #3b6c94;
-      --primary-soft: #7fa4c1;
-      --brown: #a4744a;
-      --text-main: #29333b;
-      --text-muted: #6b7280;
-      --card-bg: #ffffff;
-      --border-subtle: #dde2e7;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
-      color: var(--text-main);
-      line-height: 1.7;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    /* Header */
-    header {
-      padding: 2rem 0;
-      border-bottom: 1px solid var(--border-subtle);
-      background: rgba(255, 255, 255, 0.8);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .logo-section {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .logo-section img {
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-    }
-
-    .logo-text {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text-main);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--text-main);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-    }
-
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      padding: 4rem 0 3rem;
-    }
-
-    .hero h1 {
-      font-size: 3rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 1rem;
-      letter-spacing: -0.02em;
-    }
-
-    .hero .subtitle {
-      font-size: 1.5rem;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-      font-weight: 400;
-    }
-
-    .hero .description {
-      font-size: 1.1rem;
-      color: var(--text-main);
-      max-width: 800px;
-      margin: 0 auto 2rem;
-      line-height: 1.8;
-    }
-
-    /* Sections */
-    section {
-      padding: 4rem 0;
-    }
-
-    section h2 {
-      font-size: 2.5rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    section h3 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 1rem;
-    }
-
-    .intro-text {
-      font-size: 1.1rem;
-      color: var(--text-main);
-      max-width: 900px;
-      margin: 0 auto 3rem;
-      text-align: center;
-      line-height: 1.8;
-    }
-
-    /* Two Column Layout */
-    .two-column {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-top: 3rem;
-    }
-
-    .column {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 1.3rem;
-      padding: 2.5rem;
-      border: 1px solid var(--border-subtle);
-      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
-    }
-
-    .column ul {
-      list-style: none;
-      margin-top: 1rem;
-    }
-
-    .column li {
-      padding: 0.5rem 0;
-      color: var(--text-main);
-    }
-
-    .column li:before {
-      content: "• ";
-      color: var(--primary);
-      font-weight: bold;
-      margin-right: 0.5rem;
-    }
-
-    /* About Section */
-    .about-content {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 1.3rem;
-      padding: 3rem;
-      border: 1px solid var(--border-subtle);
-      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .about-content p {
-      margin-bottom: 1.5rem;
-      font-size: 1.1rem;
-      line-height: 1.8;
-      color: var(--text-main);
-    }
-
-    /* Resources Section */
-    #resources {
-      scroll-margin-top: 100px;
-    }
-
-    .resources-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .resource-card {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 1.3rem;
-      padding: 2rem;
-      border: 1px solid var(--border-subtle);
-      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .resource-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(148, 163, 184, 0.18);
-    }
-
-    .resource-type {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-    }
-
-    .resource-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 0.75rem;
-    }
-
-    .resource-description {
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-
-    .resource-link {
-      display: inline-block;
-      padding: 0.8rem 1.5rem;
-      background: linear-gradient(135deg, var(--primary), var(--brown));
-      color: #ffffff;
-      text-decoration: none;
-      border-radius: 999px;
-      font-weight: 500;
-      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .resource-link:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 36px rgba(15, 23, 42, 0.2);
-    }
-
-    /* Footer */
-    footer {
-      background: rgba(255, 255, 255, 0.9);
-      border-top: 1px solid var(--border-subtle);
-      padding: 2rem 0;
-      text-align: center;
-      color: var(--text-muted);
-      margin-top: 4rem;
-    }
-
-    footer p {
-      margin-bottom: 0.5rem;
-    }
-
-    /* Contact Info */
-    .contact-info {
-      text-align: center;
-      margin-top: 2rem;
-      padding: 1.5rem;
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 1rem;
-      color: var(--text-muted);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .hero .subtitle {
-        font-size: 1.2rem;
-      }
-
-      .two-column {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-links {
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      section h2 {
-        font-size: 2rem;
-      }
-
-      .resources-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #1f262d; -webkit-text-stroke: #1f262d; min-height: 15.0px}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 15.0px '.SF NS'; color: #1f262d; -webkit-text-stroke: #1f262d}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.8px 'Helvetica Neue'; color: #585e6d; -webkit-text-stroke: #585e6d}
+    p.p6 {margin: 0.0px 0.0px 24.0px 0.0px; text-align: center; font: 18.0px 'Helvetica Neue'; color: #585e6d; -webkit-text-stroke: #585e6d}
+    p.p7 {margin: 0.0px 0.0px 24.0px 0.0px; text-align: center; font: 13.2px 'Helvetica Neue'; color: #1f262d; -webkit-text-stroke: #1f262d}
+    p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #1f262d; -webkit-text-stroke: #1f262d}
+    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px '.SF NS'; color: #2e5882; -webkit-text-stroke: #2e5882}
+    p.p11 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #585e6d; -webkit-text-stroke: #585e6d}
+    p.p13 {margin: 0.0px 0.0px 36.0px 0.0px; text-align: center; font: 13.2px 'Helvetica Neue'; color: #1f262d; -webkit-text-stroke: #1f262d}
+    p.p14 {margin: 0.0px 0.0px 18.0px 0.0px; font: 13.2px 'Helvetica Neue'; color: #1f262d; -webkit-text-stroke: #1f262d}
+    p.p15 {margin: 0.0px 0.0px 0.0px 0.0px; font: 10.2px '.SF NS'; color: #585e6d; -webkit-text-stroke: #585e6d}
+    p.p17 {margin: 0.0px 0.0px 18.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #585e6d; -webkit-text-stroke: #585e6d}
+    p.p18 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px '.SF NS'; color: #ffffff; -webkit-text-stroke: #ffffff; background-color: #ffffff; background-color: rgba(255, 255, 255, 0.9)}
+    p.p19 {margin: 0.0px 0.0px 6.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #585e6d; -webkit-text-stroke: #585e6d}
+    li.li4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px '.SF NS'; color: #1f262d; -webkit-text-stroke: #1f262d}
+    li.li9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'Helvetica Neue'; color: #1f262d; -webkit-text-stroke: #1f262d}
+    span.s1 {font-kerning: none}
+    span.s2 {font-kerning: none; background-color: rgba(255, 255, 255, 0.8)}
+    span.s3 {background-color: rgba(255, 255, 255, 0.8); -webkit-text-stroke: 0px #000000}
+    span.s4 {font-kerning: none; background-color: rgba(255, 255, 255, 0.9)}
+    span.s5 {background-color: rgba(255, 255, 255, 0.9); -webkit-text-stroke: 0px #000000}
+    span.s6 {font-kerning: none; background-color: rgba(255, 255, 255, 0.6)}
+    span.s7 {font: 12.0px '.SF NS'; font-kerning: none; color: #ffffff; -webkit-text-stroke: 0px #ffffff}
+    ul.ul1 {list-style-type: none}
   </style>
 </head>
 <body>
-  <header>
-    <nav class="container">
-      <div class="logo-section">
-        <img src="doctorcaelogoSMALL.png" alt="Dr. Caelan Soma logo" />
-        <div class="logo-text">DR. CAELAN SOMA<br><span style="font-size: 0.9rem; font-weight: 400; color: var(--text-muted);">Child & Adolescent Psychologist</span></div>
-      </div>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#resources">Resources</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="container">
-        <h1>Nurturing, calm, child‑centred care</h1>
-        <p class="subtitle">Support for children & their families</p>
-        <p class="description">
-          Helping children and their families feel understood and supported.<br>
-          I offer evidence‑based therapy and practical tools for children and their families who are experiencing emotional and behavioral dysregulation, school challenges, and difficulty with peers.
-        </p>
-        <p class="description">
-          This site is a home for practical, research‑informed resources you can use right away— to help your family feel a little calmer, more confident, and connected.
-        </p>
-        <p class="description">
-          I share practical, evidence-based tools to help parents set boundaries without power struggles, hold limits without things blowing up, and support children and teens as they learn to calm their bodies and work through big feelings.
-        </p>
-        <p class="description">
-          This space is here for you if you're looking for ideas you can use right away—tools that help your home feel a little calmer, your parenting feel more confident, and your family feel more connected.
-        </p>
-      </div>
-    </section>
-
-    <section class="container">
-      <div class="two-column">
-        <div class="column">
-          <h3>Browse resources for parents</h3>
-          <p>Parent consultation available</p>
-          <p style="margin-top: 1rem; font-weight: 600; color: var(--primary);">Parent‑friendly tools</p>
-        </div>
-        <div class="column">
-          <h3>FOR PARENTS & CAREGIVERS</h3>
-          <p>Practical support for everyday moments</p>
-          <p style="margin-top: 1rem;">My work is grounded in warmth, curiosity, and respect—for both kids and the adults who care for them. I focus on making emotions, behavior, and anxiety feel less overwhelming by breaking things down into simple, doable steps that actually fit into real family life.</p>
-          <ul>
-            <li>Emotional awareness and regulation</li>
-            <li>Anxiety & worry</li>
-            <li>School & peer challenges</li>
-            <li>Calm down tools for children and teens</li>
-          </ul>
-        </div>
-      </div>
-      <div class="contact-info">
-        <p><strong>Email:</strong> drcaelansoma@gmail.com</p>
-        <p><strong>Location:</strong> Berkley, Michigan & virtual</p>
-      </div>
-    </section>
-
-    <section id="about" class="container">
-      <h2>About Me</h2>
-      <p class="intro-text">Supporting children, teens, and the adults who love them.</p>
-      <div class="about-content">
-        <p>
-          I'm a clinical psychologist with over 25 years of experience helping families understand and manage emotions and behavior in children and teens. My goal is to make things like child development, managing big feelings and challenging behavior feel less overwhelming for children and their families.
-        </p>
-        <p>
-          I help families balance warmth with structure. I use simple analogies, visuals, and practical, step-by-step strategies that actually work with real kids.
-        </p>
-        <p>
-          Over the years, I've written books, created curricula, and trained thousands of professionals on stress, trauma, resilience, and social-emotional development in children and teens. Today, I'm in private practice in Michigan, where I continue the work I love: supporting children and families as they build coping skills, manage anxiety, and feel calmer, more confident, and more connected.
-        </p>
-        <p>
-          I'm also a mom of two teenage daughters, which keeps me very grounded in what this work looks like outside the therapy room.
-        </p>
-      </div>
-    </section>
-
-    <section id="resources" class="container">
-      <h2>Resources for Parents</h2>
-      <p class="intro-text">Simple tools, visuals, and language you can use at home with your child or teen.</p>
-      <p class="intro-text" style="margin-top: -1.5rem;">Below are some of my most‑used resources with families.</p>
-      
-      <div class="resources-grid">
-        <div class="resource-card">
-          <div class="resource-type">DOWNLOADABLE GUIDE • FOR PURCHASE</div>
-          <h3 class="resource-title">The Emotional Regulation Guide for Children and Teens</h3>
-          <p class="resource-description">Practical tools to help kids manage big feelings and calm their bodies</p>
-          <a href="#" class="resource-link">Purchase PDF</a>
-        </div>
-
-        <div class="resource-card">
-          <div class="resource-type">WORKSHEET</div>
-          <h3 class="resource-title">Zones of Feelings</h3>
-          <p class="resource-description">Help your child identify how their body sends them signals to know which feeling zone they are in.</p>
-          <a href="#" class="resource-link">Download PDF</a>
-        </div>
-
-        <div class="resource-card">
-          <div class="resource-type">WORKSHEET</div>
-          <h3 class="resource-title">Body Map</h3>
-          <p class="resource-description">Help your child with emotional awareness by noticing body sensations with this body map.</p>
-          <a href="#" class="resource-link">Download PDF</a>
-        </div>
-
-        <div class="resource-card">
-          <div class="resource-type">ARTICLE</div>
-          <h3 class="resource-title">When Worry Shows Up at Bedtime</h3>
-          <p class="resource-description">A short article for parents on why anxiety often appears at night, and three gentle, concrete steps you can try this week.</p>
-          <a href="when-worry-shows-up-at-bedtime.html" class="resource-link">Read article</a>
-        </div>
-
-        <div class="resource-card">
-          <div class="resource-type">ARTICLE</div>
-          <h3 class="resource-title">Keeping Your Cool While Your Kid Melts Down</h3>
-          <p class="resource-description">Strategies to help parents keep their cool when their child is having a meltdown.</p>
-          <a href="keeping-your-cool-meltdown.html" class="resource-link">Read article</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>© Dr. Caelan Soma. All rights reserved.</p>
-      <p>Contact · doctorcae.com · drcaelansoma@gmail.com · @drcaelansoma</p>
-    </div>
-  </footer>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s2"><b>DR. CAELAN SOMA</b></span></p>
+<p class="p3"><span class="s2">Child &amp; Adolescent Psychologist</span></p>
+<ul class="ul1">
+  <li class="li4"><span class="s3"></span><span class="s2">About</span></li>
+  <li class="li4"><span class="s3"></span><span class="s2">Resources</span></li>
+</ul>
+<h1 style="margin: 0.0px 0.0px 12.0px 0.0px; text-align: center; font: 36.0px '.SF NS'; color: #1f262d; -webkit-text-stroke: #1f262d"><span class="s1"><b>Nurturing, calm, child‑centred care</b></span></h1>
+<p class="p6"><span class="s1">Support for children &amp; their families</span></p>
+<p class="p7"><span class="s1">Helping children and their families feel understood and supported.<br>
+I offer evidence‑based therapy and practical tools for children and their families who are experiencing emotional and behavioral dysregulation, school challenges, and difficulty with peers.</span></p>
+<p class="p7"><span class="s1">This site is a home for practical, research‑informed resources you can use right away— to help your family feel a little calmer, more confident, and connected.</span></p>
+<p class="p7"><span class="s1">I share practical, evidence-based tools to help parents set boundaries without power struggles, hold limits without things blowing up, and support children and teens as they learn to calm their bodies and work through big feelings.</span></p>
+<p class="p7"><span class="s1">This space is here for you if you're looking for ideas you can use right away—tools that help your home feel a little calmer, your parenting feel more confident, and your family feel more connected.</span></p>
+<h3 style="margin: 0.0px 0.0px 12.0px 0.0px; font: 18.0px '.SF NS'; color: #2e5882; -webkit-text-stroke: #2e5882"><span class="s4"><b>Browse resources for parents</b></span></h3>
+<p class="p9"><span class="s4">Parent consultation available</span></p>
+<p class="p10"><span class="s4"><b>Parent‑friendly tools</b></span></p>
+<h3 style="margin: 0.0px 0.0px 12.0px 0.0px; font: 18.0px '.SF NS'; color: #2e5882; -webkit-text-stroke: #2e5882"><span class="s4"><b>FOR PARENTS &amp; CAREGIVERS</b></span></h3>
+<p class="p9"><span class="s4">Practical support for everyday moments</span></p>
+<p class="p9"><span class="s4">My work is grounded in warmth, curiosity, and respect—for both kids and the adults who care for them. I focus on making emotions, behavior, and anxiety feel less overwhelming by breaking things down into simple, doable steps that actually fit into real family life.</span></p>
+<ul class="ul1">
+  <li class="li9"><span class="s5"></span><span class="s4">Emotional awareness and regulation</span></li>
+  <li class="li9"><span class="s5"></span><span class="s4">Anxiety &amp; worry</span></li>
+  <li class="li9"><span class="s5"></span><span class="s4">School &amp; peer challenges</span></li>
+  <li class="li9"><span class="s5"></span><span class="s4">Calm down tools for children and teens</span></li>
+</ul>
+<p class="p11"><span class="s6"><b>Email:</b> drcaelansoma@gmail.com</span></p>
+<p class="p11"><span class="s6"><b>Location:</b> Berkley, Michigan &amp; virtual</span></p>
+<h2 style="margin: 0.0px 0.0px 18.0px 0.0px; text-align: center; font: 30.0px '.SF NS'; color: #1f262d; -webkit-text-stroke: #1f262d"><span class="s1"><b>About Me</b></span></h2>
+<p class="p13"><span class="s1">Supporting children, teens, and the adults who love them.</span></p>
+<p class="p14"><span class="s4">I'm a clinical psychologist with over 25 years of experience helping families understand and manage emotions and behavior in children and teens. My goal is to make things like child development, managing big feelings and challenging behavior feel less overwhelming for children and their families.</span></p>
+<p class="p14"><span class="s4">I help families balance warmth with structure. I use simple analogies, visuals, and practical, step-by-step strategies that actually work with real kids.</span></p>
+<p class="p14"><span class="s4">Over the years, I've written books, created curricula, and trained thousands of professionals on stress, trauma, resilience, and social-emotional development in children and teens. Today, I'm in private practice in Michigan, where I continue the work I love: supporting children and families as they build coping skills, manage anxiety, and feel calmer, more confident, and more connected.</span></p>
+<p class="p14"><span class="s4">I'm also a mom of two teenage daughters, which keeps me very grounded in what this work looks like outside the therapy room.</span></p>
+<h2 style="margin: 0.0px 0.0px 18.0px 0.0px; text-align: center; font: 30.0px '.SF NS'; color: #1f262d; -webkit-text-stroke: #1f262d"><span class="s1"><b>Resources for Parents</b></span></h2>
+<p class="p13"><span class="s1">Simple tools, visuals, and language you can use at home with your child or teen.</span></p>
+<p class="p13"><span class="s1">Below are some of my most‑used resources with families.</span></p>
+<p class="p15"><span class="s4"><b>DOWNLOADABLE GUIDE • FOR PURCHASE</b></span></p>
+<h3 style="margin: 0.0px 0.0px 9.0px 0.0px; font: 15.6px '.SF NS'; color: #1f262d; -webkit-text-stroke: #1f262d"><span class="s4"><b>The Emotional Regulation Guide for Children and Teens</b></span></h3>
+<p class="p17"><span class="s4">Practical tools to help kids manage big feelings and calm their bodies</span></p>
+<p class="p18"><span class="s1">Purchase PDF</span></p>
+<p class="p15"><span class="s4"><b>WORKSHEET</b></span></p>
+<h3 style="margin: 0.0px 0.0px 9.0px 0.0px; font: 15.6px '.SF NS'; color: #1f262d; -webkit-text-stroke: #1f262d"><span class="s4"><b>Zones of Feelings</b></span></h3>
+<p class="p17"><span class="s4">Help your child identify how their body sends them signals to know which feeling zone they are in.</span></p>
+<p class="p18"><span class="s1">Download PDF</span></p>
+<p class="p15"><span class="s4"><b>WORKSHEET</b></span></p>
+<h3 style="margin: 0.0px 0.0px 9.0px 0.0px; font: 15.6px '.SF NS'; color: #1f262d; -webkit-text-stroke: #1f262d"><span class="s4"><b>Body Map</b></span></h3>
+<p class="p17"><span class="s4">Help your child with emotional awareness by noticing body sensations with this body map.</span></p>
+<p class="p18"><span class="s1">Download PDF</span></p>
+<p class="p15"><span class="s4"><b>ARTICLE</b></span></p>
+<h3 style="margin: 0.0px 0.0px 9.0px 0.0px; font: 15.6px '.SF NS'; color: #1f262d; -webkit-text-stroke: #1f262d"><span class="s4"><b>When Worry Shows Up at Bedtime</b></span></h3>
+<p class="p17"><span class="s4">A short article for parents on why anxiety often appears at night, and three gentle, concrete steps you can try this week.</span></p>
+<p class="p18"><span class="s1"><a href="file:///Users/caelansoma/Desktop/WEBSITE/doctorcae-website%20/when-worry-shows-up-at-bedtime.html">Read article<span class="s7"></span></a></span></p>
+<p class="p15"><span class="s4"><b>ARTICLE</b></span></p>
+<h3 style="margin: 0.0px 0.0px 9.0px 0.0px; font: 15.6px '.SF NS'; color: #1f262d; -webkit-text-stroke: #1f262d"><span class="s4"><b>Keeping Your Cool While Your Kid Melts Down</b></span></h3>
+<p class="p17"><span class="s4">Strategies to help parents keep their cool when their child is having a meltdown.</span></p>
+<p class="p18"><span class="s1"><a href="file:///Users/caelansoma/Desktop/WEBSITE/doctorcae-website%20/keeping-your-cool-meltdown.html">Read article<span class="s7"></span></a></span></p>
+<p class="p19"><span class="s4">© Dr. Caelan Soma. All rights reserved.</span></p>
+<p class="p19"><span class="s4">Contact · doctorcae.com · drcaelansoma@gmail.com · @drcaelansoma</span></p>
 </body>
 </html>
