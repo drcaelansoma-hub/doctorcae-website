@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Dr. Caelan Soma - Child & Adolescent Psychologist</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --bg: #f4f6f8;
@@ -20,7 +25,7 @@
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      background: radial-gradient(circle at top, #d4e4f5 0, #e0eef8 50%, #e6edf5 100%);
       background-attachment: fixed;
       min-height: 100vh;
       color: var(--text-main);
@@ -92,7 +97,7 @@
 
     /* Hero Section */
     .hero {
-      text-align: center;
+      text-align: left;
       margin-bottom: 4rem;
       padding: 3rem 2rem;
       background: rgba(255, 255, 255, 0.65);
@@ -100,6 +105,10 @@
       border: 1px solid var(--border-subtle);
       box-shadow: 0 12px 30px rgba(148, 163, 184, 0.1);
       backdrop-filter: blur(10px);
+    }
+
+    .hero h1 {
+      text-align: center;
     }
 
     .hero h1 {
@@ -114,9 +123,8 @@
       font-size: 1.2rem;
       color: var(--text-muted);
       margin-bottom: 1.5rem;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+      max-width: 100%;
+      text-align: left;
     }
 
     /* Content Sections */
@@ -134,7 +142,7 @@
       font-size: 2rem;
       color: var(--text-main);
       margin-bottom: 1.5rem;
-      text-align: center;
+      text-align: left;
       font-weight: 600;
     }
 
@@ -169,45 +177,29 @@
       font-size: 1.05rem;
     }
 
-    /* Enhanced Service List Items */
+    /* Simple Service List Items */
     .services-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
-      margin: 2rem 0;
+      list-style: none;
+      margin: 1.5rem 0;
+      padding-left: 0;
     }
 
     .services-list li {
-      background: linear-gradient(135deg, rgba(59, 108, 148, 0.08), rgba(164, 116, 74, 0.08));
-      padding: 1.25rem 1.5rem;
-      border-radius: 0.8rem;
-      border: 2px solid rgba(59, 108, 148, 0.15);
-      font-weight: 600;
+      padding: 0.5rem 0;
       font-size: 1.05rem;
       color: var(--text-main);
-      transition: all 0.3s ease;
       position: relative;
-      margin-bottom: 0;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
     }
 
     .services-list li::before {
-      content: '✓';
+      content: '•';
       position: absolute;
-      left: 1rem;
+      left: 0;
       color: var(--primary);
       font-weight: bold;
       font-size: 1.2rem;
-    }
-
-    .services-list li {
-      padding-left: 2.5rem;
-    }
-
-    .services-list li:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(59, 108, 148, 0.2);
-      border-color: var(--primary-soft);
-      background: linear-gradient(135deg, rgba(59, 108, 148, 0.12), rgba(164, 116, 74, 0.12));
     }
 
     /* Resources Section */
@@ -351,6 +343,21 @@
       color: var(--primary);
     }
 
+    /* Consultation Link */
+    .consultation-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid var(--primary-soft);
+      transition: all 0.2s ease;
+      padding-bottom: 2px;
+    }
+
+    .consultation-link:hover {
+      color: var(--brown);
+      border-bottom-color: var(--brown);
+    }
+
     /* Footer */
     footer {
       text-align: center;
@@ -391,9 +398,6 @@
         grid-template-columns: 1fr;
       }
 
-      .services-list {
-        grid-template-columns: 1fr;
-      }
 
       nav {
         gap: 1rem;
@@ -401,6 +405,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <header>
@@ -415,21 +420,25 @@
 
     <div class="hero">
       <h1>Nurturing, calm, child‑centred care</h1>
-      <p>Support for children & their families</p>
-      <p>Helping children and their families feel understood and supported. I offer evidence‑based therapy and practical tools for children and their families who are experiencing emotional and behavioral dysregulation, school challenges, and difficulty with peers.</p>
-      <p>This site is a home for practical, research‑informed resources you can use right away— to help your family feel a little calmer, more confident, and connected.</p>
-      <p>I share practical, evidence-based tools to help parents set boundaries without power struggles, hold limits without things blowing up, and support children and teens as they learn to calm their bodies and work through big feelings.</p>
-      <p>This space is here for you if you're looking for ideas you can use right away—tools that help your home feel a little calmer, your parenting feel more confident, and your family feel more connected.</p>
+      <p><strong>Support for children & their families</strong></p>
+      <p>I help children and families feel understood and supported through evidence-based therapy and practical tools.
+        My work focuses on emotional and behavioral dysregulation, school challenges, and peer relationships.</p>
+      <p>This space offers research-informed strategies you can use right away to set boundaries without power
+        struggles, hold limits calmly, and support children and teens as they learn to regulate their emotions.</p>
+      <p>The goal is simple: a calmer home, more confident parenting, and stronger family connection.</p>
     </div>
 
     <section id="services">
       <h3>Browse resources for parents</h3>
-      <p>Parent consultation available</p>
+      <p><a href="mailto:drcaelansoma@gmail.com?subject=Parent Consultation Inquiry" class="consultation-link">Parent
+          consultation available</a></p>
       <p><strong>Parent‑friendly tools</strong></p>
-      
+
       <h3>FOR PARENTS & CAREGIVERS</h3>
       <p>Practical support for everyday moments</p>
-      <p>My work is grounded in warmth, curiosity, and respect—for both kids and the adults who care for them. I focus on making emotions, behavior, and anxiety feel less overwhelming by breaking things down into simple, doable steps that actually fit into real family life.</p>
+      <p>My work is grounded in warmth, curiosity, and respect—for both kids and the adults who care for them. I focus
+        on making emotions, behavior, and anxiety feel less overwhelming by breaking things down into simple, doable
+        steps that actually fit into real family life.</p>
       <ul class="services-list">
         <li>Emotional awareness and regulation</li>
         <li>Anxiety & worry</li>
@@ -445,17 +454,25 @@
 
     <section id="about">
       <h2>About Me</h2>
-      <p style="text-align: center; margin-bottom: 2rem;">Supporting children, teens, and the adults who love them.</p>
-      <p>I'm a clinical psychologist with over 25 years of experience helping families understand and manage emotions and behavior in children and teens. My goal is to make things like child development, managing big feelings and challenging behavior feel less overwhelming for children and their families.</p>
-      <p>I help families balance warmth with structure. I use simple analogies, visuals, and practical, step-by-step strategies that actually work with real kids.</p>
-      <p>Over the years, I've written books, created curricula, and trained thousands of professionals on stress, trauma, resilience, and social-emotional development in children and teens. Today, I'm in private practice in Michigan, where I continue the work I love: supporting children and families as they build coping skills, manage anxiety, and feel calmer, more confident, and more connected.</p>
-      <p>I'm also a mom of two teenage daughters, which keeps me very grounded in what this work looks like outside the therapy room.</p>
+      <p style="margin-bottom: 2rem;">Supporting children, teens, and the adults who love them.</p>
+      <p>I'm a clinical psychologist with over 25 years of experience helping families understand and manage emotions
+        and behavior in children and teens. My goal is to make things like child development, managing big feelings and
+        challenging behavior feel less overwhelming for children and their families.</p>
+      <p>I help families balance warmth with structure. I use simple analogies, visuals, and practical, step-by-step
+        strategies that actually work with real kids.</p>
+      <p>Over the years, I've written books, created curricula, and trained thousands of professionals on stress,
+        trauma, resilience, and social-emotional development in children and teens. Today, I'm in private practice in
+        Michigan, where I continue the work I love: supporting children and families as they build coping skills, manage
+        anxiety, and feel calmer, more confident, and more connected.</p>
+      <p>I'm also a mom of two teenage daughters, which keeps me very grounded in what this work looks like outside the
+        therapy room.</p>
     </section>
 
     <section id="resources">
       <h2>Resources for Parents</h2>
-      <p style="text-align: center; margin-bottom: 2rem;">Simple tools, visuals, and language you can use at home with your child or teen.</p>
-      <p style="text-align: center; margin-bottom: 2rem;">Below are some of my most‑used resources with families.</p>
+      <p style="margin-bottom: 2rem;">Simple tools, visuals, and language you can use at home with your child or teen.
+      </p>
+      <p style="margin-bottom: 2rem;">Below are some of my most‑used resources with families.</p>
 
       <div class="resources-grid">
         <div class="resource-card">
@@ -482,7 +499,8 @@
         <div class="resource-card">
           <div class="resource-type article">ARTICLE</div>
           <h3>When Worry Shows Up at Bedtime</h3>
-          <p>A short article for parents on why anxiety often appears at night, and three gentle, concrete steps you can try this week.</p>
+          <p>A short article for parents on why anxiety often appears at night, and three gentle, concrete steps you can
+            try this week.</p>
           <a href="when-worry-shows-up-at-bedtime.html" class="resource-button">Read article</a>
         </div>
 
@@ -501,4 +519,5 @@
     </footer>
   </div>
 </body>
+
 </html>
