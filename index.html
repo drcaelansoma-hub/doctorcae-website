@@ -34,9 +34,34 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 2rem;
+    }
+
+    /* Two Column Layout */
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin: 2rem 0;
+    }
+
+    .two-column-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .two-column-right {
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (max-width: 900px) {
+      .two-column {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
     }
 
     /* Header */
@@ -136,6 +161,10 @@
       border: 1px solid var(--border-subtle);
       box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
       backdrop-filter: blur(10px);
+    }
+
+    .two-column section {
+      margin-bottom: 0;
     }
 
     section h2 {
@@ -324,13 +353,14 @@
 
     /* Contact Info */
     .contact-info {
-      text-align: center;
+      text-align: left;
       padding: 2rem;
-      background: linear-gradient(135deg, rgba(59, 108, 148, 0.08), rgba(164, 116, 74, 0.08));
-      border-radius: 1.2rem;
-      margin: 2rem 0;
-      border: 2px solid rgba(59, 108, 148, 0.15);
-      box-shadow: 0 8px 24px rgba(148, 163, 184, 0.1);
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 1.3rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
+      backdrop-filter: blur(10px);
+      height: fit-content;
     }
 
     .contact-info p {
@@ -428,44 +458,59 @@
       <p>The goal is simple: a calmer home, more confident parenting, and stronger family connection.</p>
     </div>
 
-    <section id="services">
-      <h3>Browse resources for parents</h3>
-      <p><a href="mailto:drcaelansoma@gmail.com?subject=Parent Consultation Inquiry" class="consultation-link">Parent
-          consultation available</a></p>
-      <p><strong>Parent‑friendly tools</strong></p>
+    <div class="two-column">
+      <section id="services" class="two-column-left">
+        <h3>Browse resources for parents</h3>
+        <p><a href="mailto:drcaelansoma@gmail.com?subject=Parent Consultation Inquiry" class="consultation-link">Parent
+            consultation available</a></p>
+        <p><strong>Parent‑friendly tools</strong></p>
 
-      <h3>FOR PARENTS & CAREGIVERS</h3>
-      <p>Practical support for everyday moments</p>
-      <p>My work is grounded in warmth, curiosity, and respect—for both kids and the adults who care for them. I focus
-        on making emotions, behavior, and anxiety feel less overwhelming by breaking things down into simple, doable
-        steps that actually fit into real family life.</p>
-      <ul class="services-list">
-        <li>Emotional awareness and regulation</li>
-        <li>Anxiety & worry</li>
-        <li>School & peer challenges</li>
-        <li>Calm down tools for children and teens</li>
-      </ul>
-    </section>
+        <h3>FOR PARENTS & CAREGIVERS</h3>
+        <p>Practical support for everyday moments</p>
+        <p>My work is grounded in warmth, curiosity, and respect—for both kids and the adults who care for them. I focus
+          on making emotions, behavior, and anxiety feel less overwhelming by breaking things down into simple, doable
+          steps that actually fit into real family life.</p>
+        <ul class="services-list">
+          <li>Emotional awareness and regulation</li>
+          <li>Anxiety & worry</li>
+          <li>School & peer challenges</li>
+          <li>Calm down tools for children and teens</li>
+        </ul>
+      </section>
 
-    <div class="contact-info">
-      <p><strong>Email:</strong> drcaelansoma@gmail.com</p>
-      <p><strong>Location:</strong> Berkley, Michigan & virtual</p>
+      <div class="two-column-right">
+        <div class="contact-info">
+          <h3 style="margin-top: 0; color: var(--primary);">Get in Touch</h3>
+          <p><strong>Email:</strong> drcaelansoma@gmail.com</p>
+          <p><strong>Location:</strong> Berkley, Michigan & virtual</p>
+        </div>
+      </div>
     </div>
 
     <section id="about">
       <h2>About Me</h2>
-      <p style="margin-bottom: 2rem;">Supporting children, teens, and the adults who love them.</p>
-      <p>I'm a clinical psychologist with over 25 years of experience helping families understand and manage emotions
-        and behavior in children and teens. My goal is to make things like child development, managing big feelings and
-        challenging behavior feel less overwhelming for children and their families.</p>
-      <p>I help families balance warmth with structure. I use simple analogies, visuals, and practical, step-by-step
-        strategies that actually work with real kids.</p>
-      <p>Over the years, I've written books, created curricula, and trained thousands of professionals on stress,
-        trauma, resilience, and social-emotional development in children and teens. Today, I'm in private practice in
-        Michigan, where I continue the work I love: supporting children and families as they build coping skills, manage
-        anxiety, and feel calmer, more confident, and more connected.</p>
-      <p>I'm also a mom of two teenage daughters, which keeps me very grounded in what this work looks like outside the
-        therapy room.</p>
+      <p style="margin-bottom: 2rem; text-align: center; font-style: italic; color: var(--text-muted);">Supporting children, teens, and the adults who love them.</p>
+      
+      <div class="two-column">
+        <div class="two-column-left">
+          <h3 style="color: var(--primary); margin-top: 0;">My Approach</h3>
+          <p>I'm a clinical psychologist with over 25 years of experience helping families understand and manage emotions
+            and behavior in children and teens. My goal is to make things like child development, managing big feelings and
+            challenging behavior feel less overwhelming for children and their families.</p>
+          <p>I help families balance warmth with structure. I use simple analogies, visuals, and practical, step-by-step
+            strategies that actually work with real kids.</p>
+        </div>
+        
+        <div class="two-column-right">
+          <h3 style="color: var(--primary); margin-top: 0;">My Experience</h3>
+          <p>Over the years, I've written books, created curricula, and trained thousands of professionals on stress,
+            trauma, resilience, and social-emotional development in children and teens. Today, I'm in private practice in
+            Michigan, where I continue the work I love: supporting children and families as they build coping skills, manage
+            anxiety, and feel calmer, more confident, and more connected.</p>
+          <p>I'm also a mom of two teenage daughters, which keeps me very grounded in what this work looks like outside the
+            therapy room.</p>
+        </div>
+      </div>
     </section>
 
     <section id="resources">
