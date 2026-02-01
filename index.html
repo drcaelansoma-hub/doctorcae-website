@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+“What stood out most was how practical and compassionate this approach felt. We weren’t blamed, we were guided. Our child now has language for what’s happening in their body, and meltdowns don’t last as long or feel as scary anymore.”<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -441,6 +441,107 @@
       left: 100%;
     }
 
+    /* Coming Soon */
+    .coming-soon {
+      text-align: center;
+      padding: 2.5rem 2rem;
+      margin-bottom: 3rem;
+      background: linear-gradient(135deg, rgba(59, 108, 148, 0.08), rgba(164, 116, 74, 0.06));
+      border-radius: 1.3rem;
+      border: 2px dashed var(--primary-soft);
+      position: relative;
+    }
+
+    .coming-soon .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .coming-soon h2 {
+      font-size: 1.5rem;
+      color: var(--text-main);
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .coming-soon p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin: 0;
+      max-width: 42ch;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    /* Testimonials */
+    #testimonials {
+      border-top: 5px solid var(--primary-soft);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(127, 164, 193, 0.06));
+    }
+
+    #testimonials h2 {
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+    }
+
+    #testimonials h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-soft), var(--brown));
+      border-radius: 2px;
+      margin-top: 1rem;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--border-subtle);
+      border-radius: 1.2rem;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: 1rem;
+      left: 1.25rem;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--primary-soft);
+      opacity: 0.5;
+      font-family: Georgia, serif;
+    }
+
+    .testimonial-card blockquote {
+      margin: 0;
+      padding: 0.5rem 0 0 0;
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--text-main);
+      font-style: italic;
+    }
+
+    .testimonial-card .attribution {
+      margin-top: 1.25rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
     /* Contact Info */
     .contact-info {
       text-align: left;
@@ -534,6 +635,7 @@
       <p class="header-subtitle">Child & Adolescent Psychologist</p>
       <nav>
         <a href="#about">About</a>
+        <a href="#testimonials">Testimonials</a>
         <a href="#resources">Resources</a>
       </nav>
     </header>
@@ -548,6 +650,12 @@
       <p>The goal is simple: a calmer home, more confident parenting, and stronger family connection.</p>
     </div>
 
+    <div class="coming-soon">
+      <div class="badge">Online Course for Parents Coming Soon</div>
+      <h2>When Big Feelings Take Over</h2>
+      <p>A body-based approach to help kids regulate by listening to their bodies.</p>
+    </div>
+
     <div class="two-column">
       <section id="services" class="two-column-left">
         <h3>Browse resources for parents</h3>
@@ -555,7 +663,6 @@
             consultation available</a></p>
         <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.95rem;">Send Dr. Cae an email for more information about consultations and scheduling.</p>
         <p style="margin-top: 1rem; margin-bottom: 1.5rem; color: var(--text-main);">Parent consultations provide personalized support and guidance for your family's specific needs. Whether you're dealing with challenging behaviors, emotional regulation, school concerns, or just need strategies for everyday parenting challenges, I'm here to help.</p>
-        <p><strong>Parent‑friendly tools</strong></p>
 
         <h3>FOR PARENTS & CAREGIVERS</h3>
         <p>Practical support for everyday moments</p>
@@ -602,6 +709,21 @@
             anxiety, and feel calmer, more confident, and more connected.</p>
           <p>I'm also a mom of two teenage daughters, which keeps me very grounded in what this work looks like outside the
             therapy room.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials">
+      <h2>What Parents Say</h2>
+      <p style="margin-bottom: 0;">Hear from families who have worked with this approach.</p>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <blockquote>What stood out most was how practical and compassionate this approach felt. We weren't blamed, we were guided. Our child now has language for what's happening in their body, and meltdowns don't last as long or feel as scary anymore.</blockquote>
+          <p class="attribution">— Parent</p>
+        </div>
+        <div class="testimonial-card">
+          <blockquote>As parents, we were stuck between wanting to be supportive and needing to hold boundaries. This approach showed us we don't have to choose one or the other. We learned how to regulate first, then problem-solve. Our child is more confident, and we're no longer walking on eggshells.</blockquote>
+          <p class="attribution">— Parent</p>
         </div>
       </div>
     </section>
