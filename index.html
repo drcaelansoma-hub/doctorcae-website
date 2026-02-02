@@ -368,6 +368,25 @@
       max-width: 48rem;
     }
 
+    .about-specialties-list {
+      list-style: none;
+      margin: 1rem 0 1.5rem;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .about-specialties-list li {
+      padding: 0.75rem 1rem;
+      background: linear-gradient(135deg, rgba(59, 108, 148, 0.1), rgba(127, 164, 193, 0.08));
+      border-radius: 0.5rem;
+      border-left: 4px solid var(--primary);
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
     .resource-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -479,6 +498,7 @@
 
       <nav>
         <a href="#about" class="nav-link">About</a>
+        <a href="blog.html" class="nav-link">Blog</a>
         <a href="#resources" class="nav-link">Resources</a>
       </nav>
     </header>
@@ -507,7 +527,10 @@
           </p>
 
           <div class="hero-actions">
-            <a href="#resources" class="btn-primary">
+            <a href="parent-guide-emotional-regulation.html" class="btn-primary">
+              What parents need to know about emotional regulation
+            </a>
+            <a href="#resources" class="btn-ghost">
               Browse resources for parents
             </a>
           </div>
@@ -557,7 +580,7 @@
             My work is grounded in child development and neuroscience, but it's always practical. Parents don't need more theory. They need tools that actually work in real life, during real moments.
           </p>
           <p>I specialize in helping families:</p>
-          <ul>
+          <ul class="about-specialties-list">
             <li>Support emotional regulation in children</li>
             <li>Understand dysregulation without labeling kids as "defiant" or "difficult"</li>
             <li>Reduce power struggles and reactive cycles</li>
@@ -646,15 +669,6 @@
               <a href="when-worry-shows-up-at-bedtime.html" class="resource-link">Read article</a>
             </div>
 
-            <div class="resource-card">
-              <div class="resource-label">For professionals & parents</div>
-              <div class="resource-title">Books & curricula</div>
-              <p class="resource-text">
-                Explore my books and curricula designed to support children after stress or trauma,
-                and to guide caring adults in their roles.
-              </p>
-              <a href="#" class="resource-link">Explore books & curricula</a>
-            </div>
           </div>
         </div>
       </section>
