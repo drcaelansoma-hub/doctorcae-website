@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Blog – Dr. Caelan Soma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Articles and posts for parents on emotional regulation, big feelings, and supporting children and families." />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f4f6f8;
+      --primary: #3b6c94;
+      --primary-soft: #7fa4c1;
+      --brown: #a4744a;
+      --text-main: #29333b;
+      --text-muted: #6b7280;
+      --border-subtle: #dde2e7;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      color: var(--text-main);
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1.4rem 8vw 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .brand-text-main {
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    .brand-text-sub {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .nav-link {
+      position: relative;
+      padding-bottom: 0.1rem;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--brown));
+      transition: width 0.2s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    main {
+      padding: 2.8rem 8vw 3rem;
+      flex: 1;
+    }
+
+    .blog-intro {
+      margin-bottom: 2rem;
+    }
+
+    .blog-title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .blog-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .blog-list {
+      display: grid;
+      gap: 1.4rem;
+      max-width: 42rem;
+    }
+
+    .blog-card {
+      display: block;
+      padding: 1.4rem 1.5rem;
+      border-radius: 1rem;
+      border: 1px solid #e2e7ee;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 8px 24px rgba(148, 163, 184, 0.1);
+      transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .blog-card:hover {
+      border-color: var(--primary-soft);
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.15);
+    }
+
+    .blog-card-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--primary-soft);
+      margin-bottom: 0.35rem;
+    }
+
+    .blog-card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+
+    .blog-card-title:hover {
+      color: var(--primary);
+    }
+
+    .blog-card-text {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: var(--primary);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .back-link:hover {
+      color: var(--brown);
+    }
+
+    footer {
+      padding: 1.2rem 8vw 1.6rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(209, 213, 219, 0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer a {
+      opacity: 0.85;
+    }
+
+    footer a:hover {
+      opacity: 1;
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding-inline: 1.3rem;
+      }
+
+      main {
+        padding-inline: 1.3rem;
+      }
+
+      footer {
+        padding-inline: 1.3rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+      }
+
+      nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header>
+      <a href="index.html" class="brand">
+        <img src="doctorcaelogo.png" alt="Dr. Caelan Soma logo" class="brand-logo" />
+        <div>
+          <div class="brand-text-main">Dr. Caelan Soma</div>
+          <div class="brand-text-sub">Child & Adolescent Psychologist</div>
+        </div>
+      </a>
+
+      <nav>
+        <a href="index.html#about" class="nav-link">About</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="index.html#resources" class="nav-link">Resources</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="blog-intro">
+        <h1 class="blog-title">Blog</h1>
+        <p class="blog-subtitle">Articles for parents on emotional regulation, big feelings, and supporting your child and family.</p>
+      </div>
+
+      <div class="blog-list">
+        <a href="after-school-meltdowns.html" class="blog-card">
+          <div class="blog-card-label">Article</div>
+          <h2 class="blog-card-title">After-School Meltdowns: Why Kids Fall Apart at Home (and What Helps)</h2>
+          <p class="blog-card-text">After-school meltdowns are one of the most common signs of a dysregulated nervous system. Here's why they happen—and what actually helps.</p>
+        </a>
+
+        <a href="why-consequences-dont-work-when-kids-are-overwhelmed.html" class="blog-card">
+          <div class="blog-card-label">Article</div>
+          <h2 class="blog-card-title">Why Consequences Don't Work When Kids Are Overwhelmed</h2>
+          <p class="blog-card-text">When a child is dysregulated, consequences often backfire. Here's what happens in the brain—and what actually helps instead.</p>
+        </a>
+
+        <a href="is-my-child-defiant-or-dysregulated.html" class="blog-card">
+          <div class="blog-card-label">Article</div>
+          <h2 class="blog-card-title">Is My Child Defiant — or Dysregulated?</h2>
+          <p class="blog-card-text">What looks like defiance is often dysregulation. Understanding the difference can change how you respond—and how your child feels.</p>
+        </a>
+
+        <a href="when-worry-shows-up-at-bedtime.html" class="blog-card">
+          <div class="blog-card-label">Article</div>
+          <h2 class="blog-card-title">When Worry Shows Up at Bedtime</h2>
+          <p class="blog-card-text">Why anxiety often appears at night, and three gentle, concrete steps you can try this week.</p>
+        </a>
+
+        <a href="keeping-your-cool-meltdown.html" class="blog-card">
+          <div class="blog-card-label">Article</div>
+          <h2 class="blog-card-title">Keeping Your Cool While Your Kid Melts Down</h2>
+          <p class="blog-card-text">Strategies to help parents stay regulated so you can support your child when emotions run high.</p>
+        </a>
+      </div>
+
+      <a href="index.html" class="back-link">← Back to Home</a>
+    </main>
+
+    <footer>
+      <span>© <span id="year"></span> Dr. Caelan Soma. All rights reserved.</span>
+      <div>
+        <a href="mailto:hello@doctorcae.com">Contact</a> ·
+        <a href="https://doctorcae.com">doctorcae.com</a> ·
+        <a href="mailto:drcaelansoma@gmail.com">drcaelansoma@gmail.com</a> ·
+        <a href="https://www.instagram.com/drcaelansoma/" target="_blank" rel="noopener noreferrer">@drcaelansoma</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>
