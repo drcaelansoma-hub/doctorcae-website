@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>A Parent's Guide to Emotional Regulation - Dr. Caelan Soma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A comprehensive guide for parents on supporting children's emotional regulation: what it is, why it matters, and practical, body-based strategies you can use at home." />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #3b6c94;
+      --primary-soft: #7fa4c1;
+      --brown: #a4744a;
+      --text-main: #29333b;
+      --text-muted: #6b7280;
+      --border-subtle: #dde2e7;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #d4e4f5 0, #e0eef8 50%, #e6edf5 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 2rem 0;
+    }
+
+    .pillar-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .pillar-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .pillar-logo {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(59, 108, 148, 0.15);
+      margin: 0 auto 1rem;
+      display: block;
+    }
+
+    .pillar-nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .pillar-nav a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .pillar-nav a:hover { text-decoration: underline; }
+
+    .pillar-title {
+      font-size: 2.25rem;
+      font-weight: 600;
+      color: #1a365d;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .pillar-subtitle { font-size: 1.05rem; color: var(--text-muted); }
+
+    .pillar-content {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 1.3rem;
+      padding: 2.5rem 3rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      backdrop-filter: blur(10px);
+    }
+
+    .toc {
+      background: rgba(59, 108, 148, 0.06);
+      border: 1px solid rgba(59, 108, 148, 0.2);
+      border-radius: 1rem;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .toc h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .toc ul { list-style: none; margin: 0; padding: 0; }
+    .toc li { margin-bottom: 0.5rem; }
+    .toc a { color: var(--text-main); text-decoration: none; font-weight: 500; }
+    .toc a:hover { color: var(--primary); text-decoration: underline; }
+
+    .pillar-content h2 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      scroll-margin-top: 1rem;
+    }
+
+    .pillar-content h2:first-of-type { margin-top: 0; }
+
+    .pillar-content h3 {
+      font-size: 1.2rem;
+      color: var(--text-main);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .pillar-content h4 {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .pillar-content p { margin-bottom: 1.25rem; color: var(--text-main); }
+    .pillar-content ul { margin: 0 0 1.25rem 1.5rem; }
+    .pillar-content li { margin-bottom: 0.5rem; color: var(--text-main); }
+    .pillar-content a { color: var(--primary); text-decoration: none; font-weight: 500; }
+    .pillar-content a:hover { text-decoration: underline; }
+
+    .key-message {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 1.5rem 0;
+      padding: 1rem 1.25rem;
+      background: rgba(59, 108, 148, 0.08);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+
+    .resource-box {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid var(--border-subtle);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .resource-box h3 { margin-top: 0; font-size: 1.1rem; color: var(--primary); }
+    .resource-box ul { margin-bottom: 0; }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 8px 24px rgba(59, 108, 148, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(59, 108, 148, 0.35);
+    }
+
+    .byline {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 640px) {
+      .pillar-container { padding: 0 1.25rem; }
+      .pillar-title { font-size: 1.75rem; }
+      .pillar-content { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="pillar-container">
+    <header class="pillar-header">
+      <img src="doctorcaelogo.png" alt="Dr. Caelan Soma" class="pillar-logo" />
+      <nav class="pillar-nav">
+        <a href="index.html">Home</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#resources">Resources</a>
+      </nav>
+      <h1 class="pillar-title">A Parent's Guide to Emotional Regulation</h1>
+      <p class="pillar-subtitle">Helping kids with big feelings—practical, body-based strategies you can use at home.</p>
+    </header>
+
+    <article class="pillar-content">
+      <nav class="toc" aria-label="On this page">
+        <h2>On this page</h2>
+        <ul>
+          <li><a href="#dealing-with-this">If you're here, you're probably dealing with this</a></li>
+          <li><a href="#what-is-regulation">What is emotional regulation?</a></li>
+          <li><a href="#dysregulation-looks-like">What dysregulation looks like</a></li>
+          <li><a href="#discipline-backfires">Why traditional discipline often backfires</a></li>
+          <li><a href="#body-based-approach">A body-based approach</a></li>
+          <li><a href="#what-to-say">What to say (and what not to say)</a></li>
+          <li><a href="#regulation-improves">When regulation improves, behavior follows</a></li>
+          <li><a href="#when-big-feelings-take-over">When big feelings take over</a></li>
+          <li><a href="#resources">Resources</a></li>
+        </ul>
+      </nav>
+
+      <h2 id="dealing-with-this">If You're Here, You're Probably Dealing With This…</h2>
+      <p>If your child has big emotions, frequent meltdowns, or reactions that feel way out of proportion to what just happened—you're not alone.</p>
+      <p><strong>Maybe your child:</strong></p>
+      <ul>
+        <li>Explodes over small things</li>
+        <li>Melts down after school</li>
+        <li>Shuts down, withdraws, or goes silent</li>
+        <li>Seems anxious, rigid, or perfectionistic</li>
+        <li>Knows the rules… but can't follow them when emotions run high</li>
+      </ul>
+      <p><strong>And maybe you've tried:</strong></p>
+      <ul>
+        <li>Staying calm</li>
+        <li>Explaining why their behavior isn't okay</li>
+        <li>Consequences, time-outs, or reward charts</li>
+        <li>Telling them to "use their words" or "calm down"</li>
+      </ul>
+      <p>Yet nothing seems to stick.</p>
+      <p class="key-message">Here's the truth many parents never hear: This isn't a discipline problem. It's a regulation problem.</p>
+
+      <h2 id="what-is-regulation">What Is Emotional Regulation (in Real-Life Terms)?</h2>
+      <p>Emotional regulation is a child's ability to notice, manage, and recover from big feelings without becoming overwhelmed.</p>
+      <p>It's not about never getting upset.<br>It's about how the body and brain handle stress when it shows up.</p>
+      <h4>Emotional regulation is NOT:</h4>
+      <ul>
+        <li><strong>Obedience.</strong> A regulated child isn't a compliant child. They can still say no, feel angry, or disagree.</li>
+        <li><strong>Permissiveness.</strong> Supporting regulation doesn't mean removing limits or letting everything slide.</li>
+      </ul>
+      <h4>Emotional regulation IS:</h4>
+      <ul>
+        <li>The ability to pause instead of explode</li>
+        <li>The ability to recover after a hard moment</li>
+        <li>The ability to think, reflect, and problem-solve once the body is calm</li>
+      </ul>
+      <p>And this skill develops over time. Children are not born with it—and many need more support than we expect.</p>
+
+      <h2 id="dysregulation-looks-like">What Dysregulation Actually Looks Like in Real Life</h2>
+      <p>Dysregulation doesn't look the same in every child. It can be loud or quiet.</p>
+      <h3>Explosions</h3>
+      <ul>
+        <li>Yelling, hitting, throwing</li>
+        <li>Extreme reactions to small frustrations</li>
+        <li>"Zero to sixty" emotional responses</li>
+      </ul>
+      <h3>Shutdown</h3>
+      <ul>
+        <li>Going silent or withdrawn</li>
+        <li>Avoiding eye contact</li>
+        <li>Refusing to engage or respond</li>
+      </ul>
+      <h3>Perfectionism &amp; Anxiety</h3>
+      <ul>
+        <li>Melting down over mistakes</li>
+        <li>Intense fear of getting things wrong</li>
+        <li>Rigid thinking or control behaviors</li>
+      </ul>
+      <h3>After-School Collapse</h3>
+      <ul>
+        <li>Holding it together all day</li>
+        <li>Falling apart at home where it feels safe</li>
+      </ul>
+      <p>These behaviors aren't choices.<br>They're signs that a child's nervous system is overwhelmed.</p>
+
+      <h2 id="discipline-backfires">Why Traditional Discipline Often Backfires</h2>
+      <p>When a child is dysregulated, their nervous system is in survival mode.</p>
+      <p><strong>That means:</strong></p>
+      <ul>
+        <li>The thinking brain is offline</li>
+        <li>Logic, reasoning, and consequences don't land</li>
+        <li>Asking "Why did you do that?" won't get answers</li>
+      </ul>
+      <p><strong>In the heat of the moment:</strong></p>
+      <ul>
+        <li>Lectures increase stress</li>
+        <li>Consequences feel threatening, not helpful</li>
+        <li>Rewards don't motivate a brain that's already overwhelmed</li>
+      </ul>
+      <p>This is why "they know better" doesn't translate into "they do better."<br>Regulation has to come before teaching, problem-solving, or consequences.</p>
+
+      <h2 id="body-based-approach">A Body-Based Approach to Emotional Regulation</h2>
+      <p>Big emotions show up in the body first, not the thinking brain.<br>That's why effective regulation starts with the body.</p>
+      <h3>Body First, Thinking Brain Second</h3>
+      <p>Before talking, correcting, or teaching:</p>
+      <ul>
+        <li>Slow the body down</li>
+        <li>Reduce sensory and emotional input</li>
+        <li>Help the nervous system feel safe again</li>
+      </ul>
+      <h3>Co-Regulation Comes Before Independence</h3>
+      <p>Children learn regulation through relationship, not lectures.<br>They borrow calm from a regulated adult—over and over—until they can do it themselves.</p>
+      <p>This doesn't mean you'll always have to help.<br>It means you're teaching the skill the way brains actually learn it.</p>
+      <h3>What Parents Can Do in Hard Moments</h3>
+      <ul>
+        <li>Lower your voice</li>
+        <li>Reduce language</li>
+        <li>Stay physically present</li>
+        <li>Focus on safety and calm first</li>
+      </ul>
+      <p>You're not rewarding bad behavior.<br>You're supporting a nervous system that's overwhelmed.</p>
+
+      <h2 id="what-to-say">What to Say (and What Not to Say)</h2>
+      <p>When emotions are high, less language is more helpful.</p>
+      <h4>Try This (Observation Over Interrogation):</h4>
+      <ul>
+        <li>"I'm noticing your body looks really tense."</li>
+        <li>"Something feels really big right now."</li>
+        <li>"I'm here. You're not alone."</li>
+        <li>"We can talk later."</li>
+      </ul>
+      <h4>Skip This (Even Though It's Tempting):</h4>
+      <ul>
+        <li>"Use your words."</li>
+        <li>"Calm down."</li>
+        <li>"You're fine."</li>
+        <li>"Why are you acting like this?"</li>
+      </ul>
+      <p>Observation helps the body feel seen and safe.<br>Interrogation pushes the brain harder when it can't respond.</p>
+
+      <h2 id="regulation-improves">When Regulation Improves, Behavior Follows</h2>
+      <p>Behavior is communication.</p>
+      <p>When a child's nervous system is supported:</p>
+      <ul>
+        <li>Meltdowns decrease</li>
+        <li>Recovery happens faster</li>
+        <li>Flexibility increases</li>
+        <li>Learning actually sticks</li>
+      </ul>
+      <p>This doesn't mean your child is "behind."<br>It means they need a different starting point.</p>
+      <p>With the right support, regulation skills grow—and behavior changes naturally.</p>
+      <p><strong>There is nothing broken about your child.<br>And you are not failing as a parent.<br>You just need tools that match how children's brains and bodies really work.</strong></p>
+
+      <h2 id="when-big-feelings-take-over">When Big Feelings Take Over</h2>
+      <p>Meltdowns and bedtime worry are two places where big feelings show up a lot. Rather than blaming or fixing, the goal is to stay calm yourself and offer co-regulation—your calm helps their nervous system settle.</p>
+      <ul>
+        <li>For <strong>meltdowns</strong>, see <a href="keeping-your-cool-meltdown.html">Keeping Your Cool While Your Kid Melts Down</a> for strategies to stay regulated so you can support your child.</li>
+        <li>For <strong>nighttime worry</strong>, see <a href="when-worry-shows-up-at-bedtime.html">When Worry Shows Up at Bedtime</a> for why anxiety often appears at night and three gentle steps you can try.</li>
+      </ul>
+
+      <h2 id="when-to-seek-support">When to Seek Extra Support</h2>
+      <p>If you've tried strategies and still feel stuck, or if your child's anxiety, behavior, or mood are getting in the way of daily life or relationships, it can help to talk with a professional. <a href="mailto:drcaelansoma@gmail.com?subject=Parent Consultation Inquiry">Parent consultation</a> is available for personalized guidance tailored to your family.</p>
+
+      <h2 id="resources">Resources</h2>
+      <p>These tools and articles support the ideas in this guide and give you concrete language and activities to use at home.</p>
+      <div class="resource-box">
+        <h3>Free download</h3>
+        <ul>
+          <li><a href="https://caelan.podia.com/the-emotional-regulation-guide-for-children-and-teens" target="_blank" rel="noopener">The Emotional Regulation Guide for Children and Teens</a> — Practical tools to help kids manage big feelings and calm their bodies.</li>
+        </ul>
+      </div>
+      <div class="resource-box">
+        <h3>Articles</h3>
+        <ul>
+          <li><a href="when-worry-shows-up-at-bedtime.html">When Worry Shows Up at Bedtime</a></li>
+          <li><a href="keeping-your-cool-meltdown.html">Keeping Your Cool While Your Kid Melts Down</a></li>
+        </ul>
+      </div>
+      <p>For more worksheets and guides, visit <a href="index.html#resources">Resources for Parents</a> on the main site.</p>
+
+      <p class="byline">— Dr. Caelan Soma</p>
+    </article>
+
+    <a href="index.html" class="back-link">← Back to Home</a>
+  </div>
+</body>
+</html>
