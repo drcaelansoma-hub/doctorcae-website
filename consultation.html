@@ -2,44 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Parent Consultation - Dr. Caelan Soma</title>
+  <title>Parent Intake Consultation (60 Minutes) - Dr. Caelan Soma</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A calm, focused parent-only session to understand your child's nervous system, clarify next steps, and leave with practical guidance you can use right away." />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f4f6f8;
       --primary: #3b6c94;
       --primary-soft: #7fa4c1;
       --brown: #a4744a;
       --text-main: #29333b;
       --text-muted: #6b7280;
-      --card-bg: #ffffff;
       --border-subtle: #dde2e7;
     }
 
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
       color: var(--text-main);
       line-height: 1.7;
       padding: 2rem 0;
     }
 
-    .consultation-container {
-      max-width: 700px;
+    .article-container {
+      max-width: 800px;
       margin: 0 auto;
       padding: 0 2rem;
     }
 
-    .consultation-header {
+    .article-header {
       text-align: center;
       margin-bottom: 3rem;
       padding-bottom: 2rem;
       border-bottom: 1px solid var(--border-subtle);
     }
 
-    .consultation-logo {
+    .article-logo {
       width: 120px;
       height: 120px;
       object-fit: contain;
@@ -50,125 +51,110 @@
       display: block;
     }
 
-    .consultation-title {
-      font-size: 2.5rem;
+    .article-title {
+      font-size: 2rem;
       font-weight: 600;
       color: var(--text-main);
       margin-bottom: 0.5rem;
       letter-spacing: -0.02em;
+      line-height: 1.3;
     }
 
-    .consultation-subtitle {
-      font-size: 1rem;
+    .article-subtitle {
+      font-size: 1.1rem;
       color: var(--text-muted);
+      font-style: italic;
     }
 
-    .consultation-content {
-      background: rgba(255, 255, 255, 0.9);
+    .article-content {
+      background: rgba(255, 255, 255, 0.75);
       border-radius: 1.3rem;
       padding: 3rem;
       border: 1px solid var(--border-subtle);
       box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
-    }
-
-    .price-section {
-      text-align: center;
-      margin-bottom: 2.5rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .price-label {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
-    }
-
-    .price-amount {
-      font-size: 3rem;
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 1rem;
-    }
-
-    .price-description {
-      font-size: 1.1rem;
-      color: var(--text-main);
+      font-size: 1.05rem;
       line-height: 1.8;
-      max-width: 600px;
-      margin: 0 auto;
+      backdrop-filter: blur(10px);
     }
 
-    .whats-included {
+    .article-content h2 {
+      font-size: 1.5rem;
+      color: var(--primary);
       margin-top: 2rem;
-    }
-
-    .whats-included h2 {
-      font-size: 1.3rem;
-      color: var(--primary);
       margin-bottom: 1rem;
       font-weight: 600;
     }
 
-    .included-list {
-      list-style: none;
-      margin-bottom: 2rem;
+    .article-content h2:first-child {
+      margin-top: 0;
     }
 
-    .included-list li {
-      padding-left: 2rem;
-      margin-bottom: 1rem;
-      position: relative;
+    .article-content h3 {
+      font-size: 1.2rem;
       color: var(--text-main);
-      font-size: 1rem;
-      line-height: 1.7;
-    }
-
-    .included-list li::before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      color: var(--primary);
-      font-weight: 600;
-      font-size: 1.2rem;
-    }
-
-    .contact-section {
-      background: rgba(59, 108, 148, 0.05);
-      border-radius: 1rem;
-      padding: 2rem;
-      margin-top: 2.5rem;
-      text-align: center;
-      border: 1px solid rgba(59, 108, 148, 0.1);
-    }
-
-    .contact-section h3 {
-      font-size: 1.2rem;
-      color: var(--primary);
-      margin-bottom: 1rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
       font-weight: 600;
     }
 
-    .email-link {
+    .article-content p {
+      margin-bottom: 1.25rem;
+      color: var(--text-main);
+    }
+
+    .article-content ul {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.6rem;
+      color: var(--text-main);
+    }
+
+    .article-content .key-message {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 2rem 0;
+      padding: 1.25rem 1.5rem;
+      background: rgba(59, 108, 148, 0.08);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+
+    .article-content .cost-box {
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      background: rgba(59, 108, 148, 0.06);
+      border: 1px solid rgba(59, 108, 148, 0.2);
+      border-radius: 0.75rem;
+    }
+
+    .article-content .cost-box .amount {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .article-content .cta-button {
       display: inline-block;
-      font-size: 1.2rem;
-      color: var(--primary);
+      margin-top: 1rem;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
       text-decoration: none;
-      font-weight: 500;
-      padding: 0.75rem 1.5rem;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 0.5rem;
-      border: 1px solid var(--border-subtle);
-      transition: all 0.2s ease;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      box-shadow: 0 10px 28px rgba(59, 108, 148, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .email-link:hover {
-      background: var(--primary);
-      color: #ffffff;
+    .article-content .cta-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(59, 108, 148, 0.2);
+      box-shadow: 0 14px 34px rgba(59, 108, 148, 0.35);
     }
 
     .back-link {
@@ -190,58 +176,77 @@
     }
 
     @media (max-width: 640px) {
-      .consultation-container {
-        padding: 0 1.3rem;
-      }
-      .consultation-title {
-        font-size: 2rem;
-      }
-      .consultation-content {
-        padding: 2rem 1.5rem;
-      }
-      .price-amount {
-        font-size: 2.5rem;
-      }
+      .article-container { padding: 0 1.3rem; }
+      .article-title { font-size: 1.65rem; }
+      .article-content { padding: 2rem 1.5rem; }
     }
   </style>
 </head>
 <body>
-  <div class="consultation-container">
-    <header class="consultation-header">
-      <img src="doctorcaelogo.png" alt="Dr. Caelan Soma logo" class="consultation-logo" />
-      <h1 class="consultation-title">One Hour INTAKE Consultation</h1>
-      <p class="consultation-subtitle">Support for parents and caregivers</p>
+  <div class="article-container">
+    <header class="article-header">
+      <a href="index.html"><img src="doctorcaelogo.png" alt="Dr. Caelan Soma" class="article-logo" /></a>
+      <h1 class="article-title">Parent Intake Consultation (60 Minutes)</h1>
+      <p class="article-subtitle">A calm, focused starting point when things feel overwhelming</p>
     </header>
 
-    <div class="consultation-content">
-      <div class="price-section">
-        <div class="price-label">Cost per consultation</div>
-        <div class="price-amount">$300</div>
-        <p class="price-description">
-          Cost per consultation is $300 which includes a one hour session.
-        </p>
+    <article class="article-content">
+      <p>
+        If your child is struggling with big emotions, frequent meltdowns, shutdown, anxiety, or behavior that feels out of proportion, this consultation gives us a place to slow down and make sense of what's happening — together.
+      </p>
+      <p>
+        This is a parent-only session designed to help you understand your child's nervous system, clarify next steps, and leave with practical guidance you can use right away.
+      </p>
+
+      <h2>Who This Consultation Is For</h2>
+      <p>This session is a good fit if you are:</p>
+      <ul>
+        <li>Feeling stuck or unsure how to respond to your child's behavior</li>
+        <li>Noticing frequent emotional dysregulation at home or school</li>
+        <li>Wondering whether therapy is the right next step</li>
+        <li>Wanting professional guidance without committing to ongoing sessions yet</li>
+      </ul>
+
+      <h2>What We'll Cover During Our Time Together</h2>
+      <p>During this one-hour consultation, we will:</p>
+      <ul>
+        <li>Discuss your child's history, current concerns, and stressors</li>
+        <li>Identify patterns in behavior through a regulation and nervous-system lens</li>
+        <li>Explore what may be driving your child's reactions beneath the behavior</li>
+        <li>Talk through practical, developmentally appropriate strategies for support</li>
+      </ul>
+
+      <h2>What You'll Receive After the Session</h2>
+      <p>Following our consultation, you will receive:</p>
+      <ul>
+        <li>A written summary of key themes and observations</li>
+        <li>Clear, individualized recommendations and next steps</li>
+        <li>Guidance on whether ongoing therapy, parent support, or other resources may be helpful</li>
+      </ul>
+
+      <h2>Cost</h2>
+      <div class="cost-box">
+        <div class="amount">$300</div>
+        <p style="margin-bottom: 0;">Includes a 60-minute consultation and written follow-up summary.</p>
       </div>
 
-      <div class="whats-included">
-        <h2>What's Included</h2>
-        <ul class="included-list">
-          <li>One hour consultation session</li>
-          <li>Discussion, information collection and assessment</li>
-          <li>Full written summary with recommendations</li>
-        </ul>
-      </div>
+      <h2>Scheduling Your Consultation</h2>
+      <p>To schedule:</p>
+      <ul>
+        <li>Purchase your consultation using the link below, or</li>
+        <li>Email me directly at <a href="mailto:drcaelansoma@gmail.com">drcaelansoma@gmail.com</a></li>
+      </ul>
+      <p>
+        <a href="consultation-checkout.html" class="cta-button">Schedule Consultation – $300</a>
+      </p>
 
-      <div class="contact-section">
-        <h3>Schedule Your Consultation</h3>
-        <p style="margin-bottom: 1rem; color: var(--text-muted);">Purchase your consultation or email me to schedule:</p>
-        <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
-          <a href="https://buy.stripe.com/test_bJe3cuaeUeozaHZ1gJ0sU01" class="back-link" target="_blank" rel="noopener noreferrer" style="margin-top: 0;">Purchase Now - $300</a>
-          <a href="mailto:drcaelansoma@gmail.com" class="email-link">drcaelansoma@gmail.com</a>
-        </div>
-      </div>
-    </div>
+      <p class="key-message">
+        This consultation is not about fixing your child.<br>
+        It's about understanding what their nervous system is asking for — and helping you respond with more confidence and less guesswork.
+      </p>
+    </article>
 
-    <a href="index.html#resources" class="back-link">← Back to Home</a>
+    <a href="index.html" class="back-link">← Back to Home</a>
   </div>
 </body>
 </html>
