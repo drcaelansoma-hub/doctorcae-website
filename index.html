@@ -386,6 +386,10 @@
       margin-bottom: 1rem;
     }
 
+    .section-body {
+      overflow: auto;
+    }
+
     .section-body p {
       font-size: 0.95rem;
       color: var(--text-muted);
@@ -410,6 +414,45 @@
       font-size: 0.95rem;
       color: var(--text-main);
       font-weight: 500;
+    }
+
+    .about-headshot {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--border-subtle);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      float: left;
+      margin: 0 1.25rem 1rem 0;
+    }
+
+    .testimonials-section {
+      margin-top: 2.5rem;
+      padding: 1.8rem 1.6rem;
+      border-radius: 1.3rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
+    }
+
+    .testimonials-section .section-title {
+      margin-bottom: 1.25rem;
+    }
+
+    .testimonial-card {
+      padding: 1.25rem 1.1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.75rem;
+      background: rgba(59, 108, 148, 0.05);
+      border-left: 4px solid var(--primary-soft);
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.65;
+    }
+
+    .testimonial-card:last-child {
+      margin-bottom: 0;
     }
 
     .resource-grid {
@@ -704,6 +747,7 @@
         <h2 id="about-title" class="section-title">About Me</h2>
 
         <div class="section-body">
+          <img src="headshot.png" alt="Dr. Caelan Soma" class="about-headshot" />
           <p>
             I'm a clinical psychologist with over 25 years of experience. I specialize in translating trauma and nervous system science into practical tools for real-world use.
           </p>
@@ -732,6 +776,19 @@
             <a href="adult-trauma-therapy.html" class="btn-ghost">Adult Trauma Therapy (EMDR)</a>
             <a href="consultation.html" class="btn-ghost">Schedule a Consultation</a>
           </div>
+        </div>
+      </section>
+
+      <section class="testimonials-section" aria-labelledby="testimonials-title">
+        <h2 id="testimonials-title" class="section-title">What parents and caregivers are noticing</h2>
+        <div class="testimonial-card">
+          "What stood out most was how practical and compassionate this approach felt. We weren't blamed, we were guided. Our child now has language for what's happening in their body, and meltdowns don't last as long or feel as scary anymore."
+        </div>
+        <div class="testimonial-card">
+          "As parents, we were stuck between wanting to be supportive and needing to hold boundaries. This approach showed us we don't have to choose one or the other. We learned how to regulate first, then problem-solve. Our child is more confident, and we're no longer walking on eggshells."
+        </div>
+        <div class="testimonial-card">
+          "Learning to support regulation instead of trying to 'fix' emotions changed everything. Our child feels safer, recovers faster, and trusts us more. I am a lot less overwhelmed."
         </div>
       </section>
 

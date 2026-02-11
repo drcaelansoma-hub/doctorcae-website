@@ -113,6 +113,45 @@
       color: var(--text-main);
     }
 
+    .article-cta-group {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .article-cta-heading {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .article-cta-button {
+      display: inline-block;
+      margin: 0.35rem 0.6rem 0.35rem 0;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(59, 108, 148, 0.25);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .article-cta-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(59, 108, 148, 0.3);
+    }
+
+    .article-cta-button-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary-soft);
+      box-shadow: none;
+    }
+
     .back-link {
       display: inline-block;
       margin-top: 2rem;
@@ -200,7 +239,14 @@
         You're doing great. Parenting is intense, and staying calm is a skill that takes practice, not a switch you flip perfectly every time. If you do lose your cool? Don't beat yourself up, just apologize later and show them how to "repair" a relationship.
       </p>
 
-      <p style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle); text-align: right; font-style: italic; color: var(--text-muted);">
+      <div class="article-cta-group">
+        <p class="article-cta-heading">Next steps and resources</p>
+        <a href="https://caelan.podia.com/the-emotional-regulation-guide-for-children-and-teens" target="_blank" rel="noopener" class="article-cta-button">Get the free emotional regulation guide</a>
+        <a href="online-course.html" class="article-cta-button article-cta-button-outline">Explore the course</a>
+        <a href="consultation.html" class="article-cta-button article-cta-button-outline">Learn about consultations</a>
+      </div>
+
+      <p style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle); text-align: right; font-style: italic; color: var(--text-muted);">
         By Dr. Cae Soma
       </p>
     </article>
