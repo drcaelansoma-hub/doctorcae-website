@@ -78,12 +78,28 @@
       color: var(--text-muted);
     }
 
-    .brand-text-tagline {
-      font-size: 0.88rem;
-      color: var(--text-muted);
+    .brand-tagline-block {
+      margin-top: 0.75rem;
       max-width: 22rem;
-      margin-top: 0.25rem;
-      line-height: 1.4;
+    }
+
+    .brand-tagline-pill {
+      display: inline-block;
+      padding: 0.4rem 0.85rem;
+      border-radius: 0.5rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      background: linear-gradient(135deg, rgba(59, 108, 148, 0.12), rgba(127, 164, 193, 0.1));
+      border: 1px solid rgba(59, 108, 148, 0.25);
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .brand-tagline-line2 {
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: #1a365d;
+      font-weight: 500;
     }
 
     nav {
@@ -611,7 +627,10 @@
         <div>
           <div class="brand-text-main">Dr. Caelan Soma</div>
           <div class="brand-text-sub">Clinical Psychologist – Children, Adolescents, Parents and Professionals</div>
-          <div class="brand-text-tagline">Body-based, regulation-focused practice. I translate trauma and nervous system science into usable tools for real people.</div>
+          <div class="brand-tagline-block">
+            <div class="brand-tagline-pill">Body-based, regulation-focused practice</div>
+            <div class="brand-tagline-line2">I translate trauma and nervous system science into usable tools for real people.</div>
+          </div>
         </div>
       </div>
 
@@ -627,7 +646,7 @@
       <div class="hero-layout">
         <section aria-labelledby="hero-title">
           <h1 id="hero-title" class="hero-title">
-            Support for parents, caregivers, and individuals seeking practical, nervous-system–based tools — grounded in trauma-informed care.
+            Support for parents, caregivers, and individuals seeking practical, nervous system-based tools that are grounded in trauma-informed practice.
           </h1>
 
           <div class="hero-actions">
@@ -745,7 +764,7 @@
               <li>Professionals wanting a nervous-system lens for their work</li>
             </ul>
             <p class="option-card-text">Consultations are focused, practical, and grounded in a deep understanding of trauma and regulation.</p>
-            <a href="consultation.html" class="option-btn option-btn-ghost">Learn About Consultations</a>
+            <a href="consultation.html" class="option-btn option-btn-primary">Learn About Consultations</a>
           </div>
 
           <div class="option-card">
@@ -753,7 +772,7 @@
             <p class="option-card-text">Intensive support for deeper work.</p>
             <p class="option-card-text">In addition to education and consultation, I provide trauma-focused therapy for adults on a limited, private-pay basis, including EMDR.</p>
             <p class="option-card-text">This work is offered selectively and is designed for individuals seeking focused, intensive support.</p>
-            <a href="adult-trauma-therapy.html" class="option-btn option-btn-ghost">Adult Trauma Therapy</a>
+            <a href="adult-trauma-therapy.html" class="option-btn option-btn-primary">Adult Trauma Therapy</a>
           </div>
         </div>
       </section>
