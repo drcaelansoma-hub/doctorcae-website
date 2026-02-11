@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Dr. Caelan Soma – Child & Adolescent Psychologist</title>
-  <meta name="description" content="Evidence-based therapy and practical tools for children and families. Support for emotional regulation, big feelings, and calm, connected parenting." />
+  <title>Dr. Caelan Soma – Clinical Psychologist</title>
+  <meta name="description" content="Body-based, regulation-focused practice. Trauma and nervous system science translated into practical tools for parents, caregivers, and professionals." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     * {
@@ -76,6 +76,14 @@
     .brand-text-sub {
       font-size: 1rem;
       color: var(--text-muted);
+    }
+
+    .brand-text-tagline {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      max-width: 22rem;
+      margin-top: 0.25rem;
+      line-height: 1.4;
     }
 
     nav {
@@ -454,6 +462,91 @@
       box-shadow: 0 8px 24px rgba(59, 108, 148, 0.12);
     }
 
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .option-card {
+      padding: 1.35rem 1.25rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border-subtle);
+      background: var(--card-bg);
+      box-shadow: 0 4px 14px rgba(148, 163, 184, 0.08);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .option-card:hover {
+      border-color: var(--primary-soft);
+      box-shadow: 0 8px 24px rgba(59, 108, 148, 0.12);
+    }
+
+    .option-card a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .option-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+    }
+
+    .option-card-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .option-card-link-text {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--primary);
+      margin-top: 0.6rem;
+      display: inline-block;
+    }
+
+    .option-card-link-text:hover {
+      text-decoration: underline;
+    }
+
+    .option-card .option-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .option-card .option-btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(59, 108, 148, 0.25);
+    }
+
+    .option-card .option-btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(59, 108, 148, 0.3);
+    }
+
+    .option-card .option-btn-ghost {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border-subtle);
+      color: var(--primary);
+    }
+
+    .option-card .option-btn-ghost:hover {
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+
     footer {
       padding: 1.2rem 8vw 1.6rem;
       font-size: 0.78rem;
@@ -517,12 +610,14 @@
         <img src="doctorcaelogo.png" alt="Dr. Caelan Soma logo" class="brand-logo" />
         <div>
           <div class="brand-text-main">Dr. Caelan Soma</div>
-          <div class="brand-text-sub">Child & Adolescent Psychologist</div>
+          <div class="brand-text-sub">Clinical Psychologist – Children, Adolescents, Parents and Professionals</div>
+          <div class="brand-text-tagline">Body-based, regulation-focused practice. I translate trauma and nervous system science into usable tools for real people.</div>
         </div>
       </div>
 
       <nav>
         <a href="#about" class="nav-link">About</a>
+        <a href="#options" class="nav-link">Options</a>
         <a href="blog.html" class="nav-link">Blog</a>
         <a href="#resources" class="nav-link">Resources</a>
       </nav>
@@ -531,111 +626,135 @@
     <main>
       <div class="hero-layout">
         <section aria-labelledby="hero-title">
-          <div class="hero-intro-badge">
-            <span class="hero-intro-pill">Body-based, regulation-focused care</span>
-            <span>For children with big emotions—and the parents who love them</span>
-          </div>
-
           <h1 id="hero-title" class="hero-title">
-            Helping Parents Support Emotional Regulation &amp; Behavior in Children
+            Support for parents, caregivers, and individuals seeking practical, nervous-system–based tools — grounded in trauma-informed care.
           </h1>
 
-          <p class="hero-subtitle">
-            Practical, body-based strategies to help kids calm their bodies, manage big emotions, and feel safe again.
-          </p>
-
-          <p class="hero-note">
-            For worried, reactive, and big-feeling kids — without punishment charts, power struggles, or forcing feelings.
-          </p>
-
           <div class="hero-actions">
-            <a href="parent-guide-emotional-regulation.html" class="btn-primary">
-              What parents need to know about emotional regulation
-            </a>
-            <a href="#resources" class="btn-ghost">
-              Browse resources for parents
-            </a>
+            <a href="online-course.html" class="btn-primary">Explore the Course</a>
+            <a href="consultation.html" class="btn-ghost">Work With Me</a>
+            <a href="https://caelan.podia.com/the-emotional-regulation-guide-for-children-and-teens" target="_blank" rel="noopener" class="btn-ghost">Get your free guide</a>
           </div>
 
-          <p class="hero-links" style="font-size: 0.95rem; margin-top: 0.75rem;">
-            <a href="parent-guide-emotional-regulation.html" style="color: var(--primary); font-weight: 500;">Learn how emotional regulation works</a>
-            <span style="color: var(--text-muted); margin: 0 0.5rem;">·</span>
-            <a href="https://caelan.podia.com/the-emotional-regulation-guide-for-children-and-teens" target="_blank" rel="noopener" style="color: var(--primary); font-weight: 500;">Get your free guide</a>
-          </p>
-
           <div class="hero-meta">
-            <div><strong><a href="consultation.html">Parent consultation</a></strong> available</div>
-            <div><strong><a href="#resources">Parent‑friendly tools</a></strong></div>
+            <div><strong><a href="consultation.html">Consultation</a></strong> available</div>
+            <div><strong><a href="#resources">Resources</a></strong></div>
           </div>
         </section>
 
-        <aside class="hero-card" aria-label="About my practice">
-          <div class="hero-card-heading">For parents & caregivers</div>
-          <div class="hero-card-title">Practical support for everyday moments</div>
+        <aside class="hero-card" aria-label="For parents and caregivers">
+          <div class="hero-card-heading">For Parents &amp; Caregivers</div>
 
           <p class="hero-card-text">
-            I help parents support emotional regulation and behavior in children using practical, body-based strategies. My work focuses on helping kids calm their nervous systems, manage big emotions, and reduce meltdowns—without punishment or power struggles.
+            If big emotions are taking over — in your child, in your home, or in yourself — you're not alone.
           </p>
 
-          <ul class="list" style="margin-bottom: 1.2rem;">
-            <li>Emotional regulation support</li>
-            <li>Child behavior support</li>
-            <li>Parent consultation &amp; coaching</li>
-            <li>Nervous system regulation</li>
+          <p class="hero-card-text">
+            Many families and adults are navigating:
+          </p>
+
+          <ul class="list" style="margin-bottom: 1rem;">
+            <li>Explosive reactions or shutdown</li>
+            <li>Anxiety that feels ever-present</li>
+            <li>Emotional overwhelm that appears "out of proportion"</li>
+            <li>Cycles of trying harder without lasting change</li>
           </ul>
+
+          <p class="hero-card-text">
+            This isn't about bad behavior, poor parenting, or lack of insight.<br>
+            It's about a stressed nervous system.
+          </p>
+
+          <p class="hero-card-text">
+            <strong>Regulation isn't about control.</strong><br>
+            It's about capacity.
+          </p>
+
+          <p class="hero-card-text">
+            When stress or trauma overwhelms the nervous system, the thinking brain goes offline. No amount of reasoning, consequences, or "knowing better" can override that in the moment. Lasting change begins with understanding how the nervous system works—and learning how to respond when it's activated.
+          </p>
 
           <div class="info-line" id="contact">
             <span>Email: <a href="mailto:drcaelansoma@gmail.com">drcaelansoma@gmail.com</a></span>
-            <span>Location: Berkley, Michigan & virtual</span>
+            <span>Location: Berkley, Michigan &amp; virtual</span>
           </div>
         </aside>
       </div>
 
       <section id="about" class="section" aria-labelledby="about-title">
         <h2 id="about-title" class="section-title">About Me</h2>
-        <p class="section-subtitle">Supporting children and the adults who love them.</p>
 
         <div class="section-body">
           <p>
-            I'm a clinical psychologist with over 25 years of experience supporting children and the adults who love them.
+            I'm a clinical psychologist with over 25 years of experience. I specialize in translating trauma and nervous system science into practical tools for real-world use.
           </p>
           <p>
-            I help parents understand what's really happening beneath big emotions, challenging behavior, and frequent meltdowns—so they can respond with more confidence and less self-doubt.
+            My background is in trauma-informed clinical work, including EMDR, with a specialization in emotional regulation across the lifespan. Over time, my work has expanded beyond the therapy room into education and consulting — helping people understand why strong emotions arise and how to respond differently.
           </p>
           <p>
-            My work is grounded in child development and neuroscience, but it's always practical. Parents don't need more theory. They need tools that actually work in real life, during real moments.
+            My approach is grounded, practical, and deeply respectful of the nervous system's role in behavior, relationships, and healing. My work focuses on:
           </p>
-          <p>I specialize in helping families:</p>
           <ul class="about-specialties-list">
-            <li>Support emotional regulation in children</li>
-            <li>Understand dysregulation without labeling kids as "defiant" or "difficult"</li>
-            <li>Reduce power struggles and reactive cycles</li>
-            <li>Build calm, connected routines that support the nervous system</li>
+            <li>Trauma-informed, nervous-system–based education</li>
+            <li>Practical strategies for emotional regulation</li>
+            <li>Consultation for parents, caregivers, and professionals</li>
+            <li>Select trauma-focused therapy offered on a limited basis</li>
           </ul>
           <p>
-            I believe behavior is communication—and that regulation is a skill children learn through experience, not pressure.
+            Whether you're supporting a child, navigating your own emotional responses, or seeking a deeper understanding of regulation, the goal is the same: more stability, flexibility, and choice.
           </p>
           <p>
-            This space is here to offer clear explanations, realistic strategies, and reassurance that you are not behind, broken, or doing it wrong.
-          </p>
-          <p>
-            If your child has big emotions or intense reactions, melts down after school, seems sensitive, reactive, or anxious, or struggles with transitions or limits, I can help.
+            In addition to working with children, adolescents, and parents, I also provide trauma-focused therapy for adults, including EMDR, particularly for individuals whose early experiences continue to impact emotional regulation and relationships.
           </p>
 
-          <h3 class="section-subtitle" style="margin-top: 2rem; margin-bottom: 0.75rem;">Why does this approach work?</h3>
-          <p>Parents are burned out on:</p>
-          <ul class="about-specialties-list">
-            <li>Sticker charts</li>
-            <li>Consequences that backfire</li>
-            <li>Being told to "just stay calm"</li>
-          </ul>
-          <p>
-            When you help your child regulate, that does not mean you are being permissive. You are focusing on their body first. Then, the reasons behind the boundaries and rules make more sense.
-          </p>
+          <div class="hero-actions" style="margin-top: 2rem; margin-bottom: 0;">
+            <a href="online-course.html" class="btn-primary">Explore the Course</a>
+            <a href="https://caelan.podia.com/the-emotional-regulation-guide-for-children-and-teens" class="btn-ghost" target="_blank" rel="noopener">Get your Free Guide</a>
+            <a href="adult-trauma-therapy.html" class="btn-ghost">Adult Trauma Therapy (EMDR)</a>
+            <a href="consultation-checkout.html" class="btn-ghost">Schedule a Consultation</a>
+          </div>
+        </div>
+      </section>
 
-          <p>
-            <a href="https://caelan.podia.com/the-emotional-regulation-guide-for-children-and-teens" class="guide-cta" target="_blank" rel="noopener">Get your free guide →</a>
-          </p>
+      <section id="options" class="section" aria-labelledby="options-title">
+        <h2 id="options-title" class="section-title">Your options</h2>
+        <p class="section-subtitle">Ways to work with me and resources you can use right away.</p>
+
+        <div class="options-grid">
+          <div class="option-card">
+            <div class="option-card-title">Learn how regulation actually works</div>
+            <p class="option-card-text">If you're looking for clear explanations, practical tools, and a framework that finally makes sense, start here.</p>
+            <p class="option-card-text">When Big Feelings Take Over is an on-demand course designed to help you:</p>
+            <ul class="list" style="margin-bottom: 1rem;">
+              <li>Understand what's happening in the body during emotional overwhelm</li>
+              <li>Respond to big feelings without escalating them</li>
+              <li>Support regulation in children — and yourself</li>
+              <li>Move from reactivity to steadiness</li>
+            </ul>
+            <p class="option-card-text">This course is ideal for parents, caregivers, and adults who want tools — not just theory.</p>
+            <a href="online-course.html" class="option-btn option-btn-primary">Explore the Course</a>
+          </div>
+
+          <div class="option-card">
+            <div class="option-card-title">Consultation &amp; Support</div>
+            <p class="option-card-text">Thoughtful guidance when you need it.</p>
+            <p class="option-card-text">I offer consultation for:</p>
+            <ul class="list" style="margin-bottom: 1rem;">
+              <li>Parents navigating complex emotional or behavioral challenges</li>
+              <li>Caregivers seeking trauma-informed guidance</li>
+              <li>Professionals wanting a nervous-system lens for their work</li>
+            </ul>
+            <p class="option-card-text">Consultations are focused, practical, and grounded in a deep understanding of trauma and regulation.</p>
+            <a href="consultation.html" class="option-btn option-btn-ghost">Learn About Consultations</a>
+          </div>
+
+          <div class="option-card">
+            <div class="option-card-title">Trauma-Focused Therapy (Limited Availability)</div>
+            <p class="option-card-text">Intensive support for deeper work.</p>
+            <p class="option-card-text">In addition to education and consultation, I provide trauma-focused therapy for adults on a limited, private-pay basis, including EMDR.</p>
+            <p class="option-card-text">This work is offered selectively and is designed for individuals seeking focused, intensive support.</p>
+            <a href="adult-trauma-therapy.html" class="option-btn option-btn-ghost">Adult Trauma Therapy</a>
+          </div>
         </div>
       </section>
 
