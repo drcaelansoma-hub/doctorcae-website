@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Article Title - Dr. Caelan Soma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f6f8;
+      --primary: #3b6c94;
+      --primary-soft: #7fa4c1;
+      --brown: #a4744a;
+      --text-main: #29333b;
+      --text-muted: #6b7280;
+      --card-bg: #ffffff;
+      --border-subtle: #dde2e7;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 2rem 0;
+    }
+
+    .article-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .article-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .article-logo {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      margin: 0 auto 1.5rem;
+      display: block;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .article-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .article-content {
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 1.3rem;
+      padding: 3rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      backdrop-filter: blur(10px);
+    }
+
+    .article-content h2 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .article-content h2:first-child {
+      margin-top: 0;
+    }
+
+    .article-content h3 {
+      font-size: 1.2rem;
+      color: var(--text-main);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .article-content p {
+      margin-bottom: 1.5rem;
+      color: var(--text-main);
+    }
+
+    .article-content ul,
+    .article-content ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+
+    .article-cta-group {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .article-cta-heading {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .article-cta-button {
+      display: inline-block;
+      margin: 0.35rem 0.6rem 0.35rem 0;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(59, 108, 148, 0.25);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .article-cta-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(59, 108, 148, 0.3);
+    }
+
+    .article-cta-button-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary-soft);
+      box-shadow: none;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 500;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 36px rgba(15, 23, 42, 0.2);
+    }
+
+    @media (max-width: 640px) {
+      .article-container {
+        padding: 0 1.3rem;
+      }
+      .article-title {
+        font-size: 2rem;
+      }
+      .article-content {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="article-container">
+    <header class="article-header">
+      <img src="Logo.svg" alt="Dr. Caelan Soma logo" class="article-logo" />
+      <h1 class="article-title">Article Title Here</h1>
+      <p class="article-subtitle">A short article for parents</p>
+    </header>
+
+    <article class="article-content">
+      <!-- Replace this section with your article content -->
+      <h2>Introduction or First Section</h2>
+      <p>
+        Your opening paragraph goes here. This is where you introduce the topic and set the context for your readers.
+      </p>
+
+      <h2>Main Section Title</h2>
+      <p>
+        Your main content paragraphs go here. You can add as many paragraphs as needed.
+      </p>
+
+      <h3>Subsection Title (Optional)</h3>
+      <p>
+        You can use h3 tags for subsections within your main sections.
+      </p>
+
+      <h2>Another Section</h2>
+      <p>
+        More content here. You can structure your article however makes sense for your topic.
+      </p>
+
+      <!-- Example of a list -->
+      <h2>Key Points or Steps</h2>
+      <ul>
+        <li>First key point or step</li>
+        <li>Second key point or step</li>
+        <li>Third key point or step</li>
+      </ul>
+
+      <p>
+        Your closing paragraph or conclusion goes here.
+      </p>
+
+      <!-- Author signature - keep this at the end -->
+      <p style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle); text-align: right; font-style: italic; color: var(--text-muted);">
+        By Dr. Cae Soma
+      </p>
+
+      <div class="article-cta-group">
+        <p class="article-cta-heading">Next steps and resources</p>
+        <a href="https://caelan.podia.com/the-emotional-regulation-guide-for-children-and-teens" target="_blank" rel="noopener" class="article-cta-button">Get the free emotional regulation guide</a>
+        <a href="online-course.html" class="article-cta-button article-cta-button-outline">Explore the course</a>
+        <a href="consultation.html" class="article-cta-button article-cta-button-outline">Learn about consultations</a>
+      </div>
+    </article>
+
+    <a href="index.html#resources" class="back-link">← Back to Resources</a>
+  </div>
+</body>
+</html>
