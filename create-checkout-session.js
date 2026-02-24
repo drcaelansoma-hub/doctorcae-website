@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { priceId, successUrl, cancelUrl } = req.body;
+    const { priceId, successUrl, cancelUrl, productName } = req.body;
 
     // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
       success_url: successUrl + '?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: cancelUrl,
       metadata: {
-        product: 'Regulation, Confidence and Success Guide',
+        product: productName || 'Regulation, Confidence and Success Guide',
       },
     });
 

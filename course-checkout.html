@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Schedule Parent Intake Consultation - Dr. Caelan Soma</title>
+  <title>Enroll — When Big Feelings Take Over - Dr. Caelan Soma</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://js.stripe.com/v3/"></script>
   <style>
@@ -67,13 +67,6 @@
       line-height: 1.6;
     }
 
-    .price {
-      font-size: 2.5rem;
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 2rem;
-    }
-
     .checkout-button {
       width: 100%;
       padding: 1rem 2rem;
@@ -126,14 +119,13 @@
 <body>
   <div class="checkout-container">
     <a href="index.html"><img src="doctorcaelogo.png" alt="Dr. Caelan Soma" class="logo" /></a>
-    <h1>Parent Intake Consultation (60 Minutes)</h1>
+    <h1>When Big Feelings Take Over</h1>
     <p class="product-description">
-      A calm, focused parent-only session to understand your child's nervous system, clarify next steps, and leave with practical guidance you can use right away. Includes written follow-up summary.
+      A body-based online course for parents. 6 modules on emotional regulation, nervous system support, and practical tools you can use at home. Lifetime access.
     </p>
-    <div class="price">$300</div>
-    <button id="checkout-button" class="checkout-button">Schedule Consultation – $300</button>
+    <button id="checkout-button" class="checkout-button">Enroll Now</button>
     <div id="error-message" class="error-message"></div>
-    <a href="consultation.html" class="back-link">← Back to Consultation</a>
+    <a href="online-course.html" class="back-link">← Back to Course</a>
   </div>
 
   <script>
@@ -151,10 +143,10 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            priceId: 'price_1StDFiB3UFcbtuoTVV9aUQWo',
+            priceId: 'price_1T4Oz9B46KXPlNVSbakdMjz8',
             successUrl: window.location.origin + '/success.html',
-            cancelUrl: window.location.origin + '/consultation-checkout.html',
-            productName: 'Parent Intake Consultation',
+            cancelUrl: window.location.origin + '/course-checkout.html',
+            productName: 'When Big Feelings Take Over',
           }),
         });
 
