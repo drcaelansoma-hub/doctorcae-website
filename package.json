@@ -1,8 +1,1 @@
-{
-  "name": "doctorcae-website",
-  "version": "1.0.0",
-  "description": "Dr. Caelan Soma website with Stripe integration",
-  "dependencies": {
-    "stripe": "^14.0.0"
-  }
-}
+{"name":"doctorcae-website","version":"1.0.0","description":"Dr. Caelan Soma website with Stripe integration","dependencies":{"stripe":"^14.0.0"}}
