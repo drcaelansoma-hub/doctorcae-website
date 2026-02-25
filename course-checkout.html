@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Enroll — When Big Feelings Take Over - Dr. Caelan Soma</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://js.stripe.com/v3/"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --primary: #3b6c94;
@@ -111,17 +116,24 @@
     }
 
     @media (max-width: 640px) {
-      .checkout-container { padding: 2rem 1.5rem; }
-      h1 { font-size: 1.4rem; }
+      .checkout-container {
+        padding: 2rem 1.5rem;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="checkout-container">
     <a href="index.html"><img src="doctorcaelogo.png" alt="Dr. Caelan Soma" class="logo" /></a>
     <h1>When Big Feelings Take Over</h1>
     <p class="product-description">
-      A body-based online course for parents. 8 modules on emotional regulation, nervous system support, and practical tools you can use at home. Lifetime access.
+      A body-based online course for parents. 8 modules on emotional regulation, nervous system support, and practical
+      tools you can use at home. Lifetime access.
     </p>
     <button id="checkout-button" class="checkout-button">Enroll Now</button>
     <div id="error-message" class="error-message"></div>
@@ -129,7 +141,7 @@
   </div>
 
   <script>
-    const stripe = Stripe('pk_test_51SswrHB3UFcbtuoT7RWX0vwjvUASM9lr0h46Ei9oXcv9lwtcDbYdyMfRd7GbpMA9VCxMqtxSHtMaSnsZ6EJNfIhv00ZVaEc7k3');
+    const stripe = Stripe('pk_live_51Sswr3B46KXPlNVSovRsOsQ3ezDK7uC3jPQUOwaAxpp8sCJThkRoKWmYgTXNEu1vqa9RfRxiulQFZGAyu2CeLni600RtyysQon');
 
     const checkoutButton = document.getElementById('checkout-button');
     const errorMessage = document.getElementById('error-message');
@@ -143,7 +155,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            priceId: 'price_1T4Oz9B46KXPlNVSbakdMjz8',
+            priceId: 'price_1T4Xq6B46KXPINVS6TLGeO2A',
             successUrl: window.location.origin + '/success.html',
             cancelUrl: window.location.origin + '/course-checkout.html',
             productName: 'When Big Feelings Take Over',
@@ -152,7 +164,7 @@
 
         const text = await response.text();
         let data = {};
-        try { data = JSON.parse(text); } catch (_) {}
+        try { data = JSON.parse(text); } catch (_) { }
 
         if (!response.ok) {
           const msg = data.error || text || 'Checkout could not be started.';
@@ -162,7 +174,7 @@
         }
 
         if (data.error || !data.id) {
-          errorMessage.textContent = (data.error || 'Invalid response from server.') + ' Please try again or contact me.';
+          errorMessage.textContent = (data.error || text || 'Invalid response from server.') + ' Please try again or contact me.';
           checkoutButton.disabled = false;
           return;
         }
@@ -181,4 +193,5 @@
     });
   </script>
 </body>
+
 </html>
