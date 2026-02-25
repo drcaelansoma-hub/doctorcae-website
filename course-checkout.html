@@ -151,7 +151,8 @@
       errorMessage.textContent = '';
 
       try {
-        const response = await fetch((window.location.origin || '') + '/api/create-checkout-session', {
+        const apiUrl = (window.location.origin || '') + '/api/create-checkout-session';
+        const response = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -167,8 +168,12 @@
         try { data = JSON.parse(text); } catch (_) { }
 
         if (!response.ok) {
-          const msg = data.error || text || 'Checkout could not be started.';
-          errorMessage.textContent = msg + (response.status ? ' (Status ' + response.status + ')' : '');
+          const msg = (data.error || text || 'Checkout could not be started.') + ' (Status ' + response.status + ')';
+          if (response.status === 404) {
+            errorMessage.textContent = 'Backend not found (404). The API at ' + apiUrl + ' may not be deployed. Check Vercel Root Directory and that api/create-checkout-session.js is in your repo.';
+          } else {
+            errorMessage.textContent = msg;
+          }
           checkoutButton.disabled = false;
           return;
         }
