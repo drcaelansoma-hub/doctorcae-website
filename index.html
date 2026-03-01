@@ -44,16 +44,21 @@
     }
 
     header {
-      padding: 1.4rem 8vw 0.8rem;
+      padding: 1.4rem 8vw 0.75rem;
+    }
+
+    .header-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 1rem;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      min-width: 0;
     }
 
     .brand-logo {
@@ -63,6 +68,7 @@
       border-radius: 50%;
       background: #ffffff;
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      flex-shrink: 0;
     }
 
     .brand-text-main {
@@ -78,25 +84,38 @@
       color: var(--text-muted);
     }
 
-    .brand-tagline-block {
-      margin-top: 0.75rem;
-      max-width: 22rem;
+    .header-tagline-row {
+      width: 100%;
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid rgba(221, 226, 232, 0.8);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem 1rem;
+      background: linear-gradient(135deg, rgba(59, 108, 148, 0.06), rgba(127, 164, 193, 0.04));
+      margin-left: -8vw;
+      margin-right: -8vw;
+      padding-left: 8vw;
+      padding-right: 8vw;
+      padding-bottom: 0.6rem;
+      border-radius: 0 0 0.5rem 0.5rem;
     }
 
     .brand-tagline-pill {
       display: inline-block;
-      padding: 0.4rem 0.85rem;
+      padding: 0.5rem 1rem;
       border-radius: 0.5rem;
-      font-size: 0.88rem;
-      font-weight: 500;
-      background: linear-gradient(135deg, rgba(59, 108, 148, 0.12), rgba(127, 164, 193, 0.1));
-      border: 1px solid rgba(59, 108, 148, 0.25);
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, rgba(59, 108, 148, 0.18), rgba(127, 164, 193, 0.12));
+      border: 1px solid rgba(59, 108, 148, 0.35);
       color: var(--text-main);
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
     }
 
     .brand-tagline-line2 {
-      font-size: 0.88rem;
+      font-size: 0.9rem;
       line-height: 1.45;
       color: #1a365d;
       font-weight: 500;
@@ -652,6 +671,13 @@
         padding-inline: 1.3rem;
       }
 
+      .header-tagline-row {
+        margin-left: -1.3rem;
+        margin-right: -1.3rem;
+        padding-left: 1.3rem;
+        padding-right: 1.3rem;
+      }
+
       main {
         padding-inline: 1.3rem;
       }
@@ -673,26 +699,29 @@
 <body>
   <div class="page">
     <header>
-      <div class="brand">
-        <img src="doctorcaelogo.png" alt="Dr. Caelan Soma logo" class="brand-logo" />
-        <div>
-          <div class="brand-text-main">Dr. Caelan Soma</div>
-          <div class="brand-text-sub">Clinical Psychologist – Children, Adolescents, Parents and Professionals</div>
-          <div class="brand-tagline-block">
-            <div class="brand-tagline-pill">Body first regulation approach</div>
-            <div class="brand-tagline-line2">I translate trauma and nervous system science into usable tools for real people.</div>
+      <div class="header-top">
+        <div class="brand">
+          <img src="doctorcaelogo.png" alt="Dr. Caelan Soma logo" class="brand-logo" />
+          <div>
+            <div class="brand-text-main">Dr. Caelan Soma</div>
+            <div class="brand-text-sub">Clinical Psychologist – Children, Adolescents, Parents and Professionals</div>
           </div>
         </div>
+
+        <nav>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#options" class="nav-link">Options</a>
+          <a href="blog.html" class="nav-link">Blog</a>
+          <a href="#resources" class="nav-link">Resources</a>
+          <a href="#podcast" class="nav-link">Podcast</a>
+          <a href="for-professionals.html" class="nav-link">For Professionals</a>
+        </nav>
       </div>
 
-      <nav>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#options" class="nav-link">Options</a>
-        <a href="blog.html" class="nav-link">Blog</a>
-        <a href="#resources" class="nav-link">Resources</a>
-        <a href="#podcast" class="nav-link">Podcast</a>
-        <a href="for-professionals.html" class="nav-link">For Professionals</a>
-      </nav>
+      <div class="header-tagline-row">
+        <span class="brand-tagline-pill">Body first regulation approach</span>
+        <span class="brand-tagline-line2">I translate trauma and nervous system science into usable tools for real people.</span>
+      </div>
     </header>
 
     <main>
