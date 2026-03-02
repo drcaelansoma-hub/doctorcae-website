@@ -122,6 +122,16 @@
       h1 { font-size: 1.4rem; }
     }
   </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926033047"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17926033047');
+</script>
+
 </head>
 <body>
   <div class="checkout-container">
@@ -147,7 +157,7 @@
       errorMessage.textContent = '';
 
       try {
-        const response = await fetch('https://doctorcae-website-kqau.vercel.app/api/create-checkout-session', {
+        const response = await fetch((window.location.origin || '') + '/api/create-checkout-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
