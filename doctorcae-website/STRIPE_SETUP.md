@@ -1,5 +1,15 @@
 # Stripe Integration Setup Guide
 
+## Stripe not working? Check this first
+
+1. **Vercel env var** – In Vercel → your project → **Settings → Environment Variables**, add `STRIPE_SECRET_KEY` with your secret key (starts with `sk_test_` or `sk_live_`). Turn on **Production** and **Preview**, then save.
+2. **Redeploy** – After adding or changing the env var, go to **Deployments** → ⋯ on the latest deployment → **Redeploy** so the function picks up the key.
+3. **Same Stripe account** – The publishable key in your HTML (`pk_test_...`) and the secret key in Vercel must be from the same Stripe account.
+4. **Price IDs** – In Stripe Dashboard → **Products** → open each product → copy the **Price ID** (`price_...`). The IDs in `checkout.html`, `consultation-checkout.html`, and `course-checkout.html` must match. If you created new products, paste the new price IDs into those files.
+5. **Site on same domain as API** – The checkout pages use `/api/create-checkout-session` so the site must be served from the same Vercel URL (e.g. `https://your-project.vercel.app`) so the API is on the same origin. If you open the HTML from your desktop or another domain, checkout will fail.
+
+---
+
 ## Step 1: Create a Stripe Account
 1. Go to https://stripe.com and create an account
 2. Complete the account setup process
@@ -39,16 +49,7 @@
   }
 }
 ```
-3. Create `vercel.json`:
-```json
-{
-  "functions": {
-    "api/create-checkout-session.js": {
-      "runtime": "nodejs18.x"
-    }
-  }
-}
-```
+3. Do **not** set a custom runtime in `vercel.json` (Vercel will use Node automatically). If you have a `vercel.json`, it can be just `{ "$schema": "https://openapi.vercel.sh/vercel.json" }`.
 4. Set environment variable in Vercel:
    - Go to your project settings
    - Add `STRIPE_SECRET_KEY` with your secret key

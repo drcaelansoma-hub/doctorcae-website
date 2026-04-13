@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Free guide — Body-based parenting support</title>
+  <meta name="description" content="A simple, body-based approach to help your child calm, connect, and cooperate." />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f4f6f8;
+      --text: #2c3540;
+      --text-muted: #5c6673;
+      --accent: #3b6c94;
+      --accent-hover: #2d5678;
+      --border: #dde3ea;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1.5rem, 5vw, 3rem);
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 36rem;
+      text-align: center;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: clamp(2rem, 6vw, 3rem) clamp(1.5rem, 5vw, 2.5rem);
+      box-shadow: 0 12px 40px rgba(44, 53, 64, 0.06);
+    }
+
+    h1 {
+      font-size: clamp(1.35rem, 4.2vw, 1.65rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+      margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+
+    .sub {
+      font-size: clamp(1rem, 2.8vw, 1.125rem);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 2rem;
+    }
+
+    .fine {
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .signup {
+      margin-top: 2.25rem;
+      padding-top: 2.25rem;
+      border-top: 1px solid rgba(221, 227, 234, 0.9);
+      text-align: center;
+    }
+
+    .signup h2 {
+      font-size: clamp(1.05rem, 3vw, 1.2rem);
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .signup .signup-lede {
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 1.5rem;
+      max-width: 26rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .signup-form {
+      max-width: 22rem;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .field {
+      margin-bottom: 1rem;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.65rem;
+      background: #fafbfc;
+      color: var(--text);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .field input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(59, 108, 148, 0.15);
+      background: #fff;
+    }
+
+    .signup-form button[type="submit"] {
+      width: 100%;
+      margin-top: 0.25rem;
+      padding: 1rem 1.5rem;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(59, 108, 148, 0.25);
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+
+    .signup-form button[type="submit"]:hover:not(:disabled) {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .signup-form button[type="submit"]:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .signup-form button[type="submit"]:hover:not(:disabled) {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="card">
+      <h1>Parenting big emotions is exhausting. This guide helps you understand what&rsquo;s really happening&mdash;and what to do instead.</h1>
+      <p class="sub">A simple, body-based approach to help your child calm, connect, and cooperate.</p>
+      <p class="fine" style="margin-bottom: 1.75rem;">
+        Add your name and email below. Right after you submit, you&rsquo;ll land on a short thank-you page with the PDF download. I also send occasional practical tools to your inbox.
+      </p>
+
+      <section class="signup" aria-labelledby="signup-heading" style="margin-top: 0; padding-top: 0; border-top: none;">
+        <h2 id="signup-heading" class="visually-hidden">Get the free guide</h2>
+
+        <form
+          id="signup-form"
+          class="signup-form"
+          action="https://formspree.io/f/xjgpvoag"
+          method="POST"
+        >
+          <input type="hidden" name="_next" id="thankyou-redirect" value="https://www.doctorcae.com/free-guide/thank-you" />
+          <input type="hidden" name="_subject" value="Free guide — Body First download" />
+          <div class="field">
+            <label for="first_name">First name</label>
+            <input id="first_name" name="first_name" type="text" autocomplete="given-name" required />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required />
+          </div>
+          <button type="submit" id="signup-submit">Get the free guide</button>
+        </form>
+      </section>
+    </div>
+  </main>
+  <script>
+    (function () {
+      var nextInput = document.getElementById("thankyou-redirect");
+      if (nextInput) {
+        var thankYou = new URL("/free-guide/thank-you", window.location.origin).href.trim();
+        nextInput.value = thankYou;
+      }
+      var form = document.getElementById("signup-form");
+      var submitBtn = document.getElementById("signup-submit");
+      if (form && submitBtn) {
+        form.addEventListener("submit", function () {
+          submitBtn.disabled = true;
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

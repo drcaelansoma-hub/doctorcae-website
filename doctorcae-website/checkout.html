@@ -2,18 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Enroll — When Big Feelings Take Over - Dr. Caelan Soma</title>
+  <title>Purchase - Regulation, Confidence and Success Guide - Dr. Caelan Soma</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://js.stripe.com/v3/"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
+      --bg: #f4f6f8;
       --primary: #3b6c94;
       --primary-soft: #7fa4c1;
       --brown: #a4744a;
       --text-main: #29333b;
       --text-muted: #6b7280;
+      --card-bg: #ffffff;
       --border-subtle: #dde2e7;
     }
 
@@ -54,7 +56,7 @@
     }
 
     h1 {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       color: var(--text-main);
       margin-bottom: 1rem;
       font-weight: 600;
@@ -65,6 +67,13 @@
       margin-bottom: 2rem;
       font-size: 1rem;
       line-height: 1.6;
+    }
+
+    .price {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 2rem;
     }
 
     .checkout-button {
@@ -111,70 +120,87 @@
     }
 
     @media (max-width: 640px) {
-      .checkout-container { padding: 2rem 1.5rem; }
-      h1 { font-size: 1.4rem; }
+      .checkout-container {
+        padding: 2rem 1.5rem;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
     }
   </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926033047"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17926033047');
+  gtag('config', 'G-R4CEN25RRM');
+</script>
+
 </head>
 <body>
   <div class="checkout-container">
-    <a href="index.html"><img src="doctorcaelogo.png" alt="Dr. Caelan Soma" class="logo" /></a>
-    <h1>When Big Feelings Take Over</h1>
+    <img src="Logo.svg" alt="Dr. Caelan Soma logo" class="logo" />
+    <h1>Regulation, Confidence and Success Guide</h1>
     <p class="product-description">
-      A body-based online course for parents. 8 modules on emotional regulation, nervous system support, and practical tools you can use at home. Lifetime access.
+      A practical, relationship-based guide for thoughtful parents who want to help their child thrive emotionally, socially, and academically through connection, not perfection.
     </p>
-    <button id="checkout-button" class="checkout-button">Enroll Now</button>
+    <div class="price" id="price">$<span id="priceAmount">0.00</span></div>
+    <button id="checkout-button" class="checkout-button">Purchase PDF</button>
     <div id="error-message" class="error-message"></div>
-    <a href="online-course.html" class="back-link">← Back to Course</a>
+    <a href="index.html#resources" class="back-link">← Back to Resources</a>
   </div>
 
   <script>
+    // Replace with your Stripe publishable key
     const stripe = Stripe('pk_test_51SswrHB3UFcbtuoT7RWX0vwjvUASM9lr0h46Ei9oXcv9lwtcDbYdyMfRd7GbpMA9VCxMqtxSHtMaSnsZ6EJNfIhv00ZVaEc7k3');
-
+    
     const checkoutButton = document.getElementById('checkout-button');
     const errorMessage = document.getElementById('error-message');
+    const priceAmount = document.getElementById('priceAmount');
+
+    // Set the price (you can make this dynamic)
+    priceAmount.textContent = '19.99'; // Change this to your desired price
 
     checkoutButton.addEventListener('click', async () => {
       checkoutButton.disabled = true;
       errorMessage.textContent = '';
 
       try {
+        // Replace with your backend endpoint URL
         const response = await fetch((window.location.origin || '') + '/api/create-checkout-session', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify({
-            priceId: 'price_1T4Oz9B46KXPlNVSbakdMjz8',
+            priceId: 'price_1StCthB3UFcbTuoTqbohql61', // Replace with your Stripe Price ID
             successUrl: window.location.origin + '/success.html',
-            cancelUrl: window.location.origin + '/course-checkout.html',
-            productName: 'When Big Feelings Take Over',
+            cancelUrl: window.location.origin + '/checkout.html',
           }),
         });
 
-        const text = await response.text();
-        let data = {};
-        try { data = JSON.parse(text); } catch (_) {}
+        const session = await response.json();
 
-        if (!response.ok) {
-          const msg = data.error || text || 'Checkout could not be started.';
-          errorMessage.textContent = msg + (response.status ? ' (Status ' + response.status + ')' : '');
+        if (session.error) {
+          errorMessage.textContent = session.error;
           checkoutButton.disabled = false;
           return;
         }
 
-        if (data.error || !data.id) {
-          errorMessage.textContent = (data.error || 'Invalid response from server.') + ' Please try again or contact me.';
-          checkoutButton.disabled = false;
-          return;
-        }
-
-        const result = await stripe.redirectToCheckout({ sessionId: data.id });
+        // Redirect to Stripe Checkout
+        const result = await stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
 
         if (result.error) {
           errorMessage.textContent = result.error.message;
           checkoutButton.disabled = false;
         }
       } catch (error) {
-        errorMessage.textContent = 'Network or other error: ' + (error.message || 'Please try again.');
+        errorMessage.textContent = 'An error occurred. Please try again.';
         checkoutButton.disabled = false;
         console.error('Error:', error);
       }

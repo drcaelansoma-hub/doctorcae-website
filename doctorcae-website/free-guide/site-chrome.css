@@ -1,0 +1,96 @@
+/* Shared header so /free-guide feels part of the main site */
+.lp-site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  width: 100%;
+  padding: 1rem 0 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle, #dde2e7);
+}
+
+.lp-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.lp-brand img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.lp-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.lp-brand-title {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: var(--primary, #3b6c94);
+}
+
+.lp-brand-sub {
+  font-size: 0.85rem;
+  color: var(--text-muted, #6b7280);
+  max-width: 16rem;
+  line-height: 1.35;
+}
+
+.lp-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.35rem;
+  font-size: 0.9rem;
+}
+
+.lp-nav a {
+  color: var(--text-muted, #6b7280);
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 0.15rem;
+}
+
+.lp-nav a:hover {
+  color: var(--primary, #3b6c94);
+}
+
+.lp-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary, #3b6c94), var(--brown, #a4744a));
+  transition: width 0.2s ease;
+}
+
+.lp-nav a:hover::after {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .lp-site-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lp-nav {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

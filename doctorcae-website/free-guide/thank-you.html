@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your guide is ready — Dr. Caelan Soma</title>
+  <meta name="description" content="Thank you. Here is your Body First Framework guide." />
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #3b6c94;
+      --primary-soft: #7fa4c1;
+      --brown: #a4744a;
+      --text-main: #29333b;
+      --text-muted: #6b7280;
+      --border-subtle: #dde2e7;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      color: var(--text-main);
+      line-height: 1.65;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .box {
+      max-width: 520px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border-subtle);
+      border-radius: 1.35rem;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      box-shadow: 0 18px 45px rgba(148, 163, 184, 0.16);
+    }
+
+    .icon-ok {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #fff;
+      font-size: 2rem;
+      line-height: 72px;
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .sub {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #fff !important;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      box-shadow: 0 12px 28px rgba(59, 108, 148, 0.28);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 34px rgba(59, 108, 148, 0.32);
+    }
+
+    .hint {
+      margin-top: 1.5rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 1.75rem;
+      font-size: 0.9rem;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .back:hover {
+      text-decoration: underline;
+    }
+
+    .ty-wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 8vw 2rem;
+    }
+
+    .ty-inner {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+  </style>
+  <link rel="stylesheet" href="site-chrome.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926033047"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'AW-17926033047');
+    gtag('config', 'G-R4CEN25RRM');
+  </script>
+</head>
+<body>
+  <div class="ty-wrap">
+    <header class="lp-site-header">
+      <a class="lp-brand" href="../index.html">
+        <img src="../doctorcaelogo.png" alt="Dr. Caelan Soma" />
+        <div class="lp-brand-text">
+          <span class="lp-brand-title">Dr. Caelan Soma</span>
+          <span class="lp-brand-sub">Clinical Psychologist – Children, Adolescents, Parents and Professionals</span>
+        </div>
+      </a>
+      <nav class="lp-nav" aria-label="Main site">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#options">Options</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../index.html#resources">Resources</a>
+      </nav>
+    </header>
+    <div class="ty-inner">
+  <div class="box">
+    <div class="icon-ok" aria-hidden="true">✓</div>
+    <h1>Thank you</h1>
+    <p class="sub">
+      Here&rsquo;s your guide. Tap the button to download the PDF. You can return to this page anytime if you need the file again.
+    </p>
+    <a
+      class="btn"
+      href="/guide.pdf"
+      download
+    >Download the PDF</a>
+    <p class="hint">
+      Bookmark this page if you need to return. Questions? Contact
+      <a href="mailto:drcaelansoma@gmail.com" style="color: var(--primary);">drcaelansoma@gmail.com</a>.
+    </p>
+    <a class="back" href="../index.html">← Back to homepage</a>
+  </div>
+    </div>
+  </div>
+</body>
+</html>

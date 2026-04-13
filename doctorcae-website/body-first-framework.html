@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>What Is the Body First Framework? – Dr. Caelan Soma</title>
+  <meta name="description" content="The Body First Framework helps parents understand what's happening underneath behavior and learn practical ways to support emotional regulation from the inside out." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926033047"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17926033047');
+    gtag('config', 'G-R4CEN25RRM');
+  </script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #3b6c94;
+      --primary-soft: #7fa4c1;
+      --brown: #a4744a;
+      --text-main: #29333b;
+      --text-muted: #6b7280;
+      --border-subtle: #dde2e7;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 2rem 0;
+    }
+
+    .article-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .article-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .article-logo {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      margin: 0 auto 1.5rem;
+      display: block;
+    }
+
+    .article-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .bff-graphic {
+      max-width: 100%;
+      width: 560px;
+      height: auto;
+      display: block;
+      margin: 0 auto 2.5rem;
+    }
+
+    .article-content {
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 1.3rem;
+      padding: 3rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      backdrop-filter: blur(10px);
+    }
+
+    .article-content h2 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-top: 2.25rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .article-content h2:first-child {
+      margin-top: 0;
+    }
+
+    .article-content h3 {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .article-content p {
+      margin-bottom: 1.25rem;
+      color: var(--text-main);
+    }
+
+    .article-content ul {
+      margin: 0.5rem 0 1.25rem 1.5rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.5rem;
+    }
+
+    .article-content .key-message {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 1.5rem 0;
+      padding: 1.25rem 1.5rem;
+      background: rgba(59, 108, 148, 0.08);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 500;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 36px rgba(15, 23, 42, 0.2);
+    }
+
+    .article-ctas {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .article-ctas a {
+      display: inline-block;
+      padding: 0.75rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: transform 0.15s ease;
+    }
+
+    .article-ctas .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      box-shadow: 0 10px 28px rgba(59, 108, 148, 0.25);
+    }
+
+    .article-ctas .btn-ghost {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border-subtle);
+      color: var(--primary);
+    }
+
+    .article-ctas a:hover {
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 640px) {
+      .article-container { padding: 0 1.3rem; }
+      .article-title { font-size: 1.65rem; }
+      .article-content { padding: 2rem 1.5rem; }
+      .bff-graphic { width: 100%; max-width: 480px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="article-container">
+    <header class="article-header">
+      <a href="index.html"><img src="nest-logo.png" alt="Dr. Caelan Soma" class="article-logo" /></a>
+      <h1 class="article-title">What Is the Body First Framework?</h1>
+    </header>
+
+    <img src="body-first-framework-logo.png" alt="Body First Framework" class="bff-graphic" />
+
+    <article class="article-content">
+      <p>Most parents have experienced this moment.</p>
+      <p>Your child is melting down, yelling, or completely shutting down. You try reasoning. You remind them of the rules. You explain why their behavior isn't okay. And nothing works. In fact, sometimes it makes things worse.</p>
+      <p>It's easy to wonder:</p>
+      <ul>
+        <li>Why is my child acting like this?</li>
+        <li>Why aren't they listening?</li>
+        <li>Am I doing something wrong?</li>
+      </ul>
+      <p>The Body First Framework offers a different way to understand these moments. Instead of starting with behavior, it starts with something more fundamental: the nervous system.</p>
+
+      <h2>Why Behavior Isn't the Whole Story</h2>
+      <p>Children don't experience emotions the same way adults do. Before they can think through a problem, explain their feelings, or make a good decision, their body reacts first.</p>
+      <p>When a child's nervous system becomes overwhelmed by stress, frustration, disappointment, or fatigue, their brain temporarily shifts into survival mode.</p>
+      <p>That can look like:</p>
+      <ul>
+        <li>emotional meltdowns</li>
+        <li>anger or aggression</li>
+        <li>defiance</li>
+        <li>withdrawal or shutdown</li>
+        <li>crying or panic</li>
+        <li>impulsive behavior</li>
+      </ul>
+      <p>From the outside, this can look like a child choosing to misbehave. But very often, it's something different. It's dysregulation. And when a child is dysregulated, the thinking parts of the brain that handle reasoning, learning, and problem solving are temporarily offline.</p>
+      <p>This is why lectures, consequences, and logic often don't work in the middle of big emotions.</p>
+
+      <h2>The Body First Principle</h2>
+      <p>The Body First Framework is built on one key idea:</p>
+      <p class="key-message">Regulation in the body must come before learning and behavior change.</p>
+      <p>When children feel safe and calm in their bodies, their brain becomes available again for:</p>
+      <ul>
+        <li>listening</li>
+        <li>learning</li>
+        <li>cooperating</li>
+        <li>problem solving</li>
+        <li>emotional growth</li>
+      </ul>
+      <p>This is why helping a child regulate first often changes everything.</p>
+
+      <h2>The Core of the Framework</h2>
+      <p>At the center of the Body First Framework is a simple truth:</p>
+      <p class="key-message">Safe + Connected = Regulated</p>
+      <p>Children regulate best when they feel physically safe and emotionally connected to the adults caring for them. Connection helps calm the nervous system. And once the nervous system settles, the brain can begin to work again.</p>
+
+      <h2>The Seven Steps of the Body First Framework</h2>
+      <p>The Body First Framework provides a practical roadmap for helping children with emotional regulation.</p>
+      <ol>
+        <li><strong>Start With the Body</strong> — Learn how stress, emotions, and overwhelm show up in the body and influence behavior.</li>
+        <li><strong>Notice the State</strong> — Recognize early stress signals before emotions escalate into bigger outbursts.</li>
+        <li><strong>Co-Regulate During Emotional Storms</strong> — Children borrow calm from the adults around them. Your presence helps their nervous system settle.</li>
+        <li><strong>Teach Skills When the Child Is Calm</strong> — Emotional skills stick best when the brain is regulated and able to learn.</li>
+        <li><strong>Support Daily Regulation</strong> — Sleep, movement, nourishment, connection, and predictable routines support a balanced nervous system.</li>
+        <li><strong>Repair and Reconnect</strong> — All relationships have hard moments. Repair builds trust, security, and resilience.</li>
+        <li><strong>Care for the Parent Nervous System</strong> — The emotional tone of the adults around them deeply influences children. Supporting your own regulation matters.</li>
+      </ol>
+
+      <h2>What Makes This Approach Different</h2>
+      <p>Many parenting strategies focus primarily on stopping behavior. The Body First Framework focuses on understanding what is happening underneath the behavior. It combines insights from:</p>
+      <ul>
+        <li>nervous system science</li>
+        <li>trauma-informed care</li>
+        <li>attachment research</li>
+        <li>emotional development</li>
+      </ul>
+      <p>But most importantly, it translates that science into simple, practical tools parents can use in everyday life.</p>
+
+      <h2>A Different Question</h2>
+      <p>Many parents are taught to ask: "How do I stop this behavior?" The Body First Framework invites a different question: "What does my child's nervous system need right now?"</p>
+      <p>When the body settles, the brain follows. And when the brain is available again, children can learn the skills that help them manage emotions, relationships, and challenges for the rest of their lives.</p>
+
+      <h2>Why the Body First Framework Works</h2>
+      <p>The Body First Framework works because it aligns with how the brain and nervous system actually function during stress and emotional overwhelm.</p>
+      <p>When a child becomes upset, frustrated, or overwhelmed, the brain shifts into a stress response designed for protection and survival. In this state, the thinking and reasoning parts of the brain temporarily become less available.</p>
+      <p>This means a child may struggle to:</p>
+      <ul>
+        <li>listen to instructions</li>
+        <li>explain what they are feeling</li>
+        <li>think through consequences</li>
+        <li>control impulses</li>
+        <li>use skills they already know</li>
+      </ul>
+      <p>Parents often assume children should be able to use these skills in the moment. But when the nervous system is overwhelmed, the brain is simply not in learning mode.</p>
+      <p>The Body First Framework works because it focuses on restoring regulation first. When a child feels safe and supported, their nervous system begins to settle. As regulation returns, the brain regains access to the abilities needed for learning, problem solving, and emotional growth.</p>
+
+      <h3>Regulation Makes Learning Possible</h3>
+      <p>Research in neuroscience, attachment, and trauma-informed care consistently shows that emotional regulation develops through relationships. Children learn to calm their bodies by experiencing calm from the adults around them. This process is called co-regulation.</p>
+      <p>Over time, repeated experiences of being supported through difficult emotions help children build their own internal regulation skills. This is how children gradually develop the ability to:</p>
+      <ul>
+        <li>manage frustration</li>
+        <li>recover from disappointment</li>
+        <li>tolerate strong emotions</li>
+        <li>think before acting</li>
+        <li>navigate social relationships</li>
+      </ul>
+
+      <h3>Behavior Is Communication</h3>
+      <p>Another reason the Body First Framework works is that it treats behavior as communication from the nervous system. Instead of assuming a child is choosing to be difficult, the framework asks: What is this behavior telling us about what the child's body is experiencing right now?</p>
+      <p>This shift allows parents to respond in ways that address the root cause of the behavior, rather than only reacting to the behavior itself. When the underlying stress in the body is addressed, behavior often improves naturally.</p>
+
+      <h3>Small Moments Shape the Brain</h3>
+      <p>Children's emotional regulation skills are not built in big lectures or discipline moments. They are built in thousands of small interactions where adults help them move from overwhelm back to calm. Over time, these repeated experiences literally help shape the developing brain.</p>
+      <p>The goal of the Body First Framework is not perfect parenting. The goal is helping children experience enough moments of safety, connection, and regulation that their brains learn how to do it on their own.</p>
+
+      <h2>Who the Body First Framework Is For</h2>
+      <p>The Body First Framework is designed for parents, caregivers, and professionals who want practical ways to help children manage emotions and behavior.</p>
+      <p>It is especially helpful if you are raising or working with a child who:</p>
+      <ul>
+        <li>has big emotions or frequent meltdowns</li>
+        <li>becomes easily overwhelmed or shuts down</li>
+        <li>struggles with anger, frustration, or impulsive behavior</li>
+        <li>has difficulty recovering after disappointment or conflict</li>
+        <li>seems defiant or oppositional when stressed</li>
+        <li>has a hard time transitioning between activities</li>
+        <li>becomes emotionally reactive at home but holds it together at school</li>
+        <li>is affected by anxiety, stress, trauma, or sensory overwhelm</li>
+      </ul>
+      <p>Many parents come across this approach after trying traditional strategies that focus mostly on consequences, discipline, or behavior control — and finding that those strategies don't always work in moments of emotional overwhelm.</p>
+      <p>The Body First Framework helps adults understand what is happening underneath the behavior, so they can respond in ways that actually support emotional regulation and long-term skill building.</p>
+
+      <h3>This Approach Works for Children and Teens</h3>
+      <p>Although many emotional regulation tools are designed for younger children, the Body First Framework is useful across development. It can support:</p>
+      <ul>
+        <li>young children learning early emotional regulation</li>
+        <li>school-age children struggling with frustration or behavior challenges</li>
+        <li>preteens navigating social stress and identity development</li>
+        <li>teenagers dealing with anxiety, pressure, and strong emotions</li>
+      </ul>
+      <p>Because nervous system regulation is a lifelong process, the principles of this framework apply from early childhood through adolescence.</p>
+
+      <h2>A Framework for Real Life</h2>
+      <p>The goal of the Body First Framework is not to give parents another set of rules to follow. It is to provide a clear roadmap for responding to everyday moments of stress, conflict, and big emotions in ways that strengthen regulation, connection, and resilience over time.</p>
+      <p>When adults understand the role of the nervous system in behavior, parenting becomes less about controlling children and more about guiding them toward the skills they need to manage life's challenges.</p>
+
+      <h2>What Parents Often Notice When They Use the Body First Framework</h2>
+      <p>Parents often tell me that one of the biggest changes is not just in their child's behavior — it's in how they understand what is happening in difficult moments. Instead of feeling confused, frustrated, or powerless during emotional storms, they begin to see the patterns underneath the behavior.</p>
+      <p>Over time, many parents notice:</p>
+      <ul>
+        <li><strong>Fewer emotional blowups</strong> — When adults respond to early stress signals, many meltdowns can be prevented before they escalate.</li>
+        <li><strong>Faster recovery after big emotions</strong> — Children still have strong feelings — that's normal — but they begin to calm more quickly.</li>
+        <li><strong>More cooperation and problem solving</strong> — When children feel regulated and understood, they are more open to listening, learning, and working things out.</li>
+        <li><strong>Stronger parent-child connection</strong> — Moments of co-regulation and repair strengthen the relationship that supports emotional growth.</li>
+        <li><strong>More confidence as a parent</strong> — Instead of reacting in the moment, parents have a clear roadmap for what to do when emotions run high.</li>
+      </ul>
+      <p>The goal is not to eliminate big emotions. The goal is to help children build the internal skills they need to move through them.</p>
+
+      <h2>About the Body First Framework</h2>
+      <p>The Body First Framework was developed through more than two decades of clinical work with children, adolescents, and families navigating emotional and behavioral challenges.</p>
+      <p>My work has focused on helping people understand the connection between stress, trauma, the nervous system, and emotional regulation. Over the years, I began to notice something important. Many parents were given strategies to manage behavior, but they were rarely taught how the nervous system drives emotional reactions — or how regulation develops.</p>
+      <p>The Body First Framework grew out of a desire to translate neuroscience, trauma-informed care, and attachment research into clear, practical tools that parents can use in everyday life.</p>
+      <p>At its core, the goal of this framework is simple: to help adults respond to children in ways that build safety, connection, and lifelong emotional skills.</p>
+
+      <div class="article-ctas">
+        <a href="online-course.html" class="btn-primary">Explore the Course</a>
+        <a href="/guide" class="btn-ghost">Body First Framework FREE Guide</a>
+        <a href="consultation.html" class="btn-ghost">Schedule a Consultation</a>
+      </div>
+    </article>
+
+    <a href="index.html" class="back-link">← Back to Home</a>
+  </div>
+</body>
+</html>

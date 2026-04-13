@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blog - Dr. Caelan Soma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Articles for parents on nervous system regulation, behavior, after-school meltdowns, and supporting kids with big feelings." />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #3b6c94;
+      --primary-soft: #7fa4c1;
+      --brown: #a4744a;
+      --text-main: #29333b;
+      --text-muted: #6b7280;
+      --border-subtle: #dde2e7;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 2rem 0 3rem;
+    }
+
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .site-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .site-header img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+
+    .site-header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.35rem;
+    }
+
+    .site-header p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .site-header nav {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .site-header nav a {
+      color: var(--primary);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .site-header nav a:hover {
+      text-decoration: underline;
+    }
+
+    .post-list {
+      list-style: none;
+    }
+
+    .post-list li {
+      margin-bottom: 1.25rem;
+    }
+
+    .post-list a {
+      display: block;
+      padding: 1.25rem 1.5rem;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid var(--border-subtle);
+      border-radius: 1rem;
+      text-decoration: none;
+      color: var(--text-main);
+      box-shadow: 0 8px 24px rgba(148, 163, 184, 0.1);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .post-list a:hover {
+      border-color: var(--primary-soft);
+      box-shadow: 0 12px 28px rgba(59, 108, 148, 0.12);
+    }
+
+    .post-list .post-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+    }
+
+    .post-list .post-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    @media (max-width: 640px) {
+      .wrap { padding: 0 1.3rem; }
+      .site-header h1 { font-size: 1.65rem; }
+    }
+  </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926033047"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'AW-17926033047');
+    gtag('config', 'G-R4CEN25RRM');
+  </script>
+</head>
+<body>
+  <div class="wrap">
+    <header class="site-header">
+      <a href="index.html"><img src="Logo.svg" alt="Dr. Caelan Soma logo" /></a>
+      <h1>Blog</h1>
+      <p>Articles for parents and caregivers</p>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="index.html#resources">Resources</a>
+        <a href="online-course.html">Online course</a>
+        <a href="consultation.html">Consultation</a>
+      </nav>
+    </header>
+
+    <ul class="post-list">
+      <li>
+        <a href="defiant-or-dysregulated.html">
+          <div class="post-title">Defiant or Dysregulated? What Your Child's Behavior Is Really Telling You</div>
+          <div class="post-desc">When opposition may be an overwhelmed nervous system — and how to respond.</div>
+        </a>
+      </li>
+      <li>
+        <a href="why-consequences-dont-work-when-kids-are-overwhelmed.html">
+          <div class="post-title">Why Consequences Don't Work When Kids Are Overwhelmed</div>
+          <div class="post-desc">Regulation first, then learning — why timing changes everything.</div>
+        </a>
+      </li>
+      <li>
+        <a href="after-school-meltdown-nervous-system-collapse.html">
+          <div class="post-title">The After-School Meltdown Isn't Misbehavior—It's Nervous System Collapse</div>
+          <div class="post-desc">Why kids fall apart at home after a fine day at school, and how to help them decompress.</div>
+        </a>
+      </li>
+      <li>
+        <a href="when-worry-shows-up-at-bedtime.html">
+          <div class="post-title">When Worry Shows Up at Bedtime</div>
+          <div class="post-desc">Why anxiety often appears at night and three gentle steps to try.</div>
+        </a>
+      </li>
+      <li>
+        <a href="keeping-your-cool-meltdown.html">
+          <div class="post-title">Keeping Your Cool While Your Kid Melts Down</div>
+          <div class="post-desc">Staying grounded when your child's emotions run high.</div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>

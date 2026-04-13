@@ -1,0 +1,18 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/guide",
+      "destination": "/guide.html"
+    },
+    {
+      "source": "/free-guide/thank-you",
+      "destination": "/free-guide/thank-you.html"
+    },
+    {
+      "source": "/free-guide/download",
+      "destination": "/free-guide/thank-you.html"
+    }
+  ]
+}

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Why Consequences Don't Work When Kids Are Overwhelmed - Dr. Caelan Soma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Why consequences can escalate overwhelm instead of teaching — and how regulation first, then learning, changes what is possible for your child." />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f6f8;
+      --primary: #3b6c94;
+      --primary-soft: #7fa4c1;
+      --brown: #a4744a;
+      --text-main: #29333b;
+      --text-muted: #6b7280;
+      --card-bg: #ffffff;
+      --border-subtle: #dde2e7;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 2rem 0;
+    }
+
+    .article-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .article-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .article-logo {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      margin: 0 auto 1.5rem;
+      display: block;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    .article-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .article-content {
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 1.3rem;
+      padding: 3rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      backdrop-filter: blur(10px);
+    }
+
+    .article-content h2 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .article-content h2:first-child {
+      margin-top: 0;
+    }
+
+    .article-content h3 {
+      font-size: 1.2rem;
+      color: var(--text-main);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .article-content p {
+      margin-bottom: 1.5rem;
+      color: var(--text-main);
+    }
+
+    .article-content ul,
+    .article-content ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+
+    .article-cta-group {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .article-cta-heading {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .article-cta-button {
+      display: inline-block;
+      margin: 0.35rem 0.6rem 0.35rem 0;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(59, 108, 148, 0.25);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .article-cta-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(59, 108, 148, 0.3);
+    }
+
+    .article-cta-button-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary-soft);
+      box-shadow: none;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 500;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 36px rgba(15, 23, 42, 0.2);
+    }
+
+    @media (max-width: 640px) {
+      .article-container {
+        padding: 0 1.3rem;
+      }
+      .article-title {
+        font-size: 1.75rem;
+      }
+      .article-content {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926033047"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17926033047');
+  gtag('config', 'G-R4CEN25RRM');
+</script>
+
+</head>
+<body>
+  <div class="article-container">
+    <header class="article-header">
+      <img src="Logo.svg" alt="Dr. Caelan Soma logo" class="article-logo" />
+      <h1 class="article-title">Why Consequences Don't Work When Kids Are Overwhelmed</h1>
+      <p class="article-subtitle">Dr. Caelan Soma</p>
+    </header>
+
+    <article class="article-content">
+      <p>
+        Your child is yelling. You set a consequence. They escalate.<br>
+        You repeat the consequence. They escalate more.
+      </p>
+
+      <p>
+        At some point, it stops feeling like discipline and starts feeling like a loop you can't get out of. Many parents find themselves here. They are doing exactly what they've been told should work and wondering why it doesn't.
+      </p>
+
+      <h2>The assumption behind consequences</h2>
+
+      <p>
+        Consequences are built on a simple idea: If a child connects their behavior to an outcome, they'll make a different choice next time.
+      </p>
+
+      <p>
+        This works when the thinking brain is online. This is when a child can reflect, consider, and adjust. But in moments of overwhelm, children are not operating from that part of the brain. They are operating from the body.
+      </p>
+
+      <h2>What overwhelm looks like</h2>
+
+      <p>Overwhelm doesn't always look like distress. Sometimes it looks like:</p>
+      <ul>
+        <li>Yelling</li>
+        <li>Arguing</li>
+        <li>Refusing</li>
+        <li>Ignoring</li>
+        <li>Walking away</li>
+      </ul>
+
+      <p>
+        From the outside, these behaviors can look intentional. From the inside, they often reflect a nervous system that has shifted into survival mode. When this happens, the brain prioritizes protection, not learning.
+      </p>
+
+      <h2>Why the strategy breaks down</h2>
+
+      <p>
+        In a regulated state, a consequence might sound like a statement of information: "If you throw the toy, the toy is put away." In a dysregulated state, that same consequence can feel like a threat: "Something is being taken from me while I already feel overwhelmed."
+      </p>
+
+      <p>
+        The child's system becomes more activated. Their behavior becomes more intense. The moment becomes harder to recover.
+      </p>
+
+      <p>
+        It's not that consequences are inherently ineffective — it's that timing matters.
+      </p>
+
+      <h2>Skills require access</h2>
+
+      <p>We often expect children to:</p>
+      <ul>
+        <li>Stop</li>
+        <li>Think</li>
+        <li>Choose differently</li>
+      </ul>
+
+      <p>But those are not automatic abilities. They require access to the parts of the brain responsible for:</p>
+      <ul>
+        <li>Regulation</li>
+        <li>Flexibility</li>
+        <li>Problem-solving</li>
+      </ul>
+
+      <p>
+        When a child is overwhelmed, those systems are not fully available. This is why a child can understand expectations later but not meet them in the moment.
+      </p>
+
+      <h2>Shifting the sequence</h2>
+
+      <p>
+        Instead of: Consequence → Behavior change<br>
+        We shift to: Regulation → Access → Learning
+      </p>
+
+      <p>
+        This doesn't remove accountability. It organizes it in a way that works.
+      </p>
+
+      <h2>What this looks like in practice</h2>
+
+      <h3>In the moment</h3>
+      <ul>
+        <li>Lower the intensity</li>
+        <li>Reduce language</li>
+        <li>Focus on settling the body</li>
+      </ul>
+
+      <p>This might sound like:</p>
+      <ul>
+        <li>"This feels like too much right now."</li>
+        <li>"I'm right here. Let's take a breath together."</li>
+        <li>"We'll figure this out when your body feels calmer."</li>
+      </ul>
+
+      <h3>Later — when the child is regulated</h3>
+      <ul>
+        <li>Revisit the expectation</li>
+        <li>Problem-solve</li>
+        <li>Apply appropriate consequences if needed</li>
+      </ul>
+
+      <p>Now the child can connect the dots.</p>
+
+      <h2>Boundaries still matter</h2>
+
+      <p>
+        This approach is often misunderstood as "letting things go." It's not.
+      </p>
+
+      <p>The boundary still exists:</p>
+      <ul>
+        <li>The toy is still not for throwing</li>
+        <li>The expectation is still clear</li>
+      </ul>
+
+      <p>
+        But we separate holding the limit from teaching the lesson, because those are not the same moment.
+      </p>
+
+      <h2>What changes over time</h2>
+
+      <p>When children experience consistent support in moments of overwhelm, something shifts:</p>
+      <ul>
+        <li>Their recovery becomes faster</li>
+        <li>Their tolerance for frustration increases</li>
+        <li>Their ability to use skills improves</li>
+      </ul>
+
+      <p>
+        Not because they were forced to comply — but because their system learned how to regulate.
+      </p>
+
+      <h2>A different question to ask</h2>
+
+      <p>
+        The next time a consequence doesn't seem to be working, try asking: "Is my child able to use the skills I'm expecting right now?" If the answer is no, the most effective next step isn't more pressure. It's support.
+      </p>
+
+      <p>
+        And from there, everything else becomes more possible.
+      </p>
+
+      <p>
+        Dr. Caelan Soma is a clinical psychologist specializing in trauma-informed care, nervous system regulation, and parent education. She is the creator of the Body First framework and provides resources for families and professionals.
+      </p>
+
+      <div class="article-cta-group">
+        <p class="article-cta-heading">Next steps and resources</p>
+        <a href="/guide" class="article-cta-button">Body First Framework FREE Guide</a>
+        <a href="online-course.html" class="article-cta-button article-cta-button-outline">Explore the course</a>
+        <a href="consultation.html" class="article-cta-button article-cta-button-outline">Learn about consultations</a>
+      </div>
+    </article>
+
+    <a href="index.html#resources" class="back-link">← Back to Resources</a>
+  </div>
+</body>
+</html>
