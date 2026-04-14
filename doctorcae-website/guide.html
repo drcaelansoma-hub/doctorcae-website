@@ -194,7 +194,7 @@
           method="POST"
         >
           <input type="hidden" name="_next" id="thankyou-redirect" value="https://www.doctorcae.com/free-guide/thank-you" />
-          <input type="hidden" name="_subject" value="Free guide — Body First download" />
+          <input type="hidden" name="_subject" value="Free guide - Body First download" />
           <div class="field">
             <label for="first_name">First name</label>
             <input id="first_name" name="first_name" type="text" autocomplete="given-name" required />
@@ -212,8 +212,7 @@
     (function () {
       var nextInput = document.getElementById("thankyou-redirect");
       if (nextInput) {
-        var thankYou = new URL("/free-guide/thank-you", window.location.origin).href.trim();
-        nextInput.value = thankYou;
+        nextInput.value = new URL("/free-guide/thank-you", window.location.origin).href.trim();
       }
       var form = document.getElementById("signup-form");
       var submitBtn = document.getElementById("signup-submit");

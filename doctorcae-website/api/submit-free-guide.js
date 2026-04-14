@@ -98,8 +98,7 @@ module.exports = async (req, res) => {
   const params = new URLSearchParams();
   params.set('first_name', first_name);
   params.set('email', email);
-  params.set('_subject', 'Free guide — Body First download');
-  params.set('_gotcha', '');
+  params.set('_subject', 'Free guide - Body First download');
 
   try {
     const upstream = await fetch(FORMSPREE_URL, {
@@ -111,6 +110,18 @@ module.exports = async (req, res) => {
       body: params.toString(),
     });
 
+    const status = upstream.status;
+    // Formspree often responds with 302/redirect on success. fetch sets ok=false for 3xx,
+    // so we must not rely on upstream.ok — submissions still get stored and you get their email.
+    if (status >= 200 && status < 400) {
+      try {
+        await upstream.text();
+      } catch {
+        /* ignore */
+      }
+      return res.status(200).json({ ok: true });
+    }
+
     let data = {};
     const ct = upstream.headers.get('content-type') || '';
     if (ct.includes('application/json')) {
@@ -119,17 +130,19 @@ module.exports = async (req, res) => {
       } catch {
         data = {};
       }
+    } else {
+      try {
+        await upstream.text();
+      } catch {
+        /* ignore */
+      }
     }
 
-    if (!upstream.ok) {
-      const msg =
-        (typeof data.error === 'string' && data.error) ||
-        (data.errors && data.errors[0] && data.errors[0].message) ||
-        'Something went wrong. Please try again.';
-      return res.status(502).json({ ok: false, error: String(msg) });
-    }
-
-    return res.status(200).json({ ok: true });
+    const msg =
+      (typeof data.error === 'string' && data.error) ||
+      (data.errors && data.errors[0] && data.errors[0].message) ||
+      'Something went wrong. Please try again.';
+    return res.status(502).json({ ok: false, error: String(msg) });
   } catch {
     return res.status(500).json({
       ok: false,
