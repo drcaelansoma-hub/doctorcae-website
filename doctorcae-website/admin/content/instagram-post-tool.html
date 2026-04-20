@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Instagram post (AI)</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <style>
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 0.35rem; }
+    .field input, .field textarea {
+      width: 100%; max-width: 40rem; padding: 0.6rem 0.75rem; font-size: 0.95rem; border: 1px solid var(--admin-border);
+      border-radius: 0.5rem; font-family: inherit; box-sizing: border-box;
+    }
+    .field textarea { min-height: 72px; }
+    .field textarea.tall { min-height: 140px; }
+    .field-hint { font-size: 0.78rem; color: var(--admin-muted); margin-top: 0.25rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1rem; align-items: center; }
+    .btn-primary {
+      padding: 0.65rem 1.25rem; border: none; border-radius: 999px; font-weight: 600; cursor: pointer;
+      background: linear-gradient(135deg, var(--admin-blue), var(--admin-clay)); color: #fff; font-size: 0.95rem;
+    }
+    .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-secondary { padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid var(--admin-border); background: #fff; cursor: pointer; font-family: inherit; font-size: 0.9rem; }
+    .result-card { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--admin-border); }
+    .result-card h2 { font-size: 1.05rem; margin-bottom: 0.75rem; }
+    #msg-err { color: #b42318; font-size: 0.9rem; margin-top: 0.5rem; }
+    #msg-ok { color: #0d5728; font-size: 0.9rem; margin-top: 0.5rem; }
+    .td-clip { max-width: 18rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  </style>
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Instagram post (AI)</h1>
+    <p class="admin-page-lede">
+      <a href="/admin/">← Overview</a>
+      · Topic → OpenAI on the server (<code>OPENAI_API_KEY</code>). Drafts save to Upstash (<code>UPSTASH_REDIS_*</code>).
+    </p>
+    <p id="redis-note" class="admin-note admin-hidden"></p>
+
+    <div class="admin-card">
+      <h2 style="font-size: 1.05rem; margin-bottom: 1rem;">1. Your brief</h2>
+      <div class="field">
+        <label for="topic">Topic <span style="color:#b42318">*</span></label>
+        <input id="topic" type="text" required placeholder="e.g. Why timeouts backfire for a dysregulated child" />
+      </div>
+      <div class="field">
+        <label for="audience">Audience</label>
+        <input id="audience" type="text" placeholder="e.g. Parents of dysregulated children" />
+      </div>
+      <div class="field">
+        <label for="tone">Tone</label>
+        <input id="tone" type="text" placeholder="e.g. Warm, direct, hopeful" />
+      </div>
+      <div class="field">
+        <label for="goal">Goal</label>
+        <input id="goal" type="text" placeholder="e.g. Saves + comments; educate on nervous system" />
+      </div>
+      <div class="field">
+        <label for="notes">Optional notes</label>
+        <textarea id="notes" placeholder="Links to avoid, words to include, campaign context…"></textarea>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn-primary" id="btn-generate">Generate post</button>
+      </div>
+      <p id="msg-err"></p>
+      <p id="msg-ok"></p>
+    </div>
+
+    <div id="result-wrap" class="admin-card result-card admin-hidden">
+      <h2>2. Generated post <span style="font-weight:400;color:var(--admin-muted);font-size:0.85rem;">(editable)</span></h2>
+      <div class="field"><label for="out-hook">Hook</label><textarea id="out-hook" class="tall"></textarea></div>
+      <div class="field"><label for="out-caption">Caption</label><textarea id="out-caption" class="tall"></textarea></div>
+      <div class="field"><label for="out-cta">CTA</label><input id="out-cta" type="text" /></div>
+      <div class="field"><label for="out-hashtags">Hashtags</label><textarea id="out-hashtags" rows="2"></textarea></div>
+      <div class="field"><label for="out-graphic">Graphic text suggestion</label><textarea id="out-graphic" rows="2"></textarea></div>
+      <div class="actions">
+        <button type="button" class="btn-secondary" id="btn-copy">Copy full post</button>
+        <button type="button" class="btn-secondary" id="btn-regenerate">Regenerate</button>
+        <button type="button" class="btn-primary" id="btn-save">Save draft</button>
+      </div>
+    </div>
+
+    <div class="admin-card" style="margin-top: 1.5rem;">
+      <h2 style="font-size: 1.05rem; margin-bottom: 0.75rem;">3. Saved drafts</h2>
+      <p class="field-hint" style="margin-bottom: 0.75rem;">Newest first. Same Redis as Journal when env vars are set.</p>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Created</th><th>Topic</th><th>Status</th></tr>
+          </thead>
+          <tbody id="draft-rows"><tr><td colspan="3">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    function gatherInputs() {
+      return {
+        topic: document.getElementById('topic').value.trim(),
+        audience: document.getElementById('audience').value.trim(),
+        tone: document.getElementById('tone').value.trim(),
+        goal: document.getElementById('goal').value.trim(),
+        notes: document.getElementById('notes').value.trim(),
+      };
+    }
+
+    function gatherOutput() {
+      return {
+        hook: document.getElementById('out-hook').value,
+        caption: document.getElementById('out-caption').value,
+        cta: document.getElementById('out-cta').value,
+        hashtags: document.getElementById('out-hashtags').value,
+        graphicTextSuggestion: document.getElementById('out-graphic').value,
+      };
+    }
+
+    function applyOutput(o) {
+      document.getElementById('out-hook').value = o.hook || '';
+      document.getElementById('out-caption').value = o.caption || '';
+      document.getElementById('out-cta').value = o.cta || '';
+      document.getElementById('out-hashtags').value = o.hashtags || '';
+      document.getElementById('out-graphic').value = o.graphicTextSuggestion || '';
+      document.getElementById('result-wrap').classList.remove('admin-hidden');
+    }
+
+    function fullPostText() {
+      var o = gatherOutput();
+      return [o.hook, '', o.caption, '', o.cta, '', o.hashtags, '', 'On-image text:', o.graphicTextSuggestion].join('\n').trim();
+    }
+
+    function flashOk(t) {
+      var el = document.getElementById('msg-ok');
+      el.textContent = t || '';
+    }
+
+    function flashErr(t) {
+      var el = document.getElementById('msg-err');
+      el.textContent = t || '';
+    }
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function loadDrafts() {
+      return fetch('/api/instagram-bundle?__=drafts', { credentials: 'same-origin' })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (x) {
+          var note = document.getElementById('redis-note');
+          if (x.j && x.j.configured === false) {
+            note.textContent =
+              'Upstash Redis is not configured — drafts cannot be saved until UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN are set in Vercel.';
+            note.classList.remove('admin-hidden');
+          } else {
+            note.classList.add('admin-hidden');
+          }
+          var tb = document.getElementById('draft-rows');
+          if (!x.ok) {
+            tb.innerHTML = '<tr><td colspan="3">' + esc((x.j && x.j.error) || 'Could not load') + '</td></tr>';
+            return;
+          }
+          var list = (x.j && x.j.drafts) || [];
+          if (!list.length) {
+            tb.innerHTML = '<tr><td colspan="3">No saved drafts yet.</td></tr>';
+            return;
+          }
+          tb.innerHTML = list
+            .map(function (d) {
+              var when = (d.createdAt || '').replace('T', ' ').slice(0, 19);
+              return (
+                '<tr><td>' +
+                esc(when) +
+                '</td><td class="td-clip">' +
+                esc(d.topic) +
+                '</td><td>' +
+                esc(d.status || 'draft') +
+                '</td></tr>'
+              );
+            })
+            .join('');
+        })
+        .catch(function () {
+          document.getElementById('draft-rows').innerHTML =
+            '<tr><td colspan="3">Network error.</td></tr>';
+        });
+    }
+
+    function runGenerate() {
+      var ins = gatherInputs();
+      flashErr('');
+      flashOk('');
+      if (!ins.topic) {
+        flashErr('Please enter a topic.');
+        return;
+      }
+      var btn = document.getElementById('btn-generate');
+      btn.disabled = true;
+      var url = '/api/instagram-bundle?__=generate';
+      var fullUrl =
+        typeof window !== 'undefined' && window.location && window.location.origin
+          ? window.location.origin + url
+          : url;
+      console.log('[instagram-post-tool] Generate request start', { url: fullUrl, method: 'POST' });
+      fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(ins),
+      })
+        .then(function (r) {
+          console.log('[instagram-post-tool] Generate response status', r.status, r.statusText, {
+            url: fullUrl,
+          });
+          return r.text().then(function (t) {
+            var j = {};
+            try {
+              j = t ? JSON.parse(t) : {};
+            } catch (e) {
+              console.error('[instagram-post-tool] Generate response not JSON', e && e.message, t.slice(0, 300));
+              j = { error: 'Invalid response', message: (t || '').slice(0, 200) };
+            }
+            return { ok: r.ok, status: r.status, j: j };
+          });
+        })
+        .then(function (x) {
+          if (!x.ok) {
+            var parts = [x.j.error || 'Generate failed', x.j.message, x.j.detail].filter(Boolean);
+            var msg = parts.filter(function (p, i) {
+              return parts.indexOf(p) === i;
+            }).join(' — ');
+            console.error('[instagram-post-tool] Generate failed', { status: x.status, body: x.j });
+            flashErr(msg || 'Generate failed.');
+            return;
+          }
+          applyOutput(x.j);
+          flashOk('Generated. Edit if you like, then copy or save.');
+        })
+        .catch(function (err) {
+          var m = err && err.message ? err.message : String(err);
+          console.error('[instagram-post-tool] Generate fetch error', m, err);
+          flashErr('Network error: ' + m);
+        })
+        .finally(function () {
+          btn.disabled = false;
+        });
+    }
+
+    document.getElementById('btn-generate').addEventListener('click', runGenerate);
+    document.getElementById('btn-regenerate').addEventListener('click', runGenerate);
+
+    document.getElementById('btn-copy').addEventListener('click', function () {
+      var t = fullPostText();
+      if (!t) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(t).then(function () {
+          flashOk('Copied to clipboard.');
+        });
+        return;
+      }
+      var ta = document.createElement('textarea');
+      ta.value = t;
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        flashOk('Copied to clipboard.');
+      } catch (e) {
+        flashErr('Could not copy automatically — select text manually.');
+      }
+      document.body.removeChild(ta);
+    });
+
+    document.getElementById('btn-save').addEventListener('click', function () {
+      flashErr('');
+      flashOk('');
+      var ins = gatherInputs();
+      if (!ins.topic) {
+        flashErr('Topic is required to save.');
+        return;
+      }
+      var out = gatherOutput();
+      if (!out.hook && !out.caption) {
+        flashErr('Generate a post first (or paste content into the fields).');
+        return;
+      }
+      var btn = document.getElementById('btn-save');
+      btn.disabled = true;
+      fetch('/api/instagram-bundle?__=drafts', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          topic: ins.topic,
+          audience: ins.audience,
+          tone: ins.tone,
+          goal: ins.goal,
+          notes: ins.notes,
+          output: out,
+          status: 'draft',
+        }),
+      })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (x) {
+          if (!x.ok) {
+            flashErr((x.j.error || 'Save failed') + (x.j.detail ? ' — ' + x.j.detail : ''));
+            return;
+          }
+          flashOk('Draft saved.');
+          loadDrafts();
+        })
+        .catch(function () {
+          flashErr('Network error while saving.');
+        })
+        .finally(function () {
+          btn.disabled = false;
+        });
+    });
+
+    AdminAuth.init({ active: 'content' }).then(function (ok) {
+      if (!ok) return;
+      loadDrafts();
+    });
+  </script>
+</body>
+</html>

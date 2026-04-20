@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Create social post</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <style>
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 0.35rem; }
+    .field input, .field textarea, .field select {
+      width: 100%; max-width: 42rem; padding: 0.6rem 0.75rem; font-size: 0.95rem; border: 1px solid var(--admin-border);
+      border-radius: 0.5rem; font-family: inherit; box-sizing: border-box;
+    }
+    .field textarea { min-height: 72px; }
+    .field textarea.tall { min-height: 120px; }
+    .field-hint { font-size: 0.78rem; color: var(--admin-muted); margin-top: 0.25rem; }
+    .actions { display: flex; gap: 0.65rem; flex-wrap: wrap; margin-top: 1rem; align-items: center; }
+    .btn-primary {
+      padding: 0.65rem 1.25rem; border: none; border-radius: 999px; font-weight: 600; cursor: pointer;
+      background: linear-gradient(135deg, var(--admin-blue), var(--admin-clay)); color: #fff; font-size: 0.95rem;
+    }
+    .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-secondary { padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid var(--admin-border); background: #fff; cursor: pointer; font-family: inherit; font-size: 0.9rem; }
+    .btn-secondary:hover { background: #f8fafc; }
+    .start-card { max-width: 36rem; padding: 1.5rem; border: 1px dashed var(--admin-border); border-radius: 1rem; text-align: center; background: rgba(59, 108, 148, 0.04); }
+    .out-card { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--admin-border); }
+    .out-card h2 { font-size: 1.05rem; margin-bottom: 0.75rem; }
+    #err { color: #b42318; margin-top: 0.75rem; font-size: 0.9rem; }
+    #ok { color: #0d5728; margin-top: 0.75rem; font-size: 0.9rem; }
+    .saved-wrap { margin-top: 2rem; }
+    .saved-wrap h2 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .hook-preview { font-size: 0.85rem; color: var(--admin-muted); max-width: 20rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .canva-block {
+      margin-top: 1.25rem; padding: 1rem 1.1rem; background: #f8fafc; border: 1px solid var(--admin-border);
+      border-radius: 0.65rem; max-width: 42rem; box-sizing: border-box;
+    }
+    .canva-block h3 { font-size: 0.95rem; margin: 0 0 0.5rem; color: var(--admin-text, #1e293b); }
+    .canva-block textarea.canva-export {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.82rem; line-height: 1.45; white-space: pre; min-height: 220px;
+    }
+  </style>
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Social post generator</h1>
+    <p class="admin-page-lede">
+      <a href="/admin/social/index.html">← Back to Social content</a>
+      · Instagram &amp; Pinterest copy (no direct API posting yet). Requires <code>OPENAI_API_KEY</code> and Supabase table <code>social_posts</code>.
+    </p>
+
+    <div id="startCard" class="admin-card start-card">
+      <p style="margin-bottom: 1rem; color: var(--admin-muted);">Start here — then generate copy and save it to your library.</p>
+      <button type="button" class="btn-primary" id="btnCreateNew">Create new post</button>
+    </div>
+
+    <div id="generatorPanel" class="admin-card admin-hidden" style="margin-top: 1rem;">
+      <h2 style="font-size: 1.1rem; margin-bottom: 1rem;">New post</h2>
+
+      <div class="field">
+        <label for="platform">Platform</label>
+        <select id="platform" name="platform">
+          <option value="instagram">Instagram</option>
+          <option value="pinterest">Pinterest</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="postType">Post type</label>
+        <select id="postType" name="postType">
+          <option value="carousel">Carousel</option>
+          <option value="single_post">Single post</option>
+          <option value="story">Story</option>
+          <option value="pin">Pin</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="topic">Topic</label>
+        <textarea id="topic" name="topic" placeholder="What should this post be about?"></textarea>
+      </div>
+      <div class="field">
+        <label for="audience">Audience</label>
+        <input id="audience" name="audience" type="text" value="Parents of dysregulated children" />
+        <p class="field-hint">Default is set; edit as needed.</p>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" id="btnGenerate">Generate content</button>
+        <button type="button" class="btn-secondary" id="btnCollapse">Hide form</button>
+      </div>
+      <p id="err" class="admin-hidden"></p>
+      <p id="ok" class="admin-hidden"></p>
+
+      <div id="outputSection" class="out-card admin-hidden">
+        <h2>Generated content <span style="font-weight:400;color:var(--admin-muted);font-size:0.85rem;">(editable)</span></h2>
+        <div class="field"><label for="outHook">Hook (first line)</label><textarea id="outHook" class="tall"></textarea></div>
+        <div class="field"><label for="outCaptionShort">Caption — short</label><textarea id="outCaptionShort"></textarea></div>
+        <div class="field"><label for="outCaptionLong">Caption — long</label><textarea id="outCaptionLong" class="tall"></textarea></div>
+        <div class="field"><label for="outCta">CTA</label><input id="outCta" type="text" /></div>
+        <div class="field"><label for="outHashtags">Hashtags</label><textarea id="outHashtags" rows="2"></textarea></div>
+        <div class="field"><label for="outImageIdea">Image idea (Canva prompt)</label><textarea id="outImageIdea" class="tall"></textarea></div>
+
+        <div id="canvaCarouselWrap" class="canva-block admin-hidden">
+          <h3>Canva export — carousel slides</h3>
+          <p class="field-hint" style="margin-bottom: 0.5rem;">
+            One block per slide (headline, body, visual note). Edit here, then copy and paste each block into its own Canva page or text frame — or paste the whole sheet and split manually.
+          </p>
+          <div class="field" style="margin-bottom: 0.5rem;">
+            <label for="outCanvaCarousel">Slide text for Canva</label>
+            <textarea id="outCanvaCarousel" class="canva-export" rows="14" placeholder="Generate an Instagram carousel to fill this…"></textarea>
+          </div>
+          <div class="actions" style="margin-top: 0;">
+            <button type="button" class="btn-secondary" id="btnRebuildCanva">Rebuild from last AI slides</button>
+            <button type="button" class="btn-secondary" id="btnCopyCanva">Copy all for Canva</button>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn-secondary" id="btnCopyCaption">Copy caption</button>
+          <button type="button" class="btn-secondary" id="btnCopyHashtags">Copy hashtags</button>
+          <button type="button" class="btn-secondary" id="btnDownload">Download as .txt</button>
+          <button type="button" class="btn-primary" id="btnSaveDb">Save to database</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-card saved-wrap">
+      <h2>Saved posts (Supabase)</h2>
+      <p class="field-hint" style="margin-bottom: 0.75rem;">Most recent first. Run <code>sql/social_posts.sql</code> if this list fails to load.</p>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr><th>When</th><th>Platform</th><th>Hook preview</th></tr>
+          </thead>
+          <tbody id="savedRows"><tr><td colspan="3">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    var lastMeta = null;
+    var lastCarouselSlides = null;
+
+    function formatCanvaCarouselBlocks(slides) {
+      if (!slides || !slides.length) return '';
+      return slides
+        .map(function (s, i) {
+          var n = i + 1;
+          var headline = String(s.headline || s.title || 'Slide ' + n).trim();
+          var body = String(s.body || s.text || '').trim();
+          var visual = String(s.visualNote || s.visual || '').trim();
+          return [
+            '══════════════════════════════════════',
+            '  SLIDE ' + n + ' — ' + headline,
+            '══════════════════════════════════════',
+            '',
+            body,
+            '',
+            '— Visual / Canva: ' + (visual || '(add your own imagery)'),
+            '',
+          ].join('\n');
+        })
+        .join('\n');
+    }
+
+    function syncCanvaCarouselSection() {
+      var wrap = document.getElementById('canvaCarouselWrap');
+      var platform = document.getElementById('platform').value;
+      var postType = document.getElementById('postType').value;
+      var show = platform === 'instagram' && postType === 'carousel';
+      wrap.classList.toggle('admin-hidden', !show);
+      if (!show) {
+        lastCarouselSlides = null;
+        var ta = document.getElementById('outCanvaCarousel');
+        if (ta) ta.value = '';
+      }
+    }
+
+    function showEl(id, text) {
+      var el = document.getElementById(id);
+      el.textContent = text || '';
+      el.classList.toggle('admin-hidden', !text);
+    }
+
+    function gatherOutputs() {
+      return {
+        hook: document.getElementById('outHook').value,
+        captionShort: document.getElementById('outCaptionShort').value,
+        captionLong: document.getElementById('outCaptionLong').value,
+        cta: document.getElementById('outCta').value,
+        hashtags: document.getElementById('outHashtags').value,
+        imageIdea: document.getElementById('outImageIdea').value,
+        canvaCarouselExport: document.getElementById('outCanvaCarousel').value,
+      };
+    }
+
+    function buildContentForSave() {
+      var o = gatherOutputs();
+      var base = lastMeta || {
+        platform: document.getElementById('platform').value,
+        postType: document.getElementById('postType').value,
+        topic: document.getElementById('topic').value.trim(),
+        audience: document.getElementById('audience').value.trim(),
+      };
+      return {
+        postType: base.postType,
+        topic: base.topic,
+        audience: base.audience,
+        hook: o.hook,
+        captionShort: o.captionShort,
+        captionLong: o.captionLong,
+        cta: o.cta,
+        hashtags: o.hashtags,
+        imageIdea: o.imageIdea,
+        carouselSlides: lastCarouselSlides || [],
+        canvaCarouselExport: o.canvaCarouselExport,
+      };
+    }
+
+    function copyText(t) {
+      if (!t) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(t).then(function () {
+          showEl('ok', 'Copied to clipboard.');
+          setTimeout(function () { showEl('ok', ''); }, 2000);
+        });
+      }
+      var ta = document.createElement('textarea');
+      ta.value = t;
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showEl('ok', 'Copied to clipboard.');
+      } catch (e) {
+        showEl('err', 'Could not copy — select text manually.');
+      }
+      document.body.removeChild(ta);
+    }
+
+    function loadSaved() {
+      return fetch('/api/social-content-posts', { credentials: 'same-origin' })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (x) {
+          var tb = document.getElementById('savedRows');
+          if (!x.ok) {
+            tb.innerHTML = '<tr><td colspan="3">' + esc(x.j.error || 'Could not load') + '</td></tr>';
+            return;
+          }
+          var posts = x.j.posts || [];
+          if (!posts.length) {
+            tb.innerHTML = '<tr><td colspan="3">No saved posts yet.</td></tr>';
+            return;
+          }
+          tb.innerHTML = posts.map(function (p) {
+            var c = p.content || {};
+            var hook = (c.hook || '').slice(0, 80);
+            var when = (p.created_at || '').replace('T', ' ').slice(0, 16);
+            return '<tr><td>' + esc(when) + '</td><td>' + esc(p.platform) + '</td><td><span class="hook-preview">' + esc(hook) + '</span></td></tr>';
+          }).join('');
+        })
+        .catch(function () {
+          document.getElementById('savedRows').innerHTML = '<tr><td colspan="3">Network error loading posts.</td></tr>';
+        });
+    }
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    document.getElementById('btnCreateNew').addEventListener('click', function () {
+      document.getElementById('startCard').classList.add('admin-hidden');
+      document.getElementById('generatorPanel').classList.remove('admin-hidden');
+      syncCanvaCarouselSection();
+      document.getElementById('topic').focus();
+    });
+
+    document.getElementById('platform').addEventListener('change', syncCanvaCarouselSection);
+    document.getElementById('postType').addEventListener('change', syncCanvaCarouselSection);
+
+    document.getElementById('btnRebuildCanva').addEventListener('click', function () {
+      if (!lastCarouselSlides || !lastCarouselSlides.length) {
+        showEl('err', 'Generate an Instagram carousel first so slide data is available.');
+        setTimeout(function () { showEl('err', ''); }, 3500);
+        return;
+      }
+      document.getElementById('outCanvaCarousel').value = formatCanvaCarouselBlocks(lastCarouselSlides);
+      showEl('ok', 'Canva text rebuilt from AI slides.');
+      setTimeout(function () { showEl('ok', ''); }, 2000);
+    });
+
+    document.getElementById('btnCopyCanva').addEventListener('click', function () {
+      copyText(document.getElementById('outCanvaCarousel').value.trim());
+    });
+
+    document.getElementById('btnCollapse').addEventListener('click', function () {
+      document.getElementById('generatorPanel').classList.add('admin-hidden');
+      document.getElementById('startCard').classList.remove('admin-hidden');
+    });
+
+    document.getElementById('btnGenerate').addEventListener('click', function () {
+      var btn = document.getElementById('btnGenerate');
+      showEl('err', '');
+      showEl('ok', '');
+      var platform = document.getElementById('platform').value;
+      var postType = document.getElementById('postType').value;
+      var topic = document.getElementById('topic').value.trim();
+      var audience = document.getElementById('audience').value.trim() || 'Parents of dysregulated children';
+      if (!topic) {
+        showEl('err', 'Please enter a topic.');
+        return;
+      }
+      lastMeta = { platform: platform, postType: postType, topic: topic, audience: audience };
+      btn.disabled = true;
+      fetch('/api/generate-post', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ platform: platform, postType: postType, topic: topic, audience: audience }),
+      })
+        .then(function (r) { return r.text().then(function (t) { return { ok: r.ok, t: t }; }); })
+        .then(function (x) {
+          var j = {};
+          try { j = x.t ? JSON.parse(x.t) : {}; } catch (e) { j = {}; }
+          if (!x.ok) {
+            showEl('err', (j.error || 'Generate failed') + (j.detail ? ' — ' + j.detail : ''));
+            return;
+          }
+          document.getElementById('outHook').value = j.hook || '';
+          document.getElementById('outCaptionShort').value = j.captionShort || '';
+          document.getElementById('outCaptionLong').value = j.captionLong || '';
+          document.getElementById('outCta').value = j.cta || '';
+          document.getElementById('outHashtags').value = j.hashtags || '';
+          document.getElementById('outImageIdea').value = j.imageIdea || '';
+          lastCarouselSlides = Array.isArray(j.carouselSlides) ? j.carouselSlides : [];
+          var canvaEl = document.getElementById('outCanvaCarousel');
+          if (canvaEl) {
+            canvaEl.value =
+              (j.canvaCarouselExport && String(j.canvaCarouselExport).trim()) ||
+              formatCanvaCarouselBlocks(lastCarouselSlides);
+          }
+          syncCanvaCarouselSection();
+          document.getElementById('outputSection').classList.remove('admin-hidden');
+          showEl('ok', 'Content generated. Edit below, then copy or save.');
+        })
+        .catch(function () {
+          showEl('err', 'Network error — try again.');
+        })
+        .finally(function () {
+          btn.disabled = false;
+        });
+    });
+
+    document.getElementById('btnCopyCaption').addEventListener('click', function () {
+      var o = gatherOutputs();
+      var block = [o.captionShort, '', o.captionLong].join('\n').trim();
+      copyText(block || o.captionLong || o.captionShort);
+    });
+
+    document.getElementById('btnCopyHashtags').addEventListener('click', function () {
+      copyText(document.getElementById('outHashtags').value.trim());
+    });
+
+    document.getElementById('btnDownload').addEventListener('click', function () {
+      var o = gatherOutputs();
+      var lines = [
+        'HOOK',
+        o.hook,
+        '',
+        'CAPTION (SHORT)',
+        o.captionShort,
+        '',
+        'CAPTION (LONG)',
+        o.captionLong,
+        '',
+        'CTA',
+        o.cta,
+        '',
+        'HASHTAGS',
+        o.hashtags,
+        '',
+        'IMAGE IDEA (CANVA)',
+        o.imageIdea,
+        '',
+        '--- CANVA CAROUSEL (copy blocks into slides) ---',
+        '',
+        o.canvaCarouselExport || '',
+      ];
+      var blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'social-post-' + (document.getElementById('platform').value || 'post') + '.txt';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      showEl('ok', 'Download started.');
+      setTimeout(function () { showEl('ok', ''); }, 2000);
+    });
+
+    document.getElementById('btnSaveDb').addEventListener('click', function () {
+      showEl('err', '');
+      showEl('ok', '');
+      var platform = document.getElementById('platform').value;
+      var content = buildContentForSave();
+      if (!content.hook && !content.captionLong) {
+        showEl('err', 'Generate or enter some content before saving.');
+        return;
+      }
+      var btn = document.getElementById('btnSaveDb');
+      btn.disabled = true;
+      fetch('/api/social-content-posts', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ platform: platform, content: content }),
+      })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (x) {
+          if (!x.ok) {
+            showEl('err', (x.j.error || 'Save failed') + (x.j.supabaseMessage ? ' — ' + x.j.supabaseMessage : ''));
+            return;
+          }
+          showEl('ok', 'Saved to Supabase.');
+          loadSaved();
+        })
+        .catch(function () {
+          showEl('err', 'Network error saving.');
+        })
+        .finally(function () {
+          btn.disabled = false;
+        });
+    });
+
+    AdminAuth.init({ active: 'social' }).then(function (ok) {
+      if (!ok) return;
+      loadSaved();
+    });
+  </script>
+</body>
+</html>

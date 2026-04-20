@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Overview</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Overview</h1>
+    <p class="admin-page-lede">Choose a section. Form inbox uses Formspree’s API when configured; Analytics uses sample data; Financial uses Stripe when configured; Journal and Social content use Upstash Redis when configured.</p>
+
+    <div class="admin-grid">
+      <a class="admin-nav-card" href="/admin/formspree.html">
+        <div class="icon" aria-hidden="true">📬</div>
+        <h3>Form inbox</h3>
+        <p>View Formspree submissions (free guide signups, etc.) when API credentials are set in Vercel.</p>
+      </a>
+      <a class="admin-nav-card" href="/admin/analytics.html">
+        <div class="icon" aria-hidden="true">📊</div>
+        <h3>Analytics</h3>
+        <p>Users, growth, funnel, and daily metrics — ready to connect to your analytics backend.</p>
+      </a>
+      <a class="admin-nav-card" href="/admin/financial.html">
+        <div class="icon" aria-hidden="true">💳</div>
+        <h3>Financial</h3>
+        <p>Revenue, orders, and recent payments — uses Stripe when <code>STRIPE_SECRET_KEY</code> is set.</p>
+      </a>
+      <a class="admin-nav-card" href="/admin/journal/index.html">
+        <div class="icon" aria-hidden="true">✍️</div>
+        <h3>Journal</h3>
+        <p>Create and edit blog posts (Markdown). Persists when Upstash Redis env vars are configured.</p>
+      </a>
+      <a class="admin-nav-card" href="/admin/social/index.html">
+        <div class="icon" aria-hidden="true">📷</div>
+        <h3>Social content</h3>
+        <p>Products, content drafts, templates, and (soon) settings for Instagram — uses Redis when configured.</p>
+      </a>
+      <a class="admin-nav-card" href="/admin/content/instagram-post-tool.html">
+        <div class="icon" aria-hidden="true">✨</div>
+        <h3>Instagram post (AI)</h3>
+        <p>Generate a post from a topic brief; copy, regenerate, and save drafts to Upstash. OpenAI runs only on the server.</p>
+      </a>
+      <a class="admin-nav-card" href="/admin/redis-storage-test.html">
+        <div class="icon" aria-hidden="true">🧪</div>
+        <h3>Storage smoke test</h3>
+        <p>Save and fetch Journal (Redis), Instagram drafts (Redis), and Pinterest rows (Supabase) in one place.</p>
+      </a>
+    </div>
+  </div>
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    AdminAuth.init({ active: 'overview' }).catch(function () {
+      window.location.replace('/admin/login.html');
+    });
+  </script>
+</body>
+</html>

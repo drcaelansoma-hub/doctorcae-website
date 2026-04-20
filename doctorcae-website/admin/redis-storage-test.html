@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Storage smoke test</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <style>
+    .test-card { margin-bottom: 1.25rem; }
+    .test-card h2 { font-size: 1rem; margin-bottom: 0.5rem; }
+    .test-card .hint { font-size: 0.82rem; color: var(--admin-muted); margin-bottom: 0.65rem; }
+    pre.out {
+      margin-top: 0.65rem;
+      padding: 0.75rem 1rem;
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 0.5rem;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      overflow-x: auto;
+      max-height: 14rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.35rem; }
+    button.run {
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      border: none;
+      background: var(--admin-blue);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    button.run:disabled { opacity: 0.55; cursor: not-allowed; }
+    button.run-all {
+      background: linear-gradient(135deg, var(--admin-blue), var(--admin-clay));
+      padding: 0.55rem 1.25rem;
+      font-size: 0.95rem;
+    }
+    .badge { font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 0.35rem; margin-left: 0.35rem; vertical-align: middle; }
+    .badge-redis { background: rgba(59, 108, 148, 0.15); color: var(--admin-blue); }
+    .badge-sb { background: rgba(120, 80, 160, 0.12); color: #5c4a7a; }
+  </style>
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Storage smoke test</h1>
+    <p class="admin-page-lede">
+      <a href="/admin/">← Overview</a>
+      · One-click checks for Journal (Redis), Instagram-style content drafts (Redis), and Pinterest rows (Supabase — not Redis).
+    </p>
+
+    <div class="admin-card" style="margin-bottom: 1.25rem;">
+      <p style="margin: 0 0 0.75rem; font-size: 0.92rem;">
+        Creates rows tagged <code>[TEST]</code> / <code>[TEST IG]</code> / <code>[TEST PIN]</code> so you can delete them later from the normal admin UIs if you want.
+      </p>
+      <button type="button" class="run run-all" id="btn-run-all">Run all tests</button>
+      <p id="run-all-status" style="margin-top: 0.65rem; font-size: 0.88rem; color: var(--admin-muted);"></p>
+    </div>
+
+    <div class="admin-card test-card">
+      <h2>1. Journal <span class="badge badge-redis">Redis</span></h2>
+      <p class="hint">API: <code>POST/GET /api/journal-posts</code> · Key <code>admin:journal:posts</code></p>
+      <div class="btn-row">
+        <button type="button" class="run" id="btn-journal">Save test entry → fetch all</button>
+      </div>
+      <pre id="out-journal" class="out" aria-live="polite">(not run yet)</pre>
+    </div>
+
+    <div class="admin-card test-card">
+      <h2>2. Instagram content draft <span class="badge badge-redis">Redis</span></h2>
+      <p class="hint">API: <code>POST/GET /api/social-drafts</code> · Key <code>admin:social:drafts</code> · <code>contentType: instagram_post</code></p>
+      <div class="btn-row">
+        <button type="button" class="run" id="btn-ig-draft">Save test draft → fetch all</button>
+      </div>
+      <pre id="out-ig-draft" class="out" aria-live="polite">(not run yet)</pre>
+    </div>
+
+    <div class="admin-card test-card">
+      <h2>3. Pinterest saved post <span class="badge badge-sb">Supabase</span></h2>
+      <p class="hint">API: <code>POST/GET /api/social-content-posts</code> · table <code>social_posts</code> (same as Social post generator). Pinterest is <strong>not</strong> stored in Redis in this codebase.</p>
+      <div class="btn-row">
+        <button type="button" class="run" id="btn-pin">Save test row → fetch Pinterest rows</button>
+      </div>
+      <pre id="out-pin" class="out" aria-live="polite">(not run yet)</pre>
+    </div>
+  </div>
+
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function setPre(id, text) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+
+    function runJournal() {
+      setPre('out-journal', 'Running…');
+      var stamp = Date.now();
+      var payload = {
+        title: '[TEST] Redis probe ' + stamp,
+        bodyMd: 'Smoke test body (Journal).',
+        status: 'draft',
+      };
+      return fetch('/api/journal-posts', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, status: r.status, j: j };
+          });
+        })
+        .then(function (x) {
+          if (!x.ok) {
+            setPre('out-journal', 'POST failed HTTP ' + x.status + '\n' + JSON.stringify(x.j, null, 2));
+            return false;
+          }
+          return fetch('/api/journal-posts', { credentials: 'same-origin' }).then(function (r2) {
+            return r2.json().then(function (j2) {
+              return { post: x.j.post, all: j2 };
+            });
+          });
+        })
+        .then(function (y) {
+          if (!y || y.post === undefined) return;
+          var posts = (y.all && y.all.posts) || [];
+          var testTitles = posts
+            .filter(function (p) {
+              return String(p.title || '').indexOf('[TEST]') === 0;
+            })
+            .map(function (p) {
+              return p.title;
+            });
+          setPre(
+            'out-journal',
+            'POST ok — new id: ' +
+              (y.post && y.post.id) +
+              '\nGET ok — total posts: ' +
+              posts.length +
+              '\nEntries with title starting [TEST]: ' +
+              testTitles.length +
+              '\n' +
+              JSON.stringify({ savedPost: y.post, testTitleMatches: testTitles.slice(0, 8) }, null, 2),
+          );
+          return true;
+        })
+        .catch(function (e) {
+          setPre('out-journal', 'Network error: ' + (e && e.message ? e.message : String(e)));
+          return false;
+        });
+    }
+
+    function runIgDraft() {
+      setPre('out-ig-draft', 'Running…');
+      var stamp = Date.now();
+      var payload = {
+        draftTitle: '[TEST IG] draft ' + stamp,
+        contentType: 'instagram_post',
+        caption: 'Smoke test caption.',
+        status: 'draft',
+      };
+      return fetch('/api/social-drafts', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, status: r.status, j: j };
+          });
+        })
+        .then(function (x) {
+          if (!x.ok) {
+            setPre('out-ig-draft', 'POST failed HTTP ' + x.status + '\n' + JSON.stringify(x.j, null, 2));
+            return false;
+          }
+          return fetch('/api/social-drafts', { credentials: 'same-origin' }).then(function (r2) {
+            return r2.json().then(function (j2) {
+              return { draft: x.j.draft, all: j2 };
+            });
+          });
+        })
+        .then(function (y) {
+          if (!y || !y.all) return;
+          var drafts = y.all.drafts || [];
+          var ig = drafts.filter(function (d) {
+            return (
+              (d.contentType === 'instagram_post' || d.contentType === 'carousel' || d.contentType === 'story') &&
+              String(d.draftTitle || '').indexOf('[TEST IG]') === 0
+            );
+          });
+          setPre(
+            'out-ig-draft',
+            'POST ok — new id: ' +
+              (y.draft && y.draft.id) +
+              '\nGET ok — total drafts in Redis: ' +
+              drafts.length +
+              '\nInstagram-type drafts with title [TEST IG]*: ' +
+              ig.length +
+              '\n' +
+              JSON.stringify(
+                { savedDraft: y.draft, matchingTestDraftTitles: ig.map(function (d) { return d.draftTitle; }).slice(0, 8) },
+                null,
+                2,
+              ),
+          );
+          return true;
+        })
+        .catch(function (e) {
+          setPre('out-ig-draft', 'Network error: ' + (e && e.message ? e.message : String(e)));
+          return false;
+        });
+    }
+
+    function runPinterest() {
+      setPre('out-pin', 'Running…');
+      var stamp = Date.now();
+      var payload = {
+        platform: 'pinterest',
+        content: { source: 'redis-storage-test', label: '[TEST PIN] ' + stamp, note: 'Smoke test row (not Redis).' },
+      };
+      return fetch('/api/social-content-posts', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, status: r.status, j: j };
+          });
+        })
+        .then(function (x) {
+          if (!x.ok) {
+            setPre('out-pin', 'POST failed HTTP ' + x.status + '\n' + JSON.stringify(x.j, null, 2));
+            return false;
+          }
+          return fetch('/api/social-content-posts?limit=50', { credentials: 'same-origin' }).then(function (r2) {
+            return r2.json().then(function (j2) {
+              return { saved: x.j, all: j2 };
+            });
+          });
+        })
+        .then(function (y) {
+          if (!y || !y.all) return;
+          var posts = y.all.posts || [];
+          var pins = posts.filter(function (p) {
+            return String(p.platform || '').toLowerCase() === 'pinterest';
+          });
+          var testPins = pins.filter(function (p) {
+            var c = p.content || {};
+            return JSON.stringify(c).indexOf('[TEST PIN]') !== -1;
+          });
+          setPre(
+            'out-pin',
+            'POST ok — saved id: ' +
+              ((y.saved && y.saved.post && y.saved.post.id) || '(see JSON)') +
+              '\nGET ok — Pinterest rows in last 50: ' +
+              pins.length +
+              '\nRows containing [TEST PIN] in content JSON: ' +
+              testPins.length +
+              '\n' +
+              JSON.stringify(
+                {
+                  savedPost: y.saved && y.saved.post,
+                  pinterestHooksSample: pins.slice(0, 5).map(function (p) {
+                    var c = p.content || {};
+                    return { id: p.id, hook: (c.hook || c.label || '').toString().slice(0, 60) };
+                  }),
+                },
+                null,
+                2,
+              ),
+          );
+          return true;
+        })
+        .catch(function (e) {
+          setPre('out-pin', 'Network error: ' + (e && e.message ? e.message : String(e)));
+          return false;
+        });
+    }
+
+    document.getElementById('btn-journal').addEventListener('click', function () {
+      var b = document.getElementById('btn-journal');
+      b.disabled = true;
+      runJournal().finally(function () {
+        b.disabled = false;
+      });
+    });
+    document.getElementById('btn-ig-draft').addEventListener('click', function () {
+      var b = document.getElementById('btn-ig-draft');
+      b.disabled = true;
+      runIgDraft().finally(function () {
+        b.disabled = false;
+      });
+    });
+    document.getElementById('btn-pin').addEventListener('click', function () {
+      var b = document.getElementById('btn-pin');
+      b.disabled = true;
+      runPinterest().finally(function () {
+        b.disabled = false;
+      });
+    });
+
+    document.getElementById('btn-run-all').addEventListener('click', function () {
+      var btn = document.getElementById('btn-run-all');
+      var st = document.getElementById('run-all-status');
+      btn.disabled = true;
+      st.textContent = 'Running journal…';
+      runJournal()
+        .then(function () {
+          st.textContent = 'Running Instagram Redis draft…';
+          return runIgDraft();
+        })
+        .then(function () {
+          st.textContent = 'Running Pinterest (Supabase)…';
+          return runPinterest();
+        })
+        .then(function () {
+          st.textContent = 'Done. Scroll down for each panel output.';
+        })
+        .catch(function () {
+          st.textContent = 'Stopped — see panels for errors.';
+        })
+        .finally(function () {
+          btn.disabled = false;
+        });
+    });
+
+    AdminAuth.init({ active: 'overview' });
+  </script>
+</body>
+</html>

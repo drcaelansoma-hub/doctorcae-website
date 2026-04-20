@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Journal</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Journal</h1>
+    <p class="admin-page-lede">Draft and publish posts (Markdown). Persists in Upstash Redis when env vars are set.</p>
+
+    <p id="cfg-note" class="admin-note admin-hidden"></p>
+
+    <p style="margin-bottom: 1rem;">
+      <a
+        href="/admin/journal/new.html"
+        style="display: inline-block; padding: 0.5rem 1.25rem; background: var(--admin-blue); color: #fff; text-decoration: none; border-radius: 999px; font-size: 0.9rem; font-weight: 600;"
+        >New post</a
+      >
+    </p>
+
+    <div class="admin-card">
+      <h2>All posts</h2>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Title</th><th>Slug</th><th>Date</th><th>Status</th><th></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="admin-note">
+      <strong>Storage:</strong> Add <code>UPSTASH_REDIS_REST_URL</code> and <code>UPSTASH_REDIS_REST_TOKEN</code> in Vercel (free tier at upstash.com), then redeploy.
+      <strong>Images:</strong> Use a hosted image URL for the featured image and paste image URLs in Markdown (<code>![](https://…)</code>) until you add a file upload pipeline.
+    </p>
+  </div>
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    function row(p) {
+      return (
+        '<tr><td>' +
+        esc(p.title) +
+        '</td><td><code>' +
+        esc(p.slug) +
+        '</code></td><td>' +
+        esc(p.publishedAt || '') +
+        '</td><td>' +
+        esc(p.status || '') +
+        '</td><td><a href="/admin/journal/edit.html?id=' +
+        encodeURIComponent(p.id) +
+        '">Edit</a> · <button type="button" class="btn-ghost del" data-id="' +
+        encodeURIComponent(p.id) +
+        '">Delete</button></td></tr>'
+      );
+    }
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/"/g, '&quot;');
+    }
+    function load() {
+      return fetch('/api/journal-posts', { credentials: 'same-origin' }).then(function (r) {
+        return r.json();
+      });
+    }
+    function render(data) {
+      var note = document.getElementById('cfg-note');
+      if (!data.configured) {
+        note.textContent =
+          'Redis is not configured — API will return 503 when creating posts. Add Upstash env vars to enable saving.';
+        note.classList.remove('admin-hidden');
+      } else {
+        note.classList.add('admin-hidden');
+      }
+      var posts = data.posts || [];
+      posts.sort(function (a, b) {
+        return String(b.updatedAt || '').localeCompare(String(a.updatedAt || ''));
+      });
+      document.getElementById('rows').innerHTML = posts.length
+        ? posts.map(row).join('')
+        : '<tr><td colspan="5">No posts yet.</td></tr>';
+    }
+    document.getElementById('rows').addEventListener('click', function (e) {
+      var btn = e.target.closest('.del');
+      if (!btn) return;
+      var id = btn.getAttribute('data-id');
+      if (!confirm('Delete this post?')) return;
+      fetch('/api/journal-posts?id=' + encodeURIComponent(id), { method: 'DELETE', credentials: 'same-origin' })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (x) {
+          if (!x.ok) alert((x.j && x.j.error) || 'Delete failed');
+          return load();
+        })
+        .then(render);
+    });
+    AdminAuth.init({ active: 'journal' }).then(function (ok) {
+      if (!ok) return;
+      load().then(render).catch(function () {
+        document.getElementById('rows').innerHTML =
+          '<tr><td colspan="5">Could not load posts.</td></tr>';
+      });
+    });
+  </script>
+</body>
+</html>

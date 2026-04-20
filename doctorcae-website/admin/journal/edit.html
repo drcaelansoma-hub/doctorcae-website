@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Edit journal post</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <style>
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 0.35rem; }
+    .field input, .field textarea, .field select {
+      width: 100%; max-width: 40rem; padding: 0.6rem 0.75rem; font-size: 0.95rem; border: 1px solid var(--admin-border);
+      border-radius: 0.5rem; font-family: inherit; box-sizing: border-box;
+    }
+    .field textarea { min-height: 220px; font-family: ui-monospace, monospace; font-size: 0.88rem; }
+    .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+    .btn-primary {
+      padding: 0.65rem 1.25rem; border: none; border-radius: 999px; font-weight: 600; cursor: pointer;
+      background: linear-gradient(135deg, var(--admin-blue), var(--admin-clay)); color: #fff; font-size: 0.95rem;
+    }
+    .btn-danger { padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid #b42318; background: #fff; color: #b42318; cursor: pointer; font-family: inherit; }
+    .btn-secondary { padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid var(--admin-border); background: #fff; cursor: pointer; font-family: inherit; }
+  </style>
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Edit post</h1>
+    <p class="admin-page-lede"><a href="/admin/journal/index.html">← Back to list</a></p>
+
+    <form id="f" class="admin-card admin-hidden">
+      <input type="hidden" id="postId" />
+      <div class="field"><label for="title">Title</label><input id="title" name="title" type="text" required /></div>
+      <div class="field"><label for="slug">Slug</label><input id="slug" name="slug" type="text" /></div>
+      <div class="field"><label for="excerpt">Description / excerpt</label><textarea id="excerpt" name="excerpt" rows="3"></textarea></div>
+      <div class="field"><label for="author">Author</label><input id="author" name="author" type="text" /></div>
+      <div class="field"><label for="publishedAt">Publish date</label><input id="publishedAt" name="publishedAt" type="date" /></div>
+      <div class="field"><label for="featuredImageUrl">Featured image URL</label><input id="featuredImageUrl" name="featuredImageUrl" type="url" /></div>
+      <div class="field"><label for="tags">Tags (comma-separated)</label><input id="tags" name="tags" type="text" /></div>
+      <div class="field"><label for="status">Status</label>
+        <select id="status" name="status"><option value="draft">Draft</option><option value="published">Published</option></select>
+      </div>
+      <div class="field"><label for="bodyMd">Body (Markdown)</label><textarea id="bodyMd" name="bodyMd"></textarea></div>
+      <p id="err" class="admin-note admin-hidden" style="color: #b42318;"></p>
+      <div class="actions">
+        <button type="submit" class="btn-primary" id="save">Save changes</button>
+        <button type="button" class="btn-danger" id="del">Delete</button>
+        <a href="/admin/journal/index.html" class="btn-secondary" style="display:inline-block;text-decoration:none;line-height:1.2;">Cancel</a>
+      </div>
+    </form>
+    <p id="load-err" class="admin-note" style="color: #b42318;"></p>
+  </div>
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+    if (!id) window.location.replace('/admin/journal/index.html');
+
+    function fill(p) {
+      document.getElementById('postId').value = p.id;
+      document.getElementById('title').value = p.title || '';
+      document.getElementById('slug').value = p.slug || '';
+      document.getElementById('excerpt').value = p.excerpt || '';
+      document.getElementById('author').value = p.author || '';
+      document.getElementById('publishedAt').value = (p.publishedAt || '').slice(0, 10);
+      document.getElementById('featuredImageUrl').value = p.featuredImageUrl || '';
+      document.getElementById('tags').value = (p.tags || []).join(', ');
+      document.getElementById('status').value = p.status === 'published' ? 'published' : 'draft';
+      document.getElementById('bodyMd').value = p.bodyMd || '';
+      document.getElementById('f').classList.remove('admin-hidden');
+      document.getElementById('load-err').classList.add('admin-hidden');
+    }
+
+    document.getElementById('f').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var err = document.getElementById('err');
+      err.classList.add('admin-hidden');
+      var payload = {
+        id: document.getElementById('postId').value,
+        title: document.getElementById('title').value,
+        slug: document.getElementById('slug').value,
+        excerpt: document.getElementById('excerpt').value,
+        author: document.getElementById('author').value,
+        publishedAt: document.getElementById('publishedAt').value,
+        featuredImageUrl: document.getElementById('featuredImageUrl').value,
+        tags: document.getElementById('tags').value,
+        bodyMd: document.getElementById('bodyMd').value,
+        status: document.getElementById('status').value,
+      };
+      document.getElementById('save').disabled = true;
+      fetch('/api/journal-posts', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (x) {
+          if (x.ok) {
+            window.location.href = '/admin/journal/index.html';
+            return;
+          }
+          err.textContent = (x.j && x.j.error) || 'Save failed';
+          err.classList.remove('admin-hidden');
+        })
+        .finally(function () {
+          document.getElementById('save').disabled = false;
+        });
+    });
+
+    document.getElementById('del').addEventListener('click', function () {
+      if (!confirm('Delete this post permanently?')) return;
+      fetch('/api/journal-posts?id=' + encodeURIComponent(id), { method: 'DELETE', credentials: 'same-origin' }).then(function () {
+        window.location.href = '/admin/journal/index.html';
+      });
+    });
+
+    AdminAuth.init({ active: 'journal' }).then(function (ok) {
+      if (!ok) return;
+      fetch('/api/journal-posts?id=' + encodeURIComponent(id), { credentials: 'same-origin' })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          if (!data.post) throw new Error('Not found');
+          fill(data.post);
+        })
+        .catch(function () {
+          document.getElementById('load-err').textContent = 'Could not load this post.';
+        });
+    });
+  </script>
+</body>
+</html>

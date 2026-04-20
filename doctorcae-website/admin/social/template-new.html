@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — New template</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <style>
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 0.35rem; }
+    .field input, .field textarea, .field select {
+      width: 100%; max-width: 40rem; padding: 0.6rem 0.75rem; font-size: 0.95rem; border: 1px solid var(--admin-border);
+      border-radius: 0.5rem; font-family: inherit; box-sizing: border-box;
+    }
+    .field textarea { min-height: 72px; }
+    .field textarea.caption-field { min-height: 140px; }
+    .field-hint { font-size: 0.78rem; color: var(--admin-muted); margin-top: 0.25rem; }
+    .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+    .btn-primary {
+      padding: 0.65rem 1.25rem; border: none; border-radius: 999px; font-weight: 600; cursor: pointer;
+      background: linear-gradient(135deg, var(--admin-blue), var(--admin-clay)); color: #fff; font-size: 0.95rem;
+    }
+    .btn-secondary { padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid var(--admin-border); background: #fff; cursor: pointer; font-family: inherit; text-decoration: none; color: inherit; display: inline-block; line-height: 1.2; }
+    code.ph { font-size: 0.8rem; background: rgba(59, 108, 148, 0.08); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  </style>
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">New template</h1>
+    <p class="admin-page-lede"><a href="/admin/social/index.html#templates">← Back to Social content</a></p>
+
+    <form id="f" class="admin-card">
+      <div class="field"><label for="title">Template name</label><input id="title" name="title" type="text" required placeholder="e.g. Summer promo — single image" /></div>
+      <div class="field"><label for="templateType">Template type</label>
+        <select id="templateType" name="templateType">
+          <option value="instagram_post">Instagram post</option>
+          <option value="instagram_carousel">Instagram carousel</option>
+          <option value="instagram_story">Instagram story</option>
+          <option value="product_promotion">Product promotion</option>
+          <option value="educational_promotion">Educational promotion</option>
+          <option value="testimonial_promotion">Testimonial promotion</option>
+        </select>
+      </div>
+      <p class="admin-note" style="margin-bottom: 1rem;">
+        Use placeholders in any field (replaced when you apply this template to a draft with a linked product):
+        <code class="ph">{{product_title}}</code>
+        <code class="ph">{{product_description}}</code>
+        <code class="ph">{{price}}</code>
+        <code class="ph">{{cta}}</code>
+        <code class="ph">{{product_url}}</code>
+      </p>
+      <div class="field"><label for="headline">Headline</label><input id="headline" name="headline" type="text" /></div>
+      <div class="field"><label for="subheadline">Subheadline</label><input id="subheadline" name="subheadline" type="text" /></div>
+      <div class="field"><label for="caption">Caption</label><textarea id="caption" name="caption" class="caption-field" placeholder="Main caption with {{placeholders}}"></textarea></div>
+      <div class="field"><label for="callToAction">Call to action</label><input id="callToAction" name="callToAction" type="text" placeholder="e.g. {{cta}}" /></div>
+      <div class="field"><label for="hashtags">Hashtags</label><input id="hashtags" name="hashtags" type="text" placeholder="#example {{price}}" />
+        <p class="field-hint">Hashtags are text only; you can still use placeholders.</p>
+      </div>
+      <p id="err" class="admin-note admin-hidden" style="color: #b42318;"></p>
+      <div class="actions">
+        <button type="submit" class="btn-primary" id="save">Save template</button>
+        <a href="/admin/social/index.html#templates" class="btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    document.getElementById('f').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var err = document.getElementById('err');
+      err.classList.add('admin-hidden');
+      var payload = {
+        title: document.getElementById('title').value,
+        templateType: document.getElementById('templateType').value,
+        headline: document.getElementById('headline').value,
+        subheadline: document.getElementById('subheadline').value,
+        caption: document.getElementById('caption').value,
+        callToAction: document.getElementById('callToAction').value,
+        hashtags: document.getElementById('hashtags').value,
+      };
+      document.getElementById('save').disabled = true;
+      fetch('/api/social-templates', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (x) {
+          if (x.ok && x.j.template) {
+            window.location.href = '/admin/social/template-edit.html?id=' + encodeURIComponent(x.j.template.id);
+            return;
+          }
+          err.textContent = (x.j && x.j.error) || 'Save failed';
+          err.classList.remove('admin-hidden');
+        })
+        .finally(function () {
+          document.getElementById('save').disabled = false;
+        });
+    });
+    AdminAuth.init({ active: 'social' });
+  </script>
+</body>
+</html>

@@ -3,157 +3,262 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Free guide — Body-based parenting support</title>
-  <meta name="description" content="A simple, body-based approach to help your child calm, connect, and cooperate." />
+  <title>Free guide — When nothing you&rsquo;re doing is working</title>
+  <meta name="description" content="Learn what&rsquo;s happening in your child&rsquo;s nervous system—and what to do in the moment to help them calm, listen, and cooperate." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    * {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
     :root {
-      --bg: #f4f6f8;
-      --text: #2c3540;
-      --text-muted: #5c6673;
-      --accent: #3b6c94;
-      --accent-hover: #2d5678;
-      --border: #dde3ea;
+      --bg: #f7f9fb;
+      --surface: #ffffff;
+      --text: #1e2939;
+      --text-muted: #5c6b7a;
+      --eyebrow: #6b7785;
+      --accent: #5b8aab;
+      --accent-hover: #4a7390;
+      --accent-shadow: rgba(91, 138, 171, 0.28);
+      --border: #e2e8f0;
+      --bullet: #4a6d84;
     }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
+      line-height: 1.55;
       min-height: 100vh;
+      padding: clamp(1.5rem, 5vw, 2.75rem) clamp(1.25rem, 4vw, 1.5rem);
+    }
+
+    .page {
+      max-width: 37.5rem;
+      margin: 0 auto;
+    }
+
+    .stack {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: clamp(1.5rem, 5vw, 3rem);
+      gap: clamp(1.5rem, 4vw, 2rem);
     }
 
-    .wrap {
-      width: 100%;
-      max-width: 36rem;
+    .eyebrow {
+      font-size: clamp(0.9rem, 2.4vw, 0.95rem);
+      font-weight: 500;
+      color: var(--eyebrow);
+      line-height: 1.45;
       text-align: center;
-    }
-
-    .card {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 1rem;
-      padding: clamp(2rem, 6vw, 3rem) clamp(1.5rem, 5vw, 2.5rem);
-      box-shadow: 0 12px 40px rgba(44, 53, 64, 0.06);
     }
 
     h1 {
-      font-size: clamp(1.35rem, 4.2vw, 1.65rem);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      line-height: 1.35;
-      margin-bottom: 1.25rem;
+      font-size: clamp(1.45rem, 5vw, 1.85rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.22;
       color: var(--text);
-    }
-
-    .sub {
-      font-size: clamp(1rem, 2.8vw, 1.125rem);
-      color: var(--text-muted);
-      line-height: 1.55;
-      margin-bottom: 2rem;
-    }
-
-    .fine {
-      margin-top: 1rem;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-
-    .signup {
-      margin-top: 2.25rem;
-      padding-top: 2.25rem;
-      border-top: 1px solid rgba(221, 227, 234, 0.9);
       text-align: center;
+      max-width: 22em;
+      margin: 0 auto;
     }
 
-    .signup h2 {
-      font-size: clamp(1.05rem, 3vw, 1.2rem);
+    .subhead {
+      font-size: clamp(1rem, 2.8vw, 1.125rem);
+      font-weight: 400;
+      color: var(--text-muted);
+      line-height: 1.6;
+      text-align: center;
+      max-width: 32rem;
+      margin: 0 auto;
+    }
+
+    .form-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: clamp(1.35rem, 4vw, 1.75rem) clamp(1.25rem, 4vw, 1.75rem);
+      box-shadow: 0 1px 3px rgba(30, 41, 57, 0.04);
+    }
+
+    .form-intro {
+      font-size: clamp(1rem, 2.6vw, 1.0625rem);
       font-weight: 600;
       color: var(--text);
-      margin-bottom: 0.75rem;
-      letter-spacing: -0.02em;
-    }
-
-    .signup .signup-lede {
-      font-size: clamp(0.9rem, 2.5vw, 1rem);
-      color: var(--text-muted);
-      line-height: 1.55;
-      margin-bottom: 1.5rem;
-      max-width: 26rem;
-      margin-left: auto;
-      margin-right: auto;
+      text-align: center;
+      margin-bottom: 1.25rem;
     }
 
     .signup-form {
+      width: 100%;
       max-width: 22rem;
       margin: 0 auto;
-      text-align: left;
     }
 
     .field {
-      margin-bottom: 1rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .field:last-of-type {
+      margin-bottom: 1.25rem;
     }
 
     .field label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.8125rem;
       font-weight: 600;
       color: var(--text-muted);
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.01em;
     }
 
     .field input {
       width: 100%;
-      padding: 0.75rem 1rem;
+      padding: 0.85rem 1rem;
       font-size: 1rem;
+      font-family: inherit;
       border: 1px solid var(--border);
       border-radius: 0.65rem;
       background: #fafbfc;
       color: var(--text);
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
     }
 
     .field input:focus {
       outline: none;
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(59, 108, 148, 0.15);
+      box-shadow: 0 0 0 3px rgba(91, 138, 171, 0.18);
       background: #fff;
     }
 
     .signup-form button[type="submit"] {
       width: 100%;
-      margin-top: 0.25rem;
-      padding: 1rem 1.5rem;
+      padding: 0.95rem 1.35rem;
+      min-height: 3.15rem;
       background: var(--accent);
       color: #fff;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 1.0625rem;
+      font-family: inherit;
       border: none;
       border-radius: 999px;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(59, 108, 148, 0.25);
-      transition: background 0.2s ease, transform 0.15s ease;
+      box-shadow: 0 4px 16px var(--accent-shadow);
+      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
     }
 
     .signup-form button[type="submit"]:hover:not(:disabled) {
       background: var(--accent-hover);
       transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(91, 138, 171, 0.32);
+    }
+
+    .signup-form button[type="submit"]:active:not(:disabled) {
+      transform: translateY(0);
     }
 
     .signup-form button[type="submit"]:disabled {
-      opacity: 0.7;
+      opacity: 0.65;
       cursor: not-allowed;
+      transform: none;
+    }
+
+    .benefits {
+      list-style: none;
+      max-width: 28rem;
+      margin: 1.35rem auto 0;
+      padding: 1.15rem 0 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .benefits li {
+      display: flex;
+      gap: 0.55rem;
+      align-items: flex-start;
+      font-size: clamp(0.95rem, 2.5vw, 1.02rem);
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 0.75rem;
+    }
+
+    .benefits li:last-child {
+      margin-bottom: 0;
+    }
+
+    .benefits .mark {
+      flex-shrink: 0;
+      color: var(--bullet);
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .trust {
+      font-size: clamp(0.8125rem, 2.2vw, 0.875rem);
+      color: var(--text-muted);
+      line-height: 1.55;
+      text-align: center;
+      max-width: 32rem;
+      margin: 0 auto;
+      padding-top: 0.25rem;
+    }
+
+    .signup-status {
+      display: none;
+      margin-top: 1.15rem;
+      padding: 0.95rem 1rem;
+      border-radius: 0.65rem;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .signup-status.is-visible {
+      display: block;
+    }
+
+    .signup-status--success {
+      background: rgba(91, 138, 171, 0.1);
+      border: 1px solid rgba(91, 138, 171, 0.22);
+      color: var(--text);
+    }
+
+    .signup-status--error {
+      background: rgba(180, 60, 60, 0.06);
+      border: 1px solid rgba(180, 60, 60, 0.2);
+      color: #5c2a2a;
+    }
+
+    .signup-status--warning {
+      background: rgba(180, 140, 40, 0.08);
+      border: 1px solid rgba(180, 140, 40, 0.25);
+      color: var(--text);
+    }
+
+    .signup-status a {
+      color: var(--accent-hover);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 0.15em;
+    }
+
+    .signup-form.is-hidden {
+      display: none;
+    }
+
+    .form-intro.is-hidden {
+      display: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .signup-form button[type="submit"]:hover:not(:disabled) {
+        transform: none;
+      }
     }
 
     .visually-hidden {
@@ -167,60 +272,154 @@
       white-space: nowrap;
       border: 0;
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      .signup-form button[type="submit"]:hover:not(:disabled) {
-        transform: none;
-      }
-    }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <div class="card">
-      <h1>Parenting big emotions is exhausting. This guide helps you understand what&rsquo;s really happening&mdash;and what to do instead.</h1>
-      <p class="sub">A simple, body-based approach to help your child calm, connect, and cooperate.</p>
-      <p class="fine" style="margin-bottom: 1.75rem;">
-        Add your name and email below. Right after you submit, you&rsquo;ll land on a short thank-you page with the PDF download. I also send occasional practical tools to your inbox.
+  <main class="page">
+    <div class="stack">
+      <p class="eyebrow">If your child&rsquo;s big emotions feel out of control&hellip;</p>
+
+      <h1>When nothing you&rsquo;re doing is working&mdash;and your child&rsquo;s emotions keep escalating</h1>
+
+      <p class="subhead">
+        Learn what&rsquo;s actually happening in your child&rsquo;s nervous system&mdash;and what to do in the moment to help them calm, listen, and cooperate.
       </p>
 
-      <section class="signup" aria-labelledby="signup-heading" style="margin-top: 0; padding-top: 0; border-top: none;">
-        <h2 id="signup-heading" class="visually-hidden">Get the free guide</h2>
+      <section class="form-block" aria-labelledby="signup-heading">
+        <h2 id="signup-heading" class="visually-hidden">Get instant access to the free guide</h2>
+        <p class="form-intro" id="form-intro">Get instant access to the free guide:</p>
 
-        <form
-          id="signup-form"
-          class="signup-form"
-          action="https://formspree.io/f/xjgpvoag"
-          method="POST"
-        >
-          <input type="hidden" name="_next" id="thankyou-redirect" value="https://www.doctorcae.com/free-guide/thank-you" />
-          <input type="hidden" name="_subject" value="Free guide - Body First download" />
+        <form id="signup-form" class="signup-form" action="/api/submit-free-guide" method="POST" novalidate>
           <div class="field">
-            <label for="first_name">First name</label>
+            <label for="first_name">First Name</label>
             <input id="first_name" name="first_name" type="text" autocomplete="given-name" required />
           </div>
           <div class="field">
             <label for="email">Email</label>
             <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required />
           </div>
-          <button type="submit" id="signup-submit">Get the free guide</button>
+          <button type="submit" id="signup-submit">Send me the guide</button>
         </form>
+
+        <ul class="benefits" aria-label="What you&rsquo;ll learn">
+          <li><span class="mark" aria-hidden="true">✔</span><span>What to do during meltdowns (that actually helps)</span></li>
+          <li><span class="mark" aria-hidden="true">✔</span><span>Why consequences often make things worse</span></li>
+          <li><span class="mark" aria-hidden="true">✔</span><span>How to catch stress before it turns into a blow-up</span></li>
+        </ul>
+
+        <div id="signup-status" class="signup-status signup-status--success" role="status" aria-live="polite"></div>
       </section>
+
+      <p class="trust">
+        Created by a child psychologist with 25+ years of experience helping families feel calmer, more connected, and more confident.
+      </p>
     </div>
   </main>
+
   <script>
     (function () {
-      var nextInput = document.getElementById("thankyou-redirect");
-      if (nextInput) {
-        nextInput.value = new URL("/free-guide/thank-you", window.location.origin).href.trim();
-      }
       var form = document.getElementById("signup-form");
       var submitBtn = document.getElementById("signup-submit");
-      if (form && submitBtn) {
-        form.addEventListener("submit", function () {
-          submitBtn.disabled = true;
-        });
+      var statusEl = document.getElementById("signup-status");
+      var formIntro = document.getElementById("form-intro");
+      if (!form || !submitBtn || !statusEl) return;
+
+      var thankYouUrl = new URL("/free-guide/thank-you", window.location.origin).href.trim();
+
+      function showStatus(kind, html) {
+        statusEl.className = "signup-status signup-status--" + kind + " is-visible";
+        statusEl.innerHTML = html;
       }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var first_name = (document.getElementById("first_name") || {}).value;
+        var email = (document.getElementById("email") || {}).value;
+        first_name = String(first_name || "").trim();
+        email = String(email || "").trim();
+        if (!first_name || !email) return;
+
+        submitBtn.disabled = true;
+        statusEl.className = "signup-status";
+        statusEl.innerHTML = "";
+        statusEl.classList.remove("is-visible");
+
+        fetch("/api/submit-free-guide", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ first_name: first_name, email: email }),
+        })
+          .then(function (r) {
+            return r.text().then(function (text) {
+              var data = {};
+              try {
+                data = text ? JSON.parse(text) : {};
+              } catch (parseErr) {
+                data = {
+                  ok: false,
+                  error:
+                    "Server returned a non-JSON response (status " +
+                    r.status +
+                    "). Check that /api/submit-free-guide is deployed.",
+                };
+              }
+              return { ok: r.ok, status: r.status, data: data };
+            });
+          })
+          .then(function (result) {
+            if (result.data && result.data.showThankYouAnyway) {
+              showStatus(
+                "warning",
+                "We couldn&rsquo;t save your signup yet. You can still <a href=\"" +
+                  thankYouUrl +
+                  "\">open your guide</a> or try again in a moment."
+              );
+              return;
+            }
+            if (result.ok && result.data && result.data.ok) {
+              form.classList.add("is-hidden");
+              if (formIntro) formIntro.classList.add("is-hidden");
+              var d = result.data;
+              if (d.alreadyDelivered) {
+                showStatus(
+                  "success",
+                  "You&rsquo;re already on the list. <a href=\"" + thankYouUrl + "\">Get your guide</a>."
+                );
+                return;
+              }
+              if (d.emailSent) {
+                showStatus(
+                  "success",
+                  "You&rsquo;re in. <a href=\"" + thankYouUrl + "\">Continue to your guide</a>."
+                );
+                return;
+              }
+              showStatus(
+                "warning",
+                "You&rsquo;re signed up. <a href=\"" + thankYouUrl + "\">Get your guide here</a>."
+              );
+              return;
+            }
+            var msg =
+              (result.data && result.data.error) ||
+              "Something went wrong. Please try again.";
+            if (result.data && result.data.supabaseCode) {
+              msg +=
+                " Technical detail: " +
+                String(result.data.supabaseCode) +
+                (result.data.supabaseMessage ? " — " + String(result.data.supabaseMessage) : "") +
+                (result.data.supabaseDetails ? " (" + String(result.data.supabaseDetails) + ")" : "") +
+                ".";
+            }
+            showStatus("error", String(msg));
+          })
+          .catch(function () {
+            showStatus("error", "Something went wrong. Please check your connection and try again.");
+          })
+          .finally(function () {
+            submitBtn.disabled = false;
+          });
+      });
     })();
   </script>
 </body>

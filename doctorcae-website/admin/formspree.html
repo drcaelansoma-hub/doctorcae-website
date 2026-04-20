@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Form inbox</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Form inbox (Formspree)</h1>
+    <p class="admin-page-lede">Guide signups and other Formspree fields. Data loads through your server so the API key stays in Vercel.</p>
+
+    <p id="msg" class="admin-note"></p>
+
+    <div class="admin-card" id="form-discovery">
+      <h2>Find the correct <code>FORMSPREE_FORM_HASH</code></h2>
+      <p style="font-size: 0.9rem; color: var(--admin-muted); margin: 0 0 0.75rem;">
+        “Form not found” means the hash in Vercel doesn’t match any form for this API key. Click below to list forms Formspree returns for <code>FORMSPREE_API_KEY</code> — copy the <strong>hashid</strong> into Vercel and redeploy.
+      </p>
+      <p style="margin-bottom: 0.75rem;">
+        <button
+          type="button"
+          id="btn-list-forms"
+          style="padding: 0.5rem 1.25rem; background: var(--admin-blue); color: #fff; border: none; border-radius: 999px; font-size: 0.9rem; font-weight: 600; cursor: pointer; font-family: inherit;"
+        >
+          Load my forms (from Formspree API)
+        </button>
+      </p>
+      <div id="form-discovery-result"></div>
+    </div>
+
+    <div class="admin-card admin-hidden" id="table-wrap">
+      <h2>Recent submissions</h2>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="tbl">
+          <thead id="thead"></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/"/g, '&quot;');
+    }
+    function cell(v) {
+      if (v != null && typeof v === 'object') return esc(JSON.stringify(v));
+      return esc(v);
+    }
+    AdminAuth.init({ active: 'forms' })
+      .then(function (ok) {
+        if (!ok) return null;
+        return fetch('/api/admin-bundle?__=formspree-submissions&limit=50', { credentials: 'same-origin' }).then(function (r) {
+          return r.json();
+        });
+      })
+      .then(function (data) {
+      if (!data) return;
+      var msg = document.getElementById('msg');
+      if (!data || data.configured === false) {
+        msg.innerHTML =
+          '<strong>Not connected yet.</strong> On Formspree <strong>Professional</strong> (or higher), create an API key, then in Vercel set ' +
+          '<code>FORMSPREE_API_KEY</code> and <code>FORMSPREE_FORM_HASH</code> (your form id, e.g. <code>xjgpvoag</code> from <code>https://formspree.io/f/…</code>). ' +
+          (data && data.message ? esc(data.message) : '') +
+          ' <a href="https://help.formspree.io/hc/en-us/articles/360015233153-Form-Submissions-API" target="_blank" rel="noopener">Formspree Submissions API</a>.';
+        return;
+      }
+      if (data.error) {
+        var errText = data.error + (data.details ? ' — ' + JSON.stringify(data.details) : '');
+        msg.style.color = '#b42318';
+        if (/form not found/i.test(String(data.error))) {
+          msg.innerHTML =
+            '<strong>' +
+            esc(data.error) +
+            '</strong><br /><br />Checklist: (1) Vercel env name is exactly <code>FORMSPREE_FORM_HASH</code> (not <code>FORMSPREE_FORM_ASH</code>). (2) Value is only the id from <code>https://formspree.io/f/&lt;id&gt;</code> — for your guide form that is usually <code>xjgpvoag</code>. (3) No spaces or quotes. (4) API key is from the <strong>same</strong> Formspree account as the form. (5) Plan includes <a href="https://help.formspree.io/hc/en-us/articles/360015233153-Form-Submissions-API" target="_blank" rel="noopener">Submissions API</a> (Professional+). (6) Redeploy after changing env vars.<br /><br />Raw: ' +
+            esc(errText);
+        } else {
+          msg.textContent = errText;
+        }
+        return;
+      }
+      msg.classList.add('admin-hidden');
+      var fields = (data.fields || []).filter(function (f) {
+        return f !== '_status';
+      });
+      if (!fields.length && data.submissions && data.submissions.length) {
+        fields = Object.keys(data.submissions[0]).filter(function (k) {
+          return k !== '_status';
+        });
+      }
+      document.getElementById('thead').innerHTML =
+        '<tr>' + fields.map(function (f) { return '<th>' + esc(f) + '</th>'; }).join('') + '</tr>';
+      document.getElementById('tbody').innerHTML = (data.submissions || [])
+        .map(function (row) {
+          return (
+            '<tr>' +
+            fields
+              .map(function (f) {
+                return '<td>' + cell(row[f]) + '</td>';
+              })
+              .join('') +
+            '</tr>'
+          );
+        })
+        .join('');
+      document.getElementById('table-wrap').classList.remove('admin-hidden');
+      })
+      .catch(function () {
+        document.getElementById('msg').textContent = 'Could not load submissions.';
+      });
+
+    function formHashFromRow(f) {
+      if (!f || typeof f !== 'object') return '';
+      return (
+        f.hashid ||
+        f.hashId ||
+        f.form_hash ||
+        f.formHash ||
+        f.id ||
+        f.form_id ||
+        ''
+      );
+    }
+    function formNameFromRow(f) {
+      if (!f || typeof f !== 'object') return '';
+      return f.name || f.title || f.label || '';
+    }
+
+    document.getElementById('btn-list-forms').addEventListener('click', function () {
+      var out = document.getElementById('form-discovery-result');
+      out.innerHTML = '<p style="color:var(--admin-muted);">Loading…</p>';
+      fetch('/api/admin-bundle?__=formspree-forms', { credentials: 'same-origin' })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          if (!data.configured && data.message) {
+            out.innerHTML = '<p style="color:#b42318;">' + esc(data.message) + '</p>';
+            return;
+          }
+          if (data.error) {
+            out.innerHTML =
+              '<p style="color:#b42318;">' +
+              esc(data.error) +
+              (data.details ? ' — ' + esc(JSON.stringify(data.details)) : '') +
+              '</p>';
+            return;
+          }
+          var forms = data.forms || [];
+          if (!forms.length) {
+            out.innerHTML =
+              '<p class="admin-note">No forms in the response. Your key may lack access, or the account has no forms. Raw response shape — contact support with this:</p><pre style="font-size:0.75rem;overflow:auto;">' +
+              esc(JSON.stringify(data, null, 2)) +
+              '</pre>';
+            return;
+          }
+          var rows = forms
+            .map(function (f) {
+              var h = formHashFromRow(f);
+              var n = formNameFromRow(f);
+              return (
+                '<tr><td><code style="font-size:0.85rem;">' +
+                esc(h || '(see JSON below)') +
+                '</code></td><td>' +
+                esc(n) +
+                '</td></tr>'
+              );
+            })
+            .join('');
+          out.innerHTML =
+            '<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Hashid for Vercel</th><th>Name</th></tr></thead><tbody>' +
+            rows +
+            '</tbody></table></div>' +
+            '<p class="admin-note" style="margin-top:0.75rem;">If a row shows “see JSON below,” expand the technical dump and look for an 8-character id, or match the form URL <code>https://formspree.io/f/…</code>.</p>' +
+            '<details style="margin-top:0.5rem;"><summary style="cursor:pointer;font-size:0.85rem;color:var(--admin-muted);">Technical: full JSON</summary><pre style="font-size:0.72rem;overflow:auto;max-height:16rem;">' +
+            esc(JSON.stringify(forms, null, 2)) +
+            '</pre></details>';
+        })
+        .catch(function () {
+          out.innerHTML = '<p style="color:#b42318;">Request failed. Is the latest deploy live?</p>';
+        });
+    });
+  </script>
+</body>
+</html>

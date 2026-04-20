@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Financial</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Financial</h1>
+    <p class="admin-page-lede">Revenue and recent Checkout sessions. Data is live when <code>STRIPE_SECRET_KEY</code> is set in Vercel; otherwise you will see zeros and a note.</p>
+
+    <div class="admin-pill-group" id="period-pills" role="tablist" aria-label="Time range">
+      <button type="button" class="admin-pill is-active" data-period="all">All time</button>
+      <button type="button" class="admin-pill" data-period="today">Today</button>
+      <button type="button" class="admin-pill" data-period="week">This week</button>
+      <button type="button" class="admin-pill" data-period="month">This month</button>
+      <button type="button" class="admin-pill" data-period="year">This year</button>
+    </div>
+
+    <div class="admin-metrics">
+      <div class="admin-metric"><div class="label">Total revenue</div><div class="value" id="s-rev">—</div></div>
+      <div class="admin-metric"><div class="label">Units sold</div><div class="value" id="s-units">—</div></div>
+      <div class="admin-metric"><div class="label">Avg order value</div><div class="value" id="s-aov">—</div></div>
+      <div class="admin-metric"><div class="label">Success rate</div><div class="value" id="s-rate">—</div></div>
+    </div>
+
+    <div class="admin-card">
+      <h2>Recent payments</h2>
+      <p id="stripe-msg" class="admin-page-lede" style="margin-top: -0.25rem;"></p>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Date</th><th>Amount</th><th>Status</th><th>Email</th><th>Description</th></tr></thead>
+          <tbody id="pay-rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    var currentPeriod = 'all';
+    function money(n) {
+      if (n == null || isNaN(n)) return '—';
+      return '$' + Number(n).toFixed(2);
+    }
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/"/g, '&quot;');
+    }
+    function load() {
+      return fetch('/api/admin-bundle?__=financial&period=' + encodeURIComponent(currentPeriod), {
+        credentials: 'same-origin',
+      }).then(function (r) {
+        return r.json();
+      });
+    }
+    function render(data) {
+      document.getElementById('s-rev').textContent = money(data.summary && data.summary.totalRevenue);
+      document.getElementById('s-units').textContent =
+        data.summary && data.summary.unitsSold != null ? String(data.summary.unitsSold) : '—';
+      document.getElementById('s-aov').textContent = money(data.summary && data.summary.averageOrderValue);
+      var rate = data.summary && data.summary.successRate;
+      document.getElementById('s-rate').textContent =
+        rate == null ? '—' : rate + '%';
+      var msg = document.getElementById('stripe-msg');
+      msg.textContent = data.mock
+        ? 'Stripe key not set — showing empty state. Add STRIPE_SECRET_KEY to see Checkout sessions.'
+        : 'Showing up to 100 recent Checkout sessions from Stripe (filtered by period).';
+      var tbody = document.getElementById('pay-rows');
+      var rows = (data.payments || []).slice(0, 50);
+      tbody.innerHTML = rows.length
+        ? rows
+            .map(function (p) {
+              return (
+                '<tr><td>' +
+                esc(p.date && p.date.slice(0, 19).replace('T', ' ')) +
+                '</td><td>' +
+                money(p.amount) +
+                ' ' +
+                esc((p.currency || '').toUpperCase()) +
+                '</td><td>' +
+                esc(p.status || '') +
+                '</td><td>' +
+                esc(p.email || '—') +
+                '</td><td>' +
+                esc(p.description || '') +
+                '</td></tr>'
+              );
+            })
+            .join('')
+        : '<tr><td colspan="5">No rows in this range.</td></tr>';
+    }
+    function refresh() {
+      load().then(render).catch(function () {
+        document.getElementById('pay-rows').innerHTML =
+          '<tr><td colspan="5">Could not load financial data.</td></tr>';
+      });
+    }
+    document.getElementById('period-pills').addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-period]');
+      if (!btn) return;
+      currentPeriod = btn.getAttribute('data-period');
+      Array.prototype.forEach.call(document.querySelectorAll('#period-pills .admin-pill'), function (b) {
+        b.classList.toggle('is-active', b === btn);
+      });
+      refresh();
+    });
+    AdminAuth.init({ active: 'financial' }).then(function (ok) {
+      if (ok) refresh();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Sign in</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <style>
+    .login-center {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 22rem;
+      background: var(--admin-card);
+      border: 1px solid var(--admin-border);
+      border-radius: var(--admin-radius);
+      padding: 2rem;
+      box-shadow: 0 12px 40px rgba(41, 51, 59, 0.06);
+    }
+    .login-card h1 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.02em;
+    }
+    .login-card .lede {
+      font-size: 0.9rem;
+      color: var(--admin-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .login-card label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--admin-muted);
+      margin-bottom: 0.35rem;
+    }
+    .login-card input[type="password"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid rgba(41, 51, 59, 0.15);
+      border-radius: 0.65rem;
+      margin-bottom: 1rem;
+      box-sizing: border-box;
+    }
+    .login-card input:focus {
+      outline: none;
+      border-color: var(--admin-blue);
+      box-shadow: 0 0 0 3px rgba(59, 108, 148, 0.15);
+    }
+    .login-card button[type="submit"] {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, var(--admin-blue), var(--admin-clay));
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .login-card button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+    .login-card .err {
+      font-size: 0.85rem;
+      color: #b42318;
+      margin-bottom: 0.75rem;
+      display: none;
+    }
+    .login-card .err.show {
+      display: block;
+    }
+  </style>
+</head>
+<body class="admin-body">
+  <div class="login-center">
+    <main class="login-card">
+      <h1>Admin</h1>
+      <p class="lede">Sign in to your private admin area. This URL is not linked on the public site.</p>
+      <p id="err" class="err" role="alert"></p>
+      <form id="form" autocomplete="current-password">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+        <button type="submit" id="btn">Sign in</button>
+      </form>
+    </main>
+  </div>
+  <script>
+    fetch('/api/admin-session', { method: 'GET', credentials: 'same-origin' }).then(function (r) {
+      if (r.ok) window.location.replace('/admin/');
+    });
+  </script>
+  <script>
+    (function () {
+      var form = document.getElementById('form');
+      var btn = document.getElementById('btn');
+      var err = document.getElementById('err');
+      function showErr(msg) {
+        err.textContent = msg || '';
+        err.classList.toggle('show', !!msg);
+      }
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        showErr('');
+        var password = document.getElementById('password').value;
+        btn.disabled = true;
+        fetch('/api/admin-login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ password: password }),
+        })
+          .then(function (r) {
+            return r.json().then(function (j) {
+              return { ok: r.ok, j: j };
+            });
+          })
+          .then(function (x) {
+            if (x.ok) {
+              window.location.href = '/admin/';
+              return;
+            }
+            showErr((x.j && x.j.error) || 'Could not sign in.');
+          })
+          .catch(function () {
+            showErr('Network error. Try again.');
+          })
+          .then(function () {
+            btn.disabled = false;
+          });
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Social content</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <style>
+    .social-tab-panel.admin-hidden { display: none !important; }
+    .product-thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 0.35rem; background: var(--admin-border); vertical-align: middle; }
+    .product-thumb-ph { display: inline-flex; width: 44px; height: 44px; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--admin-muted); background: rgba(59, 108, 148, 0.08); border-radius: 0.35rem; }
+    .td-clip { max-width: 14rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .draft-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; margin-bottom: 1rem; }
+    .draft-toolbar label { font-size: 0.8rem; font-weight: 600; color: var(--admin-muted); }
+    .draft-toolbar select { padding: 0.45rem 0.75rem; font-size: 0.9rem; border: 1px solid var(--admin-border); border-radius: 0.5rem; font-family: inherit; background: #fff; }
+  </style>
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Social content</h1>
+    <p class="admin-page-lede">
+      Plan Instagram and social posts: products, drafts, templates, and settings. Data saves to the same Redis database as Journal when configured.
+    </p>
+    <p style="margin-bottom: 1.25rem;">
+      <a
+        href="/admin/social/post-generator.html"
+        style="display: inline-block; padding: 0.55rem 1.35rem; background: linear-gradient(135deg, var(--admin-blue), var(--admin-clay)); color: #fff; text-decoration: none; border-radius: 999px; font-size: 0.95rem; font-weight: 600;"
+        >Create new post (AI)</a
+      >
+      <span style="display: inline-block; margin-left: 0.75rem; font-size: 0.85rem; color: var(--admin-muted); max-width: 22rem; vertical-align: middle;"
+        >Instagram / Pinterest copy helper — saves to Supabase when you click save.</span
+      >
+    </p>
+
+    <p id="cfg-note" class="admin-note admin-hidden"></p>
+
+    <div class="admin-pill-group" role="tablist" aria-label="Social content sections">
+      <button type="button" class="admin-pill is-active" role="tab" id="tab-products" aria-selected="true" data-tab="products">Products</button>
+      <button type="button" class="admin-pill" role="tab" id="tab-drafts" aria-selected="false" data-tab="drafts">Content drafts</button>
+      <button type="button" class="admin-pill" role="tab" id="tab-templates" aria-selected="false" data-tab="templates">Templates</button>
+      <button type="button" class="admin-pill" role="tab" id="tab-settings" aria-selected="false" data-tab="settings">Settings</button>
+    </div>
+
+    <!-- Products (step 1 — full CRUD) -->
+    <section id="panel-products" class="admin-card social-tab-panel" role="tabpanel" aria-labelledby="tab-products">
+      <h2>Products</h2>
+      <p style="font-size: 0.88rem; color: var(--admin-muted); margin: 0 0 1rem;">
+        Add offers you promote on social: title, category, price, link, and image (URL or upload). Status <strong>Draft</strong> or <strong>Active</strong>.
+      </p>
+      <p style="margin-bottom: 1rem;">
+        <a
+          href="/admin/social/product-new.html"
+          style="display: inline-block; padding: 0.5rem 1.25rem; background: var(--admin-blue); color: #fff; text-decoration: none; border-radius: 999px; font-size: 0.9rem; font-weight: 600;"
+          >Add product</a
+        >
+      </p>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="product-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="panel-drafts" class="admin-card social-tab-panel admin-hidden" role="tabpanel" aria-labelledby="tab-drafts" hidden>
+      <h2>Content drafts</h2>
+      <p style="font-size: 0.88rem; color: var(--admin-muted); margin: 0 0 1rem;">
+        Plan Instagram copy: headline, caption, hashtags, linked product, and image. Status <strong>Draft</strong>, <strong>Ready</strong>, or <strong>Archived</strong>.
+      </p>
+      <div class="draft-toolbar">
+        <a
+          href="/admin/social/post-generator.html"
+          style="display: inline-block; padding: 0.5rem 1.25rem; background: linear-gradient(135deg, #5c4a7a, var(--admin-blue)); color: #fff; text-decoration: none; border-radius: 999px; font-size: 0.9rem; font-weight: 600;"
+          >Create new post (AI)</a
+        >
+        <a
+          href="/admin/social/draft-new.html"
+          style="display: inline-block; padding: 0.5rem 1.25rem; background: var(--admin-blue); color: #fff; text-decoration: none; border-radius: 999px; font-size: 0.9rem; font-weight: 600;"
+          >New draft</a
+        >
+        <div>
+          <label for="draft-status-filter">Show status</label>
+          <select id="draft-status-filter" aria-label="Filter drafts by status">
+            <option value="">All statuses</option>
+            <option value="draft">Draft</option>
+            <option value="ready">Ready</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Draft title</th>
+              <th>Linked product</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Updated</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="draft-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="panel-templates" class="admin-card social-tab-panel admin-hidden" role="tabpanel" aria-labelledby="tab-templates" hidden>
+      <h2>Templates</h2>
+      <p style="font-size: 0.88rem; color: var(--admin-muted); margin: 0 0 1rem;">
+        Reusable copy with placeholders (<code>{{product_title}}</code>, <code>{{price}}</code>, etc.). Apply a template when editing a <a href="#drafts" id="templates-link-drafts">content draft</a>.
+      </p>
+      <p style="margin-bottom: 1rem;">
+        <a
+          href="/admin/social/template-new.html"
+          style="display: inline-block; padding: 0.5rem 1.25rem; background: var(--admin-blue); color: #fff; text-decoration: none; border-radius: 999px; font-size: 0.9rem; font-weight: 600;"
+          >New template</a
+        >
+      </p>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Updated</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="template-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="panel-settings" class="admin-card social-tab-panel admin-hidden" role="tabpanel" aria-labelledby="tab-settings" hidden>
+      <h2>Settings</h2>
+      <p style="color: var(--admin-muted); margin: 0;">Coming in a future step — defaults and integrations.</p>
+    </section>
+
+    <p class="admin-note">
+      <strong>Storage:</strong> Same as Journal — <code>UPSTASH_REDIS_REST_URL</code> and <code>UPSTASH_REDIS_REST_TOKEN</code> in Vercel.
+      <strong>Images:</strong> Paste a public image URL, or upload a small image (large files may be rejected; use a CDN URL for big assets).
+    </p>
+  </div>
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    var TAB_IDS = ['products', 'drafts', 'templates', 'settings'];
+    var PRODUCTS = [];
+    var ALL_DRAFTS = [];
+    var ALL_TEMPLATES = [];
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function imgCell(p) {
+      var src = (p.imageUrl || '').trim() || (p.imageDataUrl || '').trim();
+      if (src) return '<img class="product-thumb" src="' + esc(src) + '" alt="" />';
+      return '<span class="product-thumb-ph">No img</span>';
+    }
+
+    function productTitleById(pid) {
+      if (!pid) return '—';
+      for (var i = 0; i < PRODUCTS.length; i++) {
+        if (PRODUCTS[i].id === pid) return PRODUCTS[i].title || pid;
+      }
+      return '(missing product)';
+    }
+
+    function typeLabel(ct) {
+      if (ct === 'carousel') return 'Carousel';
+      if (ct === 'story') return 'Story';
+      return 'Instagram post';
+    }
+
+    function statusLabelDraft(st) {
+      if (st === 'ready') return 'Ready';
+      if (st === 'archived') return 'Archived';
+      return 'Draft';
+    }
+
+    function draftRow(d) {
+      var linked = productTitleById(d.linkedProductId);
+      var linkedCell =
+        d.linkedProductId && linked === '(missing product)'
+          ? '<span style="color:#b42318;">' + esc(linked) + '</span>'
+          : esc(linked);
+      return (
+        '<tr><td>' +
+        imgCell(d) +
+        '</td><td class="td-clip">' +
+        esc(d.draftTitle) +
+        '</td><td class="td-clip">' +
+        linkedCell +
+        '</td><td>' +
+        esc(typeLabel(d.contentType)) +
+        '</td><td>' +
+        esc(statusLabelDraft(d.status)) +
+        '</td><td>' +
+        esc((d.updatedAt || '').slice(0, 10)) +
+        '</td><td><a href="/admin/social/draft-edit.html?id=' +
+        encodeURIComponent(d.id) +
+        '">Edit</a> · <button type="button" class="btn-ghost draft-del" data-id="' +
+        encodeURIComponent(d.id) +
+        '">Delete</button></td></tr>'
+      );
+    }
+
+    function row(p) {
+      return (
+        '<tr><td>' +
+        imgCell(p) +
+        '</td><td class="td-clip">' +
+        esc(p.title) +
+        '</td><td>' +
+        esc(p.category) +
+        '</td><td>' +
+        esc(p.price) +
+        '</td><td>' +
+        esc(p.status === 'active' ? 'Active' : 'Draft') +
+        '</td><td><a href="/admin/social/product-edit.html?id=' +
+        encodeURIComponent(p.id) +
+        '">Edit</a> · <button type="button" class="btn-ghost del" data-id="' +
+        encodeURIComponent(p.id) +
+        '">Delete</button></td></tr>'
+      );
+    }
+
+    function loadProductsOnly() {
+      return fetch('/api/social-products', { credentials: 'same-origin' }).then(function (r) {
+        return r.json();
+      });
+    }
+
+    function loadDraftsOnly() {
+      return fetch('/api/social-drafts', { credentials: 'same-origin' }).then(function (r) {
+        return r.json();
+      });
+    }
+
+    function loadTemplatesOnly() {
+      return fetch('/api/social-templates', { credentials: 'same-origin' }).then(function (r) {
+        return r.json();
+      });
+    }
+
+    function loadAll() {
+      return Promise.all([loadProductsOnly(), loadDraftsOnly(), loadTemplatesOnly()]).then(function (results) {
+        var prodData = results[0];
+        var draftData = results[1];
+        var tplData = results[2];
+        PRODUCTS = prodData.products || [];
+        ALL_DRAFTS = draftData.drafts || [];
+        ALL_TEMPLATES = tplData.templates || [];
+        return { prodData: prodData, draftData: draftData, tplData: tplData };
+      });
+    }
+
+    function templateTypeLabel(tt) {
+      var m = {
+        instagram_post: 'Instagram post',
+        instagram_carousel: 'Instagram carousel',
+        instagram_story: 'Instagram story',
+        product_promotion: 'Product promotion',
+        educational_promotion: 'Educational promotion',
+        testimonial_promotion: 'Testimonial promotion',
+      };
+      return m[tt] || tt;
+    }
+
+    function templateRow(t) {
+      return (
+        '<tr><td class="td-clip">' +
+        esc(t.title) +
+        '</td><td>' +
+        esc(templateTypeLabel(t.templateType)) +
+        '</td><td>' +
+        esc((t.updatedAt || '').slice(0, 10)) +
+        '</td><td><a href="/admin/social/template-edit.html?id=' +
+        encodeURIComponent(t.id) +
+        '">Edit</a> · <button type="button" class="btn-ghost tpl-del" data-id="' +
+        encodeURIComponent(t.id) +
+        '">Delete</button></td></tr>'
+      );
+    }
+
+    function renderCfgNote(configured) {
+      var note = document.getElementById('cfg-note');
+      if (!configured) {
+        note.textContent =
+          'Redis is not configured — social data cannot be saved until Upstash env vars are set (same as Journal).';
+        note.classList.remove('admin-hidden');
+      } else {
+        note.classList.add('admin-hidden');
+      }
+    }
+
+    function renderProducts(data) {
+      renderCfgNote(data.configured);
+      var list = data.products || [];
+      list.sort(function (a, b) {
+        return String(b.updatedAt || '').localeCompare(String(a.updatedAt || ''));
+      });
+      document.getElementById('product-rows').innerHTML = list.length
+        ? list.map(row).join('')
+        : '<tr><td colspan="6">No products yet. Click <strong>Add product</strong>.</td></tr>';
+    }
+
+    function renderDraftTable() {
+      var filterVal = document.getElementById('draft-status-filter').value;
+      var list = ALL_DRAFTS.filter(function (d) {
+        if (!filterVal) return true;
+        return d.status === filterVal;
+      });
+      list.sort(function (a, b) {
+        return String(b.updatedAt || '').localeCompare(String(a.updatedAt || ''));
+      });
+      document.getElementById('draft-rows').innerHTML = list.length
+        ? list.map(draftRow).join('')
+        : ALL_DRAFTS.length && filterVal
+          ? '<tr><td colspan="7">No drafts with this status. Try “All statuses” or add a new draft.</td></tr>'
+          : '<tr><td colspan="7">No drafts yet. Click <strong>New draft</strong>.</td></tr>';
+    }
+
+    function renderDrafts(draftData) {
+      renderCfgNote(draftData.configured);
+      renderDraftTable();
+    }
+
+    function renderTemplates(tplData) {
+      renderCfgNote(tplData.configured);
+      var list = ALL_TEMPLATES.slice();
+      list.sort(function (a, b) {
+        return String(b.updatedAt || '').localeCompare(String(a.updatedAt || ''));
+      });
+      document.getElementById('template-rows').innerHTML = list.length
+        ? list.map(templateRow).join('')
+        : '<tr><td colspan="4">No templates yet. Click <strong>New template</strong>.</td></tr>';
+    }
+
+    function setTab(name) {
+      if (TAB_IDS.indexOf(name) === -1) name = 'products';
+      TAB_IDS.forEach(function (id) {
+        var panel = document.getElementById('panel-' + id);
+        var tab = document.querySelector('[data-tab="' + id + '"]');
+        var on = id === name;
+        if (panel) {
+          panel.classList.toggle('admin-hidden', !on);
+          panel.hidden = !on;
+        }
+        if (tab) {
+          tab.classList.toggle('is-active', on);
+          tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        }
+      });
+      if (history.replaceState) {
+        history.replaceState(null, '', name === 'products' ? '#products' : '#' + name);
+      }
+    }
+
+    document.querySelector('.admin-pill-group').addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      setTab(btn.getAttribute('data-tab'));
+    });
+
+    document.getElementById('draft-status-filter').addEventListener('change', renderDraftTable);
+
+    document.getElementById('product-rows').addEventListener('click', function (e) {
+      var delBtn = e.target.closest('.del');
+      if (!delBtn) return;
+      var pid = delBtn.getAttribute('data-id');
+      if (!confirm('Delete this product?')) return;
+      fetch('/api/social-products?id=' + encodeURIComponent(pid), { method: 'DELETE', credentials: 'same-origin' })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (x) {
+          if (!x.ok) alert((x.j && x.j.error) || 'Delete failed');
+          return loadAll();
+        })
+        .then(function (bundle) {
+          renderProducts(bundle.prodData);
+          renderDrafts(bundle.draftData);
+          renderTemplates(bundle.tplData);
+        });
+    });
+
+    document.getElementById('template-rows').addEventListener('click', function (e) {
+      var delBtn = e.target.closest('.tpl-del');
+      if (!delBtn) return;
+      var tid = delBtn.getAttribute('data-id');
+      if (!confirm('Delete this template?')) return;
+      fetch('/api/social-templates?id=' + encodeURIComponent(tid), { method: 'DELETE', credentials: 'same-origin' })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (x) {
+          if (!x.ok) alert((x.j && x.j.error) || 'Delete failed');
+          return loadAll();
+        })
+        .then(function (bundle) {
+          renderProducts(bundle.prodData);
+          renderDrafts(bundle.draftData);
+          renderTemplates(bundle.tplData);
+        });
+    });
+
+    document.getElementById('draft-rows').addEventListener('click', function (e) {
+      var delBtn = e.target.closest('.draft-del');
+      if (!delBtn) return;
+      var did = delBtn.getAttribute('data-id');
+      if (!confirm('Delete this draft?')) return;
+      fetch('/api/social-drafts?id=' + encodeURIComponent(did), { method: 'DELETE', credentials: 'same-origin' })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (x) {
+          if (!x.ok) alert((x.j && x.j.error) || 'Delete failed');
+          return loadAll();
+        })
+        .then(function (bundle) {
+          renderProducts(bundle.prodData);
+          renderDrafts(bundle.draftData);
+          renderTemplates(bundle.tplData);
+        });
+    });
+
+    document.getElementById('templates-link-drafts').addEventListener('click', function (e) {
+      e.preventDefault();
+      setTab('drafts');
+    });
+
+    AdminAuth.init({ active: 'social' }).then(function (ok) {
+      if (!ok) return;
+      var h = (location.hash || '#products').replace(/^#/, '') || 'products';
+      setTab(h);
+      loadAll()
+        .then(function (bundle) {
+          renderProducts(bundle.prodData);
+          renderDrafts(bundle.draftData);
+          renderTemplates(bundle.tplData);
+        })
+        .catch(function () {
+          document.getElementById('product-rows').innerHTML =
+            '<tr><td colspan="6">Could not load products.</td></tr>';
+          document.getElementById('draft-rows').innerHTML =
+            '<tr><td colspan="7">Could not load drafts.</td></tr>';
+          document.getElementById('template-rows').innerHTML =
+            '<tr><td colspan="4">Could not load templates.</td></tr>';
+        });
+    });
+  </script>
+</body>
+</html>

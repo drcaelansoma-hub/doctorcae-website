@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Edit content draft</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <style>
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 0.35rem; }
+    .field input, .field textarea, .field select {
+      width: 100%; max-width: 40rem; padding: 0.6rem 0.75rem; font-size: 0.95rem; border: 1px solid var(--admin-border);
+      border-radius: 0.5rem; font-family: inherit; box-sizing: border-box;
+    }
+    .field textarea { min-height: 88px; }
+    .field textarea.caption-field { min-height: 160px; }
+    .field-hint { font-size: 0.78rem; color: var(--admin-muted); margin-top: 0.25rem; }
+    .img-preview { max-width: 200px; max-height: 200px; border-radius: 0.5rem; border: 1px solid var(--admin-border); margin-top: 0.5rem; }
+    .img-preview.admin-hidden { display: none; }
+    .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+    .btn-primary {
+      padding: 0.65rem 1.25rem; border: none; border-radius: 999px; font-weight: 600; cursor: pointer;
+      background: linear-gradient(135deg, var(--admin-blue), var(--admin-clay)); color: #fff; font-size: 0.95rem;
+    }
+    .btn-danger { padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid #b42318; background: #fff; color: #b42318; cursor: pointer; font-family: inherit; }
+    .btn-secondary { padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid var(--admin-border); background: #fff; cursor: pointer; font-family: inherit; text-decoration: none; color: inherit; display: inline-block; line-height: 1.2; }
+  </style>
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Edit content draft</h1>
+    <p class="admin-page-lede"><a href="/admin/social/index.html#drafts">← Back to list</a></p>
+
+    <form id="f" class="admin-card admin-hidden">
+      <input type="hidden" id="draftRowId" />
+      <div class="field"><label for="draftTitle">Draft title</label><input id="draftTitle" name="draftTitle" type="text" required /></div>
+      <div class="field"><label for="linkedProductId">Linked product</label>
+        <select id="linkedProductId" name="linkedProductId"><option value="">— None —</option></select>
+        <p class="field-hint">Select a product to replace <code>{{placeholders}}</code> when applying a template.</p>
+      </div>
+
+      <div class="field apply-box" style="padding: 1rem 1.1rem; background: rgba(59, 108, 148, 0.06); border: 1px solid var(--admin-border); border-radius: 0.65rem; max-width: 42rem; box-sizing: border-box;">
+        <label for="applyTemplateId">Apply a template</label>
+        <select id="applyTemplateId" style="max-width: 24rem; margin-bottom: 0.5rem; display: block;">
+          <option value="">— Choose template —</option>
+        </select>
+        <p class="field-hint">Overwrites headline, subheadline, caption, CTA, and hashtags. Adjust content type if needed after applying.</p>
+        <button type="button" id="applyTemplateBtn" style="padding: 0.5rem 1rem; border-radius: 999px; border: 1px solid var(--admin-border); background: #fff; cursor: pointer; font-family: inherit; font-size: 0.9rem;">
+          Apply template to fields below
+        </button>
+      </div>
+
+      <div class="field"><label for="contentType">Content type</label>
+        <select id="contentType" name="contentType">
+          <option value="instagram_post">Instagram post</option>
+          <option value="carousel">Carousel</option>
+          <option value="story">Story</option>
+        </select>
+      </div>
+      <div class="field"><label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="draft">Draft</option>
+          <option value="ready">Ready</option>
+          <option value="archived">Archived</option>
+        </select>
+      </div>
+      <div class="field"><label for="headline">Headline</label><input id="headline" name="headline" type="text" /></div>
+      <div class="field"><label for="subheadline">Subheadline</label><input id="subheadline" name="subheadline" type="text" /></div>
+      <div class="field"><label for="caption">Caption</label><textarea id="caption" name="caption" class="caption-field"></textarea></div>
+      <div class="field"><label for="callToAction">Call to action</label><input id="callToAction" name="callToAction" type="text" /></div>
+      <div class="field"><label for="hashtags">Hashtags</label><input id="hashtags" name="hashtags" type="text" /></div>
+      <div class="field"><label for="imageUrl">Image URL</label><input id="imageUrl" name="imageUrl" type="url" placeholder="https://…" />
+        <p class="field-hint">Paste a URL, or upload below to replace.</p>
+      </div>
+      <div class="field">
+        <label for="imageFile">Replace image (optional)</label>
+        <input id="imageFile" name="imageFile" type="file" accept="image/*" />
+        <img id="imgPreview" class="img-preview admin-hidden" alt="Current image" />
+      </div>
+      <p id="err" class="admin-note admin-hidden" style="color: #b42318;"></p>
+      <div class="actions">
+        <button type="submit" class="btn-primary" id="save">Save changes</button>
+        <button type="button" class="btn-danger" id="del">Delete</button>
+        <a href="/admin/social/index.html#drafts" class="btn-secondary">Cancel</a>
+      </div>
+    </form>
+    <p id="load-err" class="admin-note" style="color: #b42318;"></p>
+  </div>
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+    if (!id) window.location.replace('/admin/social/index.html#drafts');
+
+    var imageDataUrl = '';
+    var TEMPLATE_LIST = [];
+
+    function applyProductPlaceholders(text, product) {
+      var p = product || {};
+      return String(text == null ? '' : text)
+        .replace(/\{\{product_title\}\}/gi, p.title || '')
+        .replace(/\{\{product_description\}\}/gi, p.shortDescription || '')
+        .replace(/\{\{price\}\}/gi, p.price || '')
+        .replace(/\{\{cta\}\}/gi, p.callToAction || '')
+        .replace(/\{\{product_url\}\}/gi, p.productUrl || '');
+    }
+
+    function draftContentTypeFromTemplate(tt) {
+      if (tt === 'instagram_carousel') return 'carousel';
+      if (tt === 'instagram_story') return 'story';
+      return 'instagram_post';
+    }
+
+    function fillTemplateSelect(templates) {
+      var sel = document.getElementById('applyTemplateId');
+      var first = '<option value="">— Choose template —</option>';
+      var rest = (templates || []).map(function (t) {
+        return '<option value="' + esc(t.id) + '">' + esc(t.title || t.id) + '</option>';
+      });
+      sel.innerHTML = first + rest.join('');
+    }
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function fillProducts(products, selectedId) {
+      var sel = document.getElementById('linkedProductId');
+      var opts = ['<option value="">— None —</option>'].concat(
+        (products || []).map(function (p) {
+          var selAttr = p.id === selectedId ? ' selected' : '';
+          return '<option value="' + esc(p.id) + '"' + selAttr + '>' + esc(p.title || p.id) + '</option>';
+        })
+      );
+      sel.innerHTML = opts.join('');
+    }
+
+    document.getElementById('applyTemplateBtn').addEventListener('click', function () {
+      var tid = document.getElementById('applyTemplateId').value;
+      if (!tid) {
+        alert('Choose a template first.');
+        return;
+      }
+      var tpl = null;
+      for (var j = 0; j < TEMPLATE_LIST.length; j++) {
+        if (TEMPLATE_LIST[j].id === tid) {
+          tpl = TEMPLATE_LIST[j];
+          break;
+        }
+      }
+      if (!tpl) return;
+      var pid = document.getElementById('linkedProductId').value;
+      var blob = [tpl.headline, tpl.subheadline, tpl.caption, tpl.callToAction, tpl.hashtags].join(' ');
+      if (/\{\{/.test(blob) && !pid) {
+        if (!confirm('No linked product is selected. Placeholders will become empty. Continue?')) return;
+      }
+      var done = function (product) {
+        document.getElementById('headline').value = applyProductPlaceholders(tpl.headline, product);
+        document.getElementById('subheadline').value = applyProductPlaceholders(tpl.subheadline, product);
+        document.getElementById('caption').value = applyProductPlaceholders(tpl.caption, product);
+        document.getElementById('callToAction').value = applyProductPlaceholders(tpl.callToAction, product);
+        document.getElementById('hashtags').value = applyProductPlaceholders(tpl.hashtags, product);
+        document.getElementById('contentType').value = draftContentTypeFromTemplate(tpl.templateType);
+      };
+      if (!pid) {
+        done(null);
+        return;
+      }
+      fetch('/api/social-products?id=' + encodeURIComponent(pid), { credentials: 'same-origin' })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          done(data.product || null);
+        })
+        .catch(function () {
+          done(null);
+        });
+    });
+
+    document.getElementById('imageUrl').addEventListener('input', function () {
+      if (this.value.trim()) {
+        document.getElementById('imageFile').value = '';
+        imageDataUrl = '';
+      }
+    });
+
+    document.getElementById('imageFile').addEventListener('change', function () {
+      var f = this.files && this.files[0];
+      var err = document.getElementById('err');
+      err.classList.add('admin-hidden');
+      imageDataUrl = '';
+      if (!f) return;
+      if (f.size > 480 * 1024) {
+        err.textContent = 'File is too large. Use a smaller image or an image URL.';
+        err.classList.remove('admin-hidden');
+        this.value = '';
+        return;
+      }
+      var r = new FileReader();
+      r.onload = function () {
+        var result = r.result;
+        if (typeof result === 'string' && result.length > 450000) {
+          err.textContent = 'Image is too large. Use an image URL instead.';
+          err.classList.remove('admin-hidden');
+          document.getElementById('imageFile').value = '';
+          return;
+        }
+        imageDataUrl = result;
+        document.getElementById('imageUrl').value = '';
+        var prev = document.getElementById('imgPreview');
+        prev.src = result;
+        prev.classList.remove('admin-hidden');
+      };
+      r.readAsDataURL(f);
+    });
+
+    function fill(d, products) {
+      document.getElementById('draftRowId').value = d.id;
+      document.getElementById('draftTitle').value = d.draftTitle || '';
+      fillProducts(products, d.linkedProductId || '');
+      document.getElementById('contentType').value = ['instagram_post', 'carousel', 'story'].indexOf(d.contentType) >= 0 ? d.contentType : 'instagram_post';
+      document.getElementById('status').value = ['draft', 'ready', 'archived'].indexOf(d.status) >= 0 ? d.status : 'draft';
+      document.getElementById('headline').value = d.headline || '';
+      document.getElementById('subheadline').value = d.subheadline || '';
+      document.getElementById('caption').value = d.caption || '';
+      document.getElementById('callToAction').value = d.callToAction || '';
+      document.getElementById('hashtags').value = d.hashtags || '';
+      document.getElementById('imageUrl').value = d.imageUrl || '';
+      imageDataUrl = '';
+      var prev = document.getElementById('imgPreview');
+      var src = (d.imageUrl || '').trim() || (d.imageDataUrl || '').trim();
+      if (src) {
+        prev.src = src;
+        prev.classList.remove('admin-hidden');
+      } else {
+        prev.removeAttribute('src');
+        prev.classList.add('admin-hidden');
+      }
+      document.getElementById('f').classList.remove('admin-hidden');
+      document.getElementById('load-err').classList.add('admin-hidden');
+    }
+
+    document.getElementById('f').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var err = document.getElementById('err');
+      err.classList.add('admin-hidden');
+      var iu = document.getElementById('imageUrl').value.trim();
+      var payload = {
+        id: document.getElementById('draftRowId').value,
+        draftTitle: document.getElementById('draftTitle').value,
+        linkedProductId: document.getElementById('linkedProductId').value,
+        contentType: document.getElementById('contentType').value,
+        status: document.getElementById('status').value,
+        headline: document.getElementById('headline').value,
+        subheadline: document.getElementById('subheadline').value,
+        caption: document.getElementById('caption').value,
+        callToAction: document.getElementById('callToAction').value,
+        hashtags: document.getElementById('hashtags').value,
+        imageUrl: iu,
+      };
+      if (imageDataUrl) {
+        payload.imageDataUrl = imageDataUrl;
+      } else if (iu) {
+        payload.imageDataUrl = '';
+      }
+
+      document.getElementById('save').disabled = true;
+      fetch('/api/social-drafts', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (x) {
+          if (x.ok) {
+            window.location.href = '/admin/social/index.html#drafts';
+            return;
+          }
+          err.textContent = (x.j && x.j.error) || 'Save failed';
+          err.classList.remove('admin-hidden');
+        })
+        .finally(function () {
+          document.getElementById('save').disabled = false;
+        });
+    });
+
+    document.getElementById('del').addEventListener('click', function () {
+      if (!confirm('Delete this draft permanently?')) return;
+      fetch('/api/social-drafts?id=' + encodeURIComponent(id), { method: 'DELETE', credentials: 'same-origin' }).then(function () {
+        window.location.href = '/admin/social/index.html#drafts';
+      });
+    });
+
+    AdminAuth.init({ active: 'social' }).then(function (ok) {
+      if (!ok) return;
+      Promise.all([
+        fetch('/api/social-products', { credentials: 'same-origin' }).then(function (r) {
+          return r.json();
+        }),
+        fetch('/api/social-drafts?id=' + encodeURIComponent(id), { credentials: 'same-origin' }).then(function (r) {
+          return r.json();
+        }),
+        fetch('/api/social-templates', { credentials: 'same-origin' }).then(function (r) {
+          return r.json();
+        }),
+      ])
+        .then(function (results) {
+          var prodData = results[0];
+          var draftData = results[1];
+          var tplData = results[2];
+          if (!draftData.draft) throw new Error('none');
+          TEMPLATE_LIST = tplData.templates || [];
+          fillTemplateSelect(TEMPLATE_LIST);
+          fill(draftData.draft, prodData.products || []);
+        })
+        .catch(function () {
+          document.getElementById('load-err').textContent = 'Could not load this draft.';
+        });
+    });
+  </script>
+</body>
+</html>

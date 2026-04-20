@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Edit product</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <style>
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 0.35rem; }
+    .field input, .field textarea, .field select {
+      width: 100%; max-width: 40rem; padding: 0.6rem 0.75rem; font-size: 0.95rem; border: 1px solid var(--admin-border);
+      border-radius: 0.5rem; font-family: inherit; box-sizing: border-box;
+    }
+    .field textarea { min-height: 100px; }
+    .field-hint { font-size: 0.78rem; color: var(--admin-muted); margin-top: 0.25rem; }
+    .img-preview { max-width: 200px; max-height: 200px; border-radius: 0.5rem; border: 1px solid var(--admin-border); margin-top: 0.5rem; }
+    .img-preview.admin-hidden { display: none; }
+    .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+    .btn-primary {
+      padding: 0.65rem 1.25rem; border: none; border-radius: 999px; font-weight: 600; cursor: pointer;
+      background: linear-gradient(135deg, var(--admin-blue), var(--admin-clay)); color: #fff; font-size: 0.95rem;
+    }
+    .btn-danger { padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid #b42318; background: #fff; color: #b42318; cursor: pointer; font-family: inherit; }
+    .btn-secondary { padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid var(--admin-border); background: #fff; cursor: pointer; font-family: inherit; text-decoration: none; color: inherit; display: inline-block; line-height: 1.2; }
+  </style>
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Edit product</h1>
+    <p class="admin-page-lede"><a href="/admin/social/index.html">← Back to list</a></p>
+
+    <form id="f" class="admin-card admin-hidden">
+      <input type="hidden" id="productId" />
+      <div class="field"><label for="title">Title</label><input id="title" name="title" type="text" required /></div>
+      <div class="field"><label for="category">Category</label><input id="category" name="category" type="text" /></div>
+      <div class="field"><label for="shortDescription">Short description</label><textarea id="shortDescription" name="shortDescription"></textarea></div>
+      <div class="field"><label for="price">Price</label><input id="price" name="price" type="text" /></div>
+      <div class="field"><label for="callToAction">Call to action</label><input id="callToAction" name="callToAction" type="text" /></div>
+      <div class="field"><label for="productUrl">Product URL</label><input id="productUrl" name="productUrl" type="url" /></div>
+      <div class="field"><label for="status">Status</label>
+        <select id="status" name="status"><option value="draft">Draft</option><option value="active">Active</option></select>
+      </div>
+      <div class="field"><label for="imageUrl">Image URL</label><input id="imageUrl" name="imageUrl" type="url" placeholder="https://…" />
+        <p class="field-hint">Clear this and upload below to switch to an uploaded image.</p>
+      </div>
+      <div class="field">
+        <label for="imageFile">Replace image (optional)</label>
+        <input id="imageFile" name="imageFile" type="file" accept="image/*" />
+        <p class="field-hint">Upload replaces stored image. Use “Clear uploaded image” in the API by clearing URL and re-saving — or upload a new file.</p>
+        <img id="imgPreview" class="img-preview admin-hidden" alt="Current image" />
+      </div>
+      <p id="err" class="admin-note admin-hidden" style="color: #b42318;"></p>
+      <div class="actions">
+        <button type="submit" class="btn-primary" id="save">Save changes</button>
+        <button type="button" class="btn-danger" id="del">Delete</button>
+        <a href="/admin/social/index.html" class="btn-secondary">Cancel</a>
+      </div>
+    </form>
+    <p id="load-err" class="admin-note" style="color: #b42318;"></p>
+  </div>
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+    if (!id) window.location.replace('/admin/social/index.html');
+
+    var imageDataUrl = '';
+
+    document.getElementById('imageUrl').addEventListener('input', function () {
+      if (this.value.trim()) {
+        document.getElementById('imageFile').value = '';
+        imageDataUrl = '';
+      }
+    });
+
+    document.getElementById('imageFile').addEventListener('change', function () {
+      var f = this.files && this.files[0];
+      var err = document.getElementById('err');
+      err.classList.add('admin-hidden');
+      imageDataUrl = '';
+      if (!f) return;
+      if (f.size > 480 * 1024) {
+        err.textContent = 'File is too large. Use a smaller image or an image URL.';
+        err.classList.remove('admin-hidden');
+        this.value = '';
+        return;
+      }
+      var r = new FileReader();
+      r.onload = function () {
+        var result = r.result;
+        if (typeof result === 'string' && result.length > 450000) {
+          err.textContent = 'Image is too large. Use an image URL instead.';
+          err.classList.remove('admin-hidden');
+          document.getElementById('imageFile').value = '';
+          return;
+        }
+        imageDataUrl = result;
+        document.getElementById('imageUrl').value = '';
+        var prev = document.getElementById('imgPreview');
+        prev.src = result;
+        prev.classList.remove('admin-hidden');
+      };
+      r.readAsDataURL(f);
+    });
+
+    function fill(p) {
+      document.getElementById('productId').value = p.id;
+      document.getElementById('title').value = p.title || '';
+      document.getElementById('category').value = p.category || '';
+      document.getElementById('shortDescription').value = p.shortDescription || '';
+      document.getElementById('price').value = p.price || '';
+      document.getElementById('callToAction').value = p.callToAction || '';
+      document.getElementById('productUrl').value = p.productUrl || '';
+      document.getElementById('status').value = p.status === 'active' ? 'active' : 'draft';
+      document.getElementById('imageUrl').value = p.imageUrl || '';
+      imageDataUrl = '';
+      var prev = document.getElementById('imgPreview');
+      var src = (p.imageUrl || '').trim() || (p.imageDataUrl || '').trim();
+      if (src) {
+        prev.src = src;
+        prev.classList.remove('admin-hidden');
+      } else {
+        prev.removeAttribute('src');
+        prev.classList.add('admin-hidden');
+      }
+      document.getElementById('f').classList.remove('admin-hidden');
+      document.getElementById('load-err').classList.add('admin-hidden');
+    }
+
+    document.getElementById('f').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var err = document.getElementById('err');
+      err.classList.add('admin-hidden');
+      var iu = document.getElementById('imageUrl').value.trim();
+      var payload = {
+        id: document.getElementById('productId').value,
+        title: document.getElementById('title').value,
+        category: document.getElementById('category').value,
+        shortDescription: document.getElementById('shortDescription').value,
+        price: document.getElementById('price').value,
+        callToAction: document.getElementById('callToAction').value,
+        productUrl: document.getElementById('productUrl').value,
+        status: document.getElementById('status').value,
+        imageUrl: iu,
+      };
+      if (imageDataUrl) {
+        payload.imageDataUrl = imageDataUrl;
+      } else if (iu) {
+        payload.imageDataUrl = '';
+      }
+
+      document.getElementById('save').disabled = true;
+      fetch('/api/social-products', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (x) {
+          if (x.ok) {
+            window.location.href = '/admin/social/index.html';
+            return;
+          }
+          err.textContent = (x.j && x.j.error) || 'Save failed';
+          err.classList.remove('admin-hidden');
+        })
+        .finally(function () {
+          document.getElementById('save').disabled = false;
+        });
+    });
+
+    document.getElementById('del').addEventListener('click', function () {
+      if (!confirm('Delete this product permanently?')) return;
+      fetch('/api/social-products?id=' + encodeURIComponent(id), { method: 'DELETE', credentials: 'same-origin' }).then(function () {
+        window.location.href = '/admin/social/index.html';
+      });
+    });
+
+    AdminAuth.init({ active: 'social' }).then(function (ok) {
+      if (!ok) return;
+      fetch('/api/social-products?id=' + encodeURIComponent(id), { credentials: 'same-origin' })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          if (!data.product) throw new Error('Not found');
+          fill(data.product);
+        })
+        .catch(function () {
+          document.getElementById('load-err').textContent = 'Could not load this product.';
+        });
+    });
+  </script>
+</body>
+</html>

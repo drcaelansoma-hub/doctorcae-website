@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Dr. Caelan Soma website with Stripe integration",
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "@upstash/redis": "^1.34.3",
+    "resend": "^4.0.1",
     "stripe": "^14.0.0"
   }
 }

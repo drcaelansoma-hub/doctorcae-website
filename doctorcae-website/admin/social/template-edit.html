@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Edit template</title>
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <style>
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 0.35rem; }
+    .field input, .field textarea, .field select {
+      width: 100%; max-width: 40rem; padding: 0.6rem 0.75rem; font-size: 0.95rem; border: 1px solid var(--admin-border);
+      border-radius: 0.5rem; font-family: inherit; box-sizing: border-box;
+    }
+    .field textarea { min-height: 72px; }
+    .field textarea.caption-field { min-height: 140px; }
+    .field-hint { font-size: 0.78rem; color: var(--admin-muted); margin-top: 0.25rem; }
+    .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+    .btn-primary {
+      padding: 0.65rem 1.25rem; border: none; border-radius: 999px; font-weight: 600; cursor: pointer;
+      background: linear-gradient(135deg, var(--admin-blue), var(--admin-clay)); color: #fff; font-size: 0.95rem;
+    }
+    .btn-danger { padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid #b42318; background: #fff; color: #b42318; cursor: pointer; font-family: inherit; }
+    .btn-secondary { padding: 0.65rem 1rem; border-radius: 999px; border: 1px solid var(--admin-border); background: #fff; cursor: pointer; font-family: inherit; text-decoration: none; color: inherit; display: inline-block; line-height: 1.2; }
+    code.ph { font-size: 0.8rem; background: rgba(59, 108, 148, 0.08); padding: 0.1rem 0.35rem; border-radius: 0.25rem; }
+  </style>
+</head>
+<body class="admin-body">
+  <div id="admin-gate">Checking session…</div>
+  <div id="admin-shell" class="admin-shell admin-hidden">
+    <header class="admin-top">
+      <a class="admin-brand" href="/admin/">Admin <span>· Dr. Cae Soma</span></a>
+      <nav class="admin-nav" id="admin-nav"></nav>
+      <button type="button" class="btn-ghost" id="admin-logout">Sign out</button>
+    </header>
+
+    <h1 class="admin-page-title">Edit template</h1>
+    <p class="admin-page-lede"><a href="/admin/social/index.html#templates">← Back to list</a></p>
+
+    <form id="f" class="admin-card admin-hidden">
+      <input type="hidden" id="tplId" />
+      <div class="field"><label for="title">Template name</label><input id="title" name="title" type="text" required /></div>
+      <div class="field"><label for="templateType">Template type</label>
+        <select id="templateType" name="templateType">
+          <option value="instagram_post">Instagram post</option>
+          <option value="instagram_carousel">Instagram carousel</option>
+          <option value="instagram_story">Instagram story</option>
+          <option value="product_promotion">Product promotion</option>
+          <option value="educational_promotion">Educational promotion</option>
+          <option value="testimonial_promotion">Testimonial promotion</option>
+        </select>
+      </div>
+      <p class="admin-note" style="margin-bottom: 1rem;">
+        Placeholders:
+        <code class="ph">{{product_title}}</code>
+        <code class="ph">{{product_description}}</code>
+        <code class="ph">{{price}}</code>
+        <code class="ph">{{cta}}</code>
+        <code class="ph">{{product_url}}</code>
+      </p>
+      <div class="field"><label for="headline">Headline</label><input id="headline" name="headline" type="text" /></div>
+      <div class="field"><label for="subheadline">Subheadline</label><input id="subheadline" name="subheadline" type="text" /></div>
+      <div class="field"><label for="caption">Caption</label><textarea id="caption" name="caption" class="caption-field"></textarea></div>
+      <div class="field"><label for="callToAction">Call to action</label><input id="callToAction" name="callToAction" type="text" /></div>
+      <div class="field"><label for="hashtags">Hashtags</label><input id="hashtags" name="hashtags" type="text" /></div>
+      <p id="err" class="admin-note admin-hidden" style="color: #b42318;"></p>
+      <div class="actions">
+        <button type="submit" class="btn-primary" id="save">Save changes</button>
+        <button type="button" class="btn-danger" id="del">Delete</button>
+        <a href="/admin/social/index.html#templates" class="btn-secondary">Cancel</a>
+      </div>
+    </form>
+    <p id="load-err" class="admin-note" style="color: #b42318;"></p>
+  </div>
+  <script src="/admin/admin-auth.js"></script>
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+    if (!id) window.location.replace('/admin/social/index.html#templates');
+
+    function fill(t) {
+      document.getElementById('tplId').value = t.id;
+      document.getElementById('title').value = t.title || '';
+      document.getElementById('templateType').value = t.templateType || 'instagram_post';
+      document.getElementById('headline').value = t.headline || '';
+      document.getElementById('subheadline').value = t.subheadline || '';
+      document.getElementById('caption').value = t.caption || '';
+      document.getElementById('callToAction').value = t.callToAction || '';
+      document.getElementById('hashtags').value = t.hashtags || '';
+      document.getElementById('f').classList.remove('admin-hidden');
+      document.getElementById('load-err').classList.add('admin-hidden');
+    }
+
+    document.getElementById('f').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var err = document.getElementById('err');
+      err.classList.add('admin-hidden');
+      var payload = {
+        id: document.getElementById('tplId').value,
+        title: document.getElementById('title').value,
+        templateType: document.getElementById('templateType').value,
+        headline: document.getElementById('headline').value,
+        subheadline: document.getElementById('subheadline').value,
+        caption: document.getElementById('caption').value,
+        callToAction: document.getElementById('callToAction').value,
+        hashtags: document.getElementById('hashtags').value,
+      };
+      document.getElementById('save').disabled = true;
+      fetch('/api/social-templates', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(payload),
+      })
+        .then(function (r) {
+          return r.json().then(function (j) {
+            return { ok: r.ok, j: j };
+          });
+        })
+        .then(function (x) {
+          if (x.ok) {
+            window.location.href = '/admin/social/index.html#templates';
+            return;
+          }
+          err.textContent = (x.j && x.j.error) || 'Save failed';
+          err.classList.remove('admin-hidden');
+        })
+        .finally(function () {
+          document.getElementById('save').disabled = false;
+        });
+    });
+
+    document.getElementById('del').addEventListener('click', function () {
+      if (!confirm('Delete this template?')) return;
+      fetch('/api/social-templates?id=' + encodeURIComponent(id), { method: 'DELETE', credentials: 'same-origin' }).then(function () {
+        window.location.href = '/admin/social/index.html#templates';
+      });
+    });
+
+    AdminAuth.init({ active: 'social' }).then(function (ok) {
+      if (!ok) return;
+      fetch('/api/social-templates?id=' + encodeURIComponent(id), { credentials: 'same-origin' })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (data) {
+          if (!data.template) throw new Error('x');
+          fill(data.template);
+        })
+        .catch(function () {
+          document.getElementById('load-err').textContent = 'Could not load this template.';
+        });
+    });
+  </script>
+</body>
+</html>
