@@ -8,7 +8,7 @@
  * DELETE — ?id=... → { ok: true }
  */
 const { Redis } = require('@upstash/redis');
-const { requireAdmin } = require('../lib/require-admin');
+const { requireAdmin } = require('./lib/require-admin');
 
 const KEY = 'admin:journal:posts';
 

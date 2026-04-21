@@ -18,8 +18,8 @@ function dispatchKey(req) {
 
 module.exports = async (req, res) => {
   var k = dispatchKey(req);
-  if (k === 'generate') return require('../lib/api-impl/instagram-post-generate')(req, res);
-  if (k === 'drafts') return require('../lib/api-impl/instagram-post-ai-drafts')(req, res);
+  if (k === 'generate') return require('./lib/instagram-post-generate')(req, res);
+  if (k === 'drafts') return require('./lib/instagram-post-ai-drafts')(req, res);
   res.setHeader('Content-Type', 'application/json');
   return res.status(404).json({ error: 'Not found' });
 };

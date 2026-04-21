@@ -7,7 +7,7 @@
  *
  * Docs: https://help.formspree.io/hc/en-us/articles/360015233153-Form-Submissions-API
  */
-const { requireAdmin } = require('../require-admin');
+const { requireAdmin } = require('./require-admin');
 
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');

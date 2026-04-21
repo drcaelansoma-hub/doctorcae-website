@@ -3,7 +3,7 @@
  * Placeholders in text fields: {{product_title}}, {{product_description}}, {{price}}, {{cta}}, {{product_url}}
  */
 const { Redis } = require('@upstash/redis');
-const { requireAdmin } = require('../require-admin');
+const { requireAdmin } = require('./require-admin');
 
 const KEY = 'admin:social:templates';
 

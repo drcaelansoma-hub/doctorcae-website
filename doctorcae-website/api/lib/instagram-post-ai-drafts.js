@@ -6,7 +6,7 @@
  * Auth: admin session + UPSTASH_REDIS_* (same as Journal / social).
  */
 const { Redis } = require('@upstash/redis');
-const { requireAdmin } = require('../require-admin');
+const { requireAdmin } = require('./require-admin');
 
 const KEY = 'admin:instagram_post_ai_drafts';
 

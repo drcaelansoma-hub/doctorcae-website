@@ -11,7 +11,7 @@
  *          status (draft|active), imageUrl, imageDataUrl (optional, from upload; max ~450KB)
  */
 const { Redis } = require('@upstash/redis');
-const { requireAdmin } = require('../require-admin');
+const { requireAdmin } = require('./require-admin');
 
 const KEY = 'admin:social:products';
 const MAX_IMAGE_DATA_URL_LEN = 450000;

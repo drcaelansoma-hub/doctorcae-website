@@ -4,7 +4,7 @@
  *
  * Same env as admin-formspree-submissions: FORMSPREE_API_KEY
  */
-const { requireAdmin } = require('../require-admin');
+const { requireAdmin } = require('./require-admin');
 
 module.exports = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');

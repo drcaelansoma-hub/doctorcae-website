@@ -1,7 +1,7 @@
 /**
  * GET — returns { ok: true } if valid admin_session cookie; else 401.
  */
-const { verifyToken, parseAdminCookie } = require('../admin-session');
+const { verifyToken, parseAdminCookie } = require('./admin-session');
 
 module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') {

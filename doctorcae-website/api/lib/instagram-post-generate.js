@@ -5,7 +5,7 @@
  *
  * Server-only: OpenAI and env reads happen only in this file (not in static HTML).
  */
-const { requireAdmin } = require('../require-admin');
+const { requireAdmin } = require('./require-admin');
 
 const LOG = '[instagram-post-generate]';
 

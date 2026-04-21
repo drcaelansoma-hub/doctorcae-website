@@ -7,7 +7,7 @@
  * status (draft|ready|archived)
  */
 const { Redis } = require('@upstash/redis');
-const { requireAdmin } = require('../require-admin');
+const { requireAdmin } = require('./require-admin');
 
 const KEY = 'admin:social:drafts';
 const MAX_IMAGE_DATA_URL_LEN = 450000;

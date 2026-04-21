@@ -3,7 +3,7 @@
  * Requires admin cookie. Uses Stripe Checkout sessions when STRIPE_SECRET_KEY is set.
  */
 const stripe = require('stripe');
-const { requireAdmin } = require('../require-admin');
+const { requireAdmin } = require('./require-admin');
 
 function periodStart(period) {
   const now = Date.now();
