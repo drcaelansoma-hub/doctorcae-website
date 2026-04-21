@@ -1,9 +1,8 @@
 /**
  * POST JSON { platform, postType, topic, audience } → OpenAI structured social copy.
- * Env: OPENAI_API_KEY (optional OPENAI_MODEL, default gpt-4o-mini)
- * Auth: admin session cookie (same as other admin APIs).
+ * Routed via /api/social-bundle?__=generate-post (Hobby: one fewer serverless file).
  */
-const { requireAdmin } = require('../lib/require-admin');
+const { requireAdmin } = require('./require-admin');
 
 const PLATFORMS = ['instagram', 'pinterest'];
 const POST_TYPES = ['carousel', 'single_post', 'story', 'pin'];
@@ -206,7 +205,6 @@ module.exports = async (req, res) => {
       carouselSlides = [];
     }
 
-    /** Plain-text blocks for Canva: one slide per block, easy copy/paste. */
     function formatCanvaCarouselBlocks(slides) {
       if (!slides.length) return '';
       return slides

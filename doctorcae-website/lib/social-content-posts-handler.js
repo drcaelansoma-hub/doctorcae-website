@@ -1,11 +1,9 @@
 /**
  * Generated social posts — Supabase table public.social_posts.
- * POST { platform, content } — content is a JSON object (stored as jsonb).
- * GET — recent posts (newest first).
- * Auth: admin session only.
+ * Routed via /api/social-bundle?__=content-posts (Hobby: one fewer serverless file).
  */
 const { createClient } = require('@supabase/supabase-js');
-const { requireAdmin } = require('../lib/require-admin');
+const { requireAdmin } = require('./require-admin');
 
 function getSupabase() {
   const url = String(process.env.SUPABASE_URL || '').trim();

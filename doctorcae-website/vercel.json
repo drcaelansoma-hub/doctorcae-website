@@ -53,6 +53,14 @@
       "destination": "/api/social-bundle?__=products"
     },
     {
+      "source": "/api/generate-post",
+      "destination": "/api/social-bundle?__=generate-post"
+    },
+    {
+      "source": "/api/social-content-posts",
+      "destination": "/api/social-bundle?__=content-posts"
+    },
+    {
       "source": "/api/instagram-post-generate",
       "destination": "/api/instagram-bundle?__=generate"
     },
