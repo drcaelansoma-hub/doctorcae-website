@@ -78,7 +78,7 @@ Vercel will deploy your site! Wait 1-2 minutes.
 3. Click "Environment Variables"
 4. Add new variable:
    - Name: `STRIPE_SECRET_KEY`
-   - Value: `sk_test_REDACTED_set_in_Vercel_env_only`
+   - Value: `sk_test_…` (your real key — set only in Vercel **Environment Variables**, never commit it)
    - Select "Production" and "Preview"
 5. Click "Save"
 
