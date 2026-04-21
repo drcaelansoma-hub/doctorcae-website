@@ -1,6 +1,15 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "functions": {
+    "api/admin-bundle.js": { "includeFiles": "lib/**" },
+    "api/social-bundle.js": { "includeFiles": "lib/**" },
+    "api/instagram-bundle.js": { "includeFiles": "lib/**" },
+    "api/submit-free-guide.js": { "includeFiles": "lib/**" },
+    "api/cron-nurture-emails.js": { "includeFiles": "lib/**" },
+    "api/journal-posts.js": { "includeFiles": "lib/**" },
+    "api/create-checkout-session.js": { "includeFiles": "lib/**" }
+  },
   "crons": [
     {
       "path": "/api/cron-nurture-emails",

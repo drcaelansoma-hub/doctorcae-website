@@ -18,11 +18,11 @@ function dispatchKey(req) {
 
 module.exports = async (req, res) => {
   var k = dispatchKey(req);
-  if (k === 'drafts') return require('./lib/social-drafts')(req, res);
-  if (k === 'templates') return require('./lib/social-templates')(req, res);
-  if (k === 'products') return require('./lib/social-products')(req, res);
-  if (k === 'generate-post') return require('./lib/generate-post-handler')(req, res);
-  if (k === 'content-posts') return require('./lib/social-content-posts-handler')(req, res);
+  if (k === 'drafts') return require('../lib/social-drafts')(req, res);
+  if (k === 'templates') return require('../lib/social-templates')(req, res);
+  if (k === 'products') return require('../lib/social-products')(req, res);
+  if (k === 'generate-post') return require('../lib/generate-post-handler')(req, res);
+  if (k === 'content-posts') return require('../lib/social-content-posts-handler')(req, res);
   res.setHeader('Content-Type', 'application/json');
   return res.status(404).json({ error: 'Not found' });
 };

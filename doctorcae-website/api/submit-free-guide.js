@@ -3,7 +3,7 @@
 // Nurture: email_step 0→1 on successful Email 1; daily cron sends 2–5 (see api/cron-nurture-emails.js).
 
 const { createClient } = require('@supabase/supabase-js');
-const { sendEmailStep1 } = require('./lib/nurture-emails');
+const { sendEmailStep1 } = require('../lib/nurture-emails');
 
 function logSupabaseError(context, err) {
   if (err == null) return;

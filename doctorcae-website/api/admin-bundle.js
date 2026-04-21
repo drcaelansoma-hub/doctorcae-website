@@ -19,12 +19,12 @@ function dispatchKey(req) {
 module.exports = async (req, res) => {
   var k = dispatchKey(req);
   try {
-    if (k === 'login') return await require('./lib/admin-login')(req, res);
-    if (k === 'logout') return await require('./lib/admin-logout')(req, res);
-    if (k === 'session') return await require('./lib/admin-session-route')(req, res);
-    if (k === 'financial') return await require('./lib/admin-financial')(req, res);
-    if (k === 'formspree-forms') return await require('./lib/admin-formspree-forms')(req, res);
-    if (k === 'formspree-submissions') return await require('./lib/admin-formspree-submissions')(req, res);
+    if (k === 'login') return await require('../lib/admin-login')(req, res);
+    if (k === 'logout') return await require('../lib/admin-logout')(req, res);
+    if (k === 'session') return await require('../lib/admin-session-route')(req, res);
+    if (k === 'financial') return await require('../lib/admin-financial')(req, res);
+    if (k === 'formspree-forms') return await require('../lib/admin-formspree-forms')(req, res);
+    if (k === 'formspree-submissions') return await require('../lib/admin-formspree-submissions')(req, res);
   } catch (err) {
     console.error('[admin-bundle]', k || '(no __)', err && err.stack ? err.stack : err);
     res.setHeader('Content-Type', 'application/json');

@@ -4,7 +4,7 @@
  *
  * Next.js equivalent: app/api/cron/route.ts
  */
-const { runNurtureCron } = require('./lib/run-nurture-cron');
+const { runNurtureCron } = require('../lib/run-nurture-cron');
 
 const LOG = '[cron-nurture-emails]';
 
