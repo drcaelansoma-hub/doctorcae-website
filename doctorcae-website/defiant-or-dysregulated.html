@@ -108,10 +108,62 @@
       color: var(--text-main);
     }
 
+    .article-opening-line {
+      font-size: 1.12rem;
+      color: var(--primary);
+      margin-bottom: 1.35rem;
+      font-weight: 500;
+      line-height: 1.55;
+    }
+
+    .article-cta-callout {
+      margin: 1.75rem 0 2rem;
+      padding: 1.5rem 1.75rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border-subtle);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(230, 237, 245, 0.55));
+      box-shadow: 0 4px 22px rgba(59, 108, 148, 0.1);
+    }
+
+    .article-cta-callout p {
+      margin-bottom: 0.9rem;
+    }
+
+    .article-cta-callout p:last-of-type {
+      margin-bottom: 1.1rem;
+    }
+
+    .article-cta-callout--compact {
+      margin: 1.5rem 0 1.75rem;
+      padding: 1.25rem 1.4rem;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 14px rgba(59, 108, 148, 0.07);
+    }
+
+    .article-cta-callout .article-cta-button {
+      margin-top: 0.15rem;
+    }
+
+    .article-cta-button--compact {
+      font-size: 0.88rem;
+      padding: 0.65rem 1.25rem;
+    }
+
     .article-cta-group {
       margin-top: 2.5rem;
       padding-top: 2rem;
       border-top: 1px solid var(--border-subtle);
+    }
+
+    .article-cta-group > p {
+      margin-bottom: 1rem;
+    }
+
+    .article-cta-secondary-label {
+      margin-top: 1.75rem;
+      margin-bottom: 0.65rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
     }
 
     .article-cta-heading {
@@ -175,6 +227,12 @@
       .article-content {
         padding: 2rem 1.5rem;
       }
+      .article-cta-callout {
+        padding: 1.25rem 1.2rem;
+      }
+      .article-cta-callout--compact {
+        padding: 1.1rem 1.15rem;
+      }
     }
   </style>
 <!-- Google tag (gtag.js) -->
@@ -198,10 +256,29 @@
     </header>
 
     <article class="article-content">
+      <p class="article-opening-line">
+        If your child goes from calm to explosive in seconds, this may not be defiance.
+      </p>
+
       <p>
         Your child refuses to get in the car.<br>
-        They slam the door, yell "No!", or collapse onto the floor.<br>
-        It's easy to label this as defiance. But what if it's not? What if what looks like opposition is actually a nervous system that's overwhelmed?
+        They slam the door, yell "No!", or collapse onto the floor.
+      </p>
+
+      <p>
+        It's easy to label this as defiance. But what if it's not?
+      </p>
+
+      <aside class="article-cta-callout" aria-label="Free guide for parents">
+        <p><strong>If this feels familiar, you're not alone.</strong></p>
+        <p>
+          I created a free guide to help you understand what's happening in your child's body—and what actually helps in those moments.
+        </p>
+        <a href="/guide" class="article-cta-button">Download the Free Emotional Regulation Guide</a>
+      </aside>
+
+      <p>
+        What if what looks like opposition is actually a nervous system that's overwhelmed?
       </p>
 
       <p><strong>Behavior is not just a choice.</strong></p>
@@ -265,6 +342,14 @@
         <strong>Regulation comes first. Teaching comes second.</strong>
       </p>
 
+      <aside class="article-cta-callout article-cta-callout--compact" aria-label="Free practical guide">
+        <p>
+          When we understand that behavior is often driven by overwhelm in the body, it changes how we respond.
+        </p>
+        <p>If you want simple, practical ways to do this in everyday parenting moments:</p>
+        <a href="/guide" class="article-cta-button article-cta-button--compact">Get the Free Guide</a>
+      </aside>
+
       <h2>What this looks like in real life</h2>
 
       <p>In the middle of a hard moment, this might sound like:</p>
@@ -320,8 +405,11 @@
       </p>
 
       <div class="article-cta-group">
-        <p class="article-cta-heading">Next steps and resources</p>
-        <a href="/guide" class="article-cta-button">Body First Framework FREE Guide</a>
+        <p><strong>If you're seeing this pattern in your child…</strong></p>
+        <p>You do not need more consequences. You need a different starting point.</p>
+        <p>I walk you through this step by step in a free guide for parents:</p>
+        <a href="/guide" class="article-cta-button">Download the Free Emotional Regulation Guide</a>
+        <p class="article-cta-secondary-label">Other resources</p>
         <a href="online-course.html" class="article-cta-button article-cta-button-outline">Explore the course</a>
         <a href="consultation.html" class="article-cta-button article-cta-button-outline">Learn about consultations</a>
       </div>
