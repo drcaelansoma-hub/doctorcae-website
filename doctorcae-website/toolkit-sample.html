@@ -289,6 +289,9 @@
             if (result.data && result.data.supabaseMessage) {
               msg += ' ' + String(result.data.supabaseMessage);
             }
+            if (result.data && result.data.detail) {
+              msg += ' ' + String(result.data.detail);
+            }
             if (!result.ok && result.status) {
               msg += ' (status ' + result.status + ')';
             }

@@ -1,7 +1,6 @@
 // POST JSON { name?, first_name?, email } → Supabase public.toolkit_sample_leads + Resend sample email.
 // Optional Formspree forward: set FORMSPREE_TOOLKIT_ENDPOINT to your Formspree endpoint URL.
 const { createClient } = require('@supabase/supabase-js');
-const { sendToolkitSampleEmail } = require('../lib/nurture-emails');
 
 function bodyFromUrlEncoded(raw) {
   const out = {};
@@ -158,6 +157,24 @@ module.exports = async (req, res) => {
       ok: false,
       error: 'Something went wrong saving your signup.',
       supabaseMessage: err && err.message ? String(err.message) : null,
+    });
+  }
+
+  var sendToolkitSampleEmail = null;
+  try {
+    sendToolkitSampleEmail = require('../lib/nurture-emails').sendToolkitSampleEmail;
+    if (typeof sendToolkitSampleEmail !== 'function') {
+      throw new Error('sendToolkitSampleEmail export is missing');
+    }
+  } catch (err) {
+    console.error(
+      '[submit-toolkit-sample] failed to load nurture email module',
+      err && err.stack ? err.stack : err,
+    );
+    return res.status(500).json({
+      ok: false,
+      error: 'Toolkit email module failed to load on the server.',
+      detail: err && err.message ? String(err.message) : 'Unknown module load error',
     });
   }
 
