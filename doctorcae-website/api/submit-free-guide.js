@@ -134,8 +134,12 @@ module.exports = async (req, res) => {
 
   const email = emailRaw.toLowerCase();
 
-  const supabaseUrl = String(process.env.SUPABASE_URL || '').trim();
-  const serviceRole = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
+  const supabaseUrl = String(
+    process.env.SUPABASE_URL_FREE_GUIDE || process.env.SUPABASE_URL || '',
+  ).trim();
+  const serviceRole = String(
+    process.env.SUPABASE_SERVICE_ROLE_KEY_FREE_GUIDE || process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+  ).trim();
   console.log(
     '[submit-free-guide] env check has_SUPABASE_URL=',
     Boolean(supabaseUrl),

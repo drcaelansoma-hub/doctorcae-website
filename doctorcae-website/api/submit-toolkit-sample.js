@@ -86,8 +86,12 @@ module.exports = async (req, res) => {
   }
   const email = emailRaw.toLowerCase();
 
-  const supabaseUrl = String(process.env.SUPABASE_URL || '').trim();
-  const serviceRole = String(process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
+  const supabaseUrl = String(
+    process.env.SUPABASE_URL_TOOLKIT || process.env.SUPABASE_URL || '',
+  ).trim();
+  const serviceRole = String(
+    process.env.SUPABASE_SERVICE_ROLE_KEY_TOOLKIT || process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+  ).trim();
   if (!supabaseUrl || !serviceRole) {
     return res.status(503).json({
       ok: false,
