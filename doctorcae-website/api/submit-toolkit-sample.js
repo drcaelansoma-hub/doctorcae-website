@@ -133,6 +133,8 @@ module.exports = async (req, res) => {
           ok: false,
           error: 'Something went wrong saving your signup. Please try again.',
           supabaseCode: upd.error.code || null,
+          supabaseMessage: upd.error.message || null,
+          supabaseDetails: upd.error.details || null,
         });
       }
       leadId = upd.data && upd.data.id ? upd.data.id : null;
@@ -143,6 +145,8 @@ module.exports = async (req, res) => {
         ok: false,
         error: 'Something went wrong saving your signup. Please try again.',
         supabaseCode: ins.error.code || null,
+        supabaseMessage: ins.error.message || null,
+        supabaseDetails: ins.error.details || null,
       });
     } else {
       leadId = ins.data && ins.data.id ? ins.data.id : null;
@@ -150,7 +154,11 @@ module.exports = async (req, res) => {
     }
   } catch (err) {
     console.error('[submit-toolkit-sample] insert exception', err && err.message ? err.message : err);
-    return res.status(500).json({ ok: false, error: 'Something went wrong saving your signup.' });
+    return res.status(500).json({
+      ok: false,
+      error: 'Something went wrong saving your signup.',
+      supabaseMessage: err && err.message ? String(err.message) : null,
+    });
   }
 
   var emailSent = false;

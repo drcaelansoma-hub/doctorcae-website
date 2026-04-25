@@ -283,6 +283,12 @@
               return;
             }
             var msg = readableError(result.data && result.data.error ? result.data.error : result.data);
+            if (result.data && result.data.supabaseCode) {
+              msg += ' [Supabase ' + String(result.data.supabaseCode) + ']';
+            }
+            if (result.data && result.data.supabaseMessage) {
+              msg += ' ' + String(result.data.supabaseMessage);
+            }
             if (!result.ok && result.status) {
               msg += ' (status ' + result.status + ')';
             }
