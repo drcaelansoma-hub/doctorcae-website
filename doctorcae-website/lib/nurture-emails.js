@@ -32,6 +32,12 @@ function toolkitSamplePdfUrl() {
   return 'https://doctorcae.com/toolkit-sample/Body%20First%20Framework%20for%20Therapists%20SAMPLE.pdf';
 }
 
+function toolkitFullPodiaUrl() {
+  var u = String(process.env.TOOLKIT_FULL_PODIA_URL || '').trim();
+  if (u) return u;
+  return 'https://guide.doctorcae.com/body-first-framework-manual-and-toolkit-for-therapists';
+}
+
 function escapeHtml(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -47,7 +53,7 @@ function displayName(firstName) {
 
 function getResend() {
   var key = String(process.env.RESEND_API_KEY || '').trim();
-  var from = String(process.env.RESEND_FROM || '').trim();
+  var from = String(process.env.RESEND_FROM_EMAIL || process.env.RESEND_FROM || '').trim();
   if (!key || !from) return null;
   return { client: new Resend(key), from: from };
 }
@@ -70,7 +76,11 @@ async function sendWithResend(toEmail, subject, text, html) {
       console.error(LOG, 'Resend error', sent.error);
       return { ok: false, error: String(sent.error.message || sent.error) };
     }
-    return { ok: true };
+    var messageId =
+      (sent.data && (sent.data.id || sent.data.message_id || sent.data.messageId)) ||
+      sent.id ||
+      null;
+    return { ok: true, resendMessageId: messageId ? String(messageId) : null };
   } catch (e) {
     var msg = e && e.message ? e.message : String(e);
     console.error(LOG, 'send exception', msg);
@@ -449,7 +459,7 @@ async function sendToolkitSampleEmail(name, email) {
     toolkitSamplePageUrl(),
     '',
     'If this sample resonates, you can access the full Manual & Toolkit here:',
-    'https://guide.doctorcae.com/body-first-framework-manual-and-toolkit-for-therapists',
+    toolkitFullPodiaUrl(),
     '',
     'Dr. Cae',
   ].join('\n');
@@ -469,8 +479,10 @@ async function sendToolkitSampleEmail(name, email) {
     escapeHtml(toolkitSamplePageUrl()) +
     '</a></p>' +
     '<p>If this sample resonates, you can access the full Manual &amp; Toolkit here:<br />' +
-    '<a href="https://guide.doctorcae.com/body-first-framework-manual-and-toolkit-for-therapists">' +
-    'https://guide.doctorcae.com/body-first-framework-manual-and-toolkit-for-therapists' +
+    '<a href="' +
+    escapeHtml(toolkitFullPodiaUrl()) +
+    '">' +
+    escapeHtml(toolkitFullPodiaUrl()) +
     '</a></p>' +
     '<p>Dr. Cae</p>';
   return sendWithResend(email, subject, text, html);

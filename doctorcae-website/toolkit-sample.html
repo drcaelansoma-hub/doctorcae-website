@@ -139,11 +139,11 @@
 
     <section class="signup-card" aria-labelledby="signup-title">
       <h2 id="signup-title">Download the free sample</h2>
-      <p class="lead">Enter your info and I&rsquo;ll send your Toolkit Sample right away.</p>
+      <p class="lead">Enter your email and I&rsquo;ll send your Toolkit Sample right away.</p>
       <form id="toolkit-form" class="form" action="/api/submit-toolkit-sample" method="POST" novalidate>
         <div class="field">
-          <label for="first_name">First Name</label>
-          <input id="first_name" name="first_name" type="text" autocomplete="given-name" required />
+          <label for="name">Name (optional)</label>
+          <input id="name" name="name" type="text" autocomplete="name" />
         </div>
         <div class="field">
           <label for="email">Email</label>
@@ -238,9 +238,9 @@
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        var firstName = String((document.getElementById('first_name') || {}).value || '').trim();
+        var name = String((document.getElementById('name') || {}).value || '').trim();
         var email = String((document.getElementById('email') || {}).value || '').trim();
-        if (!firstName || !email) return;
+        if (!email) return;
 
         btn.disabled = true;
         status.className = 'status';
@@ -249,7 +249,7 @@
         fetch('/api/submit-toolkit-sample', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ first_name: firstName, email: email }),
+          body: JSON.stringify({ name: name, email: email }),
         })
           .then(function (r) {
             return r.text().then(function (text) {

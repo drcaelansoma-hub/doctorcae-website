@@ -1,4 +1,4 @@
-// POST JSON { first_name, email } → Supabase public.guide_leads + Resend toolkit sample email.
+// POST JSON { name?, first_name?, email } → Supabase public.toolkit_sample_leads + Resend sample email.
 // Optional Formspree forward: set FORMSPREE_TOOLKIT_ENDPOINT to your Formspree endpoint URL.
 const { createClient } = require('@supabase/supabase-js');
 const { sendToolkitSampleEmail } = require('../lib/nurture-emails');
@@ -77,11 +77,11 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ ok: false, error: 'Method not allowed' });
 
   const body = await readParsedBody(req);
-  const first_name = String(body.first_name || '').trim();
+  const name = String(body.name || body.first_name || '').trim();
   const emailRaw = String(body.email || '').trim();
-  const source = 'toolkit_sample_page';
-  const tag = 'body_first_toolkit_sample';
-  if (!first_name) return res.status(400).json({ ok: false, error: 'Please enter your first name.' });
+  const source = 'toolkit_sample';
+  const productInterest = 'Body First Framework Manual and Toolkit';
+  if (!emailRaw) return res.status(400).json({ ok: false, error: 'Email is required.' });
   if (!emailRaw || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailRaw)) {
     return res.status(400).json({ ok: false, error: 'Please enter a valid email address.' });
   }
@@ -101,44 +101,107 @@ module.exports = async (req, res) => {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
+  var leadId = null;
   try {
     const ins = await supabase
-      .from('guide_leads')
+      .from('toolkit_sample_leads')
       .insert({
-        first_name,
+        name: name || null,
         email,
         source,
-        tag,
+        product_interest: productInterest,
         download_sent: false,
+        error_message: null,
       })
-      .select('id');
+      .select('id')
+      .single();
 
     if (ins.error && ins.error.code === '23505') {
-      await supabase.from('guide_leads').update({ first_name, source, tag }).eq('email', email);
+      const upd = await supabase
+        .from('toolkit_sample_leads')
+        .update({
+          name: name || null,
+          source,
+          product_interest: productInterest,
+        })
+        .eq('email', email)
+        .select('id')
+        .single();
+      if (upd.error) {
+        console.error('[submit-toolkit-sample] duplicate update failed', upd.error);
+        return res.status(500).json({
+          ok: false,
+          error: 'Something went wrong saving your signup. Please try again.',
+          supabaseCode: upd.error.code || null,
+        });
+      }
+      leadId = upd.data && upd.data.id ? upd.data.id : null;
+      console.log('[submit-toolkit-sample] duplicate lead updated id=', leadId, 'email=', email);
     } else if (ins.error) {
+      console.error('[submit-toolkit-sample] insert failed', ins.error);
       return res.status(500).json({
         ok: false,
         error: 'Something went wrong saving your signup. Please try again.',
         supabaseCode: ins.error.code || null,
       });
+    } else {
+      leadId = ins.data && ins.data.id ? ins.data.id : null;
+      console.log('[submit-toolkit-sample] lead inserted id=', leadId, 'email=', email);
     }
-  } catch {
+  } catch (err) {
+    console.error('[submit-toolkit-sample] insert exception', err && err.message ? err.message : err);
     return res.status(500).json({ ok: false, error: 'Something went wrong saving your signup.' });
   }
 
   var emailSent = false;
+  var resendMessageId = null;
+  var resendErrorMessage = null;
   try {
-    const sent = await sendToolkitSampleEmail(first_name, emailRaw);
+    const sent = await sendToolkitSampleEmail(name || 'there', emailRaw);
     emailSent = !!(sent && sent.ok);
-  } catch {
+    resendMessageId = sent && sent.resendMessageId ? String(sent.resendMessageId) : null;
+    if (!emailSent) {
+      resendErrorMessage = sent && sent.error ? String(sent.error) : 'Resend send returned not ok';
+    }
+  } catch (err) {
     emailSent = false;
+    resendErrorMessage = err && err.message ? String(err.message) : 'Resend send exception';
   }
 
   if (emailSent) {
-    await supabase
-      .from('guide_leads')
-      .update({ download_sent: true })
-      .eq('email', email);
+    console.log('[submit-toolkit-sample] resend success email=', email, 'message_id=', resendMessageId);
+  } else {
+    console.error('[submit-toolkit-sample] resend failed email=', email, 'error=', resendErrorMessage);
+  }
+
+  try {
+    if (emailSent) {
+      await supabase
+        .from('toolkit_sample_leads')
+        .update({
+          download_sent: true,
+          email_sent_at: new Date().toISOString(),
+          resend_message_id: resendMessageId,
+          error_message: null,
+        })
+        .eq('email', email);
+    } else {
+      await supabase
+        .from('toolkit_sample_leads')
+        .update({
+          download_sent: false,
+          error_message: resendErrorMessage,
+          resend_message_id: null,
+        })
+        .eq('email', email);
+    }
+  } catch (err) {
+    console.error(
+      '[submit-toolkit-sample] failed to update send status email=',
+      email,
+      'error=',
+      err && err.message ? err.message : err,
+    );
   }
 
   const formspreeEndpoint = String(process.env.FORMSPREE_TOOLKIT_ENDPOINT || '').trim();
@@ -148,10 +211,10 @@ module.exports = async (req, res) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          first_name,
+          name: name || '',
           email: emailRaw,
           source,
-          tag,
+          product_interest: productInterest,
         }),
       });
     } catch {
@@ -162,6 +225,8 @@ module.exports = async (req, res) => {
   return res.status(200).json({
     ok: true,
     emailSent,
+    resendMessageId,
     showThankYouAnyway: !emailSent,
+    leadId,
   });
 };
