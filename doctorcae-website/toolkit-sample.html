@@ -236,6 +236,21 @@
         status.innerHTML = msg;
       }
 
+      function readableError(err) {
+        if (!err) return 'Something went wrong. Please try again.';
+        if (typeof err === 'string') return err;
+        if (typeof err === 'object') {
+          if (typeof err.error === 'string') return err.error;
+          if (typeof err.message === 'string') return err.message;
+          try {
+            return JSON.stringify(err);
+          } catch (jsonErr) {
+            return 'Something went wrong. Please try again.';
+          }
+        }
+        return String(err);
+      }
+
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         var name = String((document.getElementById('name') || {}).value || '').trim();
@@ -255,7 +270,7 @@
             return r.text().then(function (text) {
               var data = {};
               try { data = text ? JSON.parse(text) : {}; } catch (err) { data = {}; }
-              return { ok: r.ok, data: data };
+              return { ok: r.ok, status: r.status, data: data };
             });
           })
           .then(function (result) {
@@ -267,7 +282,11 @@
               show('warn', 'You can still access the sample here: <a href="' + thankYouUrl + '">Open sample page</a>.');
               return;
             }
-            show('err', (result.data && result.data.error) || 'Something went wrong. Please try again.');
+            var msg = readableError(result.data && result.data.error ? result.data.error : result.data);
+            if (!result.ok && result.status) {
+              msg += ' (status ' + result.status + ')';
+            }
+            show('err', msg);
           })
           .catch(function () {
             show('err', 'Connection issue. Please try again.');
