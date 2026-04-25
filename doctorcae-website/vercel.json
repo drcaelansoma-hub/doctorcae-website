@@ -6,6 +6,7 @@
     "api/social-bundle.js": { "includeFiles": "lib/**" },
     "api/instagram-bundle.js": { "includeFiles": "lib/**" },
     "api/submit-free-guide.js": { "includeFiles": "lib/**" },
+    "api/submit-toolkit-sample.js": { "includeFiles": "lib/**" },
     "api/cron-nurture-emails.js": { "includeFiles": "lib/**" },
     "api/journal-posts.js": { "includeFiles": "lib/**" },
     "api/create-checkout-session.js": { "includeFiles": "lib/**" }
@@ -84,6 +85,14 @@
     {
       "source": "/free-guide/thank-you/",
       "destination": "/free-guide/thank-you.html"
+    },
+    {
+      "source": "/toolkit-sample/thank-you",
+      "destination": "/toolkit-sample/thank-you.html"
+    },
+    {
+      "source": "/toolkit-sample/thank-you/",
+      "destination": "/toolkit-sample/thank-you.html"
     }
   ]
 }

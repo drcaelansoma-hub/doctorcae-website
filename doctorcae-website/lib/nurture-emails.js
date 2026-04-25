@@ -20,6 +20,18 @@ function guidePdfUrl() {
   return 'https://doctorcae.com/free-guide/body-first-framework-guide.pdf';
 }
 
+function toolkitSamplePageUrl() {
+  var u = String(process.env.TOOLKIT_SAMPLE_PAGE_URL || '').trim();
+  if (u) return u;
+  return 'https://doctorcae.com/toolkit-sample';
+}
+
+function toolkitSamplePdfUrl() {
+  var u = String(process.env.TOOLKIT_SAMPLE_DOWNLOAD_URL || '').trim();
+  if (u) return u;
+  return 'https://doctorcae.com/toolkit-sample/Body%20First%20Framework%20for%20Therapists%20SAMPLE.pdf';
+}
+
 function escapeHtml(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -422,11 +434,54 @@ async function sendEmailStep5(name, email) {
   return sendWithResend(email, c.subject, c.text, c.html);
 }
 
+async function sendToolkitSampleEmail(name, email) {
+  var n = displayName(name);
+  var subject = 'Your Body First Framework Toolkit sample';
+  var text = [
+    'Hi ' + n + ',',
+    '',
+    'Thanks for downloading the Body First Framework Manual & Toolkit for Therapists sample.',
+    '',
+    'Download the sample PDF:',
+    toolkitSamplePdfUrl(),
+    '',
+    'Landing page:',
+    toolkitSamplePageUrl(),
+    '',
+    'If this sample resonates, you can access the full Manual & Toolkit here:',
+    'https://guide.doctorcae.com/body-first-framework-manual-and-toolkit-for-therapists',
+    '',
+    'Dr. Cae',
+  ].join('\n');
+  var html =
+    '<p>Hi ' +
+    escapeHtml(n) +
+    ',</p>' +
+    '<p>Thanks for downloading the <strong>Body First Framework Manual &amp; Toolkit for Therapists</strong> sample.</p>' +
+    '<p><strong>Download your sample PDF:</strong><br /><a href="' +
+    escapeHtml(toolkitSamplePdfUrl()) +
+    '">' +
+    escapeHtml(toolkitSamplePdfUrl()) +
+    '</a></p>' +
+    '<p>Landing page: <a href="' +
+    escapeHtml(toolkitSamplePageUrl()) +
+    '">' +
+    escapeHtml(toolkitSamplePageUrl()) +
+    '</a></p>' +
+    '<p>If this sample resonates, you can access the full Manual &amp; Toolkit here:<br />' +
+    '<a href="https://guide.doctorcae.com/body-first-framework-manual-and-toolkit-for-therapists">' +
+    'https://guide.doctorcae.com/body-first-framework-manual-and-toolkit-for-therapists' +
+    '</a></p>' +
+    '<p>Dr. Cae</p>';
+  return sendWithResend(email, subject, text, html);
+}
+
 module.exports = {
   sendEmailStep1,
   sendEmailStep2,
   sendEmailStep3,
   sendEmailStep4,
   sendEmailStep5,
+  sendToolkitSampleEmail,
   displayName,
 };
