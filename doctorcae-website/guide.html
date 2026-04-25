@@ -331,6 +331,25 @@
         statusEl.innerHTML = html;
       }
 
+      /** API may return `error` as a string or nested object — never show [object Object]. */
+      function readableError(err) {
+        if (err == null || err === "") return "";
+        if (typeof err === "string") return err;
+        if (typeof err === "object") {
+          if (typeof err.message === "string" && err.message) return err.message;
+          if (typeof err.error === "string" && err.error) return err.error;
+          if (err.error && typeof err.error === "object" && typeof err.error.message === "string") {
+            return err.error.message;
+          }
+          try {
+            return JSON.stringify(err);
+          } catch (jsonErr) {
+            return "Something went wrong. Please try again.";
+          }
+        }
+        return String(err);
+      }
+
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         var first_name = (document.getElementById("first_name") || {}).value;
@@ -400,18 +419,19 @@
               );
               return;
             }
-            var msg =
-              (result.data && result.data.error) ||
-              "Something went wrong. Please try again.";
+            var rawErr = result.data && result.data.error;
+            var msg = readableError(rawErr) || "Something went wrong. Please try again.";
             if (result.data && result.data.supabaseCode) {
               msg +=
-                " Technical detail: " +
+                " [" +
                 String(result.data.supabaseCode) +
-                (result.data.supabaseMessage ? " — " + String(result.data.supabaseMessage) : "") +
-                (result.data.supabaseDetails ? " (" + String(result.data.supabaseDetails) + ")" : "") +
-                ".";
+                "]" +
+                (result.data.supabaseMessage ? " " + String(result.data.supabaseMessage) : "") +
+                (result.data.supabaseDetails ? " (" + String(result.data.supabaseDetails) + ")" : "");
+            } else if (result.data && result.data.supabaseMessage) {
+              msg += " " + String(result.data.supabaseMessage);
             }
-            showStatus("error", String(msg));
+            showStatus("error", msg);
           })
           .catch(function () {
             showStatus("error", "Something went wrong. Please check your connection and try again.");

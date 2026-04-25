@@ -7,6 +7,22 @@ const { Resend } = require('resend');
 
 const LOG = '[nurture-emails]';
 
+/** Turn Resend/PostgREST-style errors into a safe string (never "[object Object]"). */
+function formatProviderError(err) {
+  if (err == null) return 'Unknown error';
+  if (typeof err === 'string') return err;
+  if (typeof err === 'object') {
+    if (typeof err.message === 'string' && err.message) return err.message;
+    if (typeof err.error === 'string' && err.error) return err.error;
+    try {
+      return JSON.stringify(err);
+    } catch (e) {
+      return String(err);
+    }
+  }
+  return String(err);
+}
+
 /** Public URLs for Email 1 download line (override PDF via FREE_GUIDE_DOWNLOAD_URL in Vercel). */
 function thankYouPageUrl() {
   var u = String(process.env.FREE_GUIDE_THANK_YOU_URL || '').trim();
@@ -74,7 +90,7 @@ async function sendWithResend(toEmail, subject, text, html) {
     });
     if (sent.error) {
       console.error(LOG, 'Resend error', sent.error);
-      return { ok: false, error: String(sent.error.message || sent.error) };
+      return { ok: false, error: formatProviderError(sent.error) };
     }
     var messageId =
       (sent.data && (sent.data.id || sent.data.message_id || sent.data.messageId)) ||

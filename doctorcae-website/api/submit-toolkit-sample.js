@@ -23,6 +23,18 @@ function readRawBody(req) {
   });
 }
 
+function toErrorString(x, fallback) {
+  var fb = fallback || 'Resend send returned not ok';
+  if (x == null) return fb;
+  if (typeof x === 'string') return x;
+  if (typeof x === 'object' && typeof x.message === 'string' && x.message) return x.message;
+  try {
+    return JSON.stringify(x);
+  } catch (e) {
+    return fb;
+  }
+}
+
 async function readParsedBody(req) {
   var existing = req.body;
   if (Buffer.isBuffer(existing)) {
@@ -190,7 +202,7 @@ module.exports = async (req, res) => {
     emailSent = !!(sent && sent.ok);
     resendMessageId = sent && sent.resendMessageId ? String(sent.resendMessageId) : null;
     if (!emailSent) {
-      resendErrorMessage = sent && sent.error ? String(sent.error) : 'Resend send returned not ok';
+      resendErrorMessage = toErrorString(sent && sent.error, 'Resend send returned not ok');
     }
   } catch (err) {
     emailSent = false;

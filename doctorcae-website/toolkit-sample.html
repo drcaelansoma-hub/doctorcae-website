@@ -237,11 +237,14 @@
       }
 
       function readableError(err) {
-        if (!err) return 'Something went wrong. Please try again.';
+        if (err == null || err === '') return '';
         if (typeof err === 'string') return err;
         if (typeof err === 'object') {
-          if (typeof err.error === 'string') return err.error;
-          if (typeof err.message === 'string') return err.message;
+          if (typeof err.message === 'string' && err.message) return err.message;
+          if (typeof err.error === 'string' && err.error) return err.error;
+          if (err.error && typeof err.error === 'object' && typeof err.error.message === 'string') {
+            return err.error.message;
+          }
           try {
             return JSON.stringify(err);
           } catch (jsonErr) {
@@ -282,9 +285,10 @@
               show('warn', 'You can still access the sample here: <a href="' + thankYouUrl + '">Open sample page</a>.');
               return;
             }
-            var msg = readableError(result.data && result.data.error ? result.data.error : result.data);
+            var rawErr = result.data && result.data.error;
+            var msg = readableError(rawErr) || 'Something went wrong. Please try again.';
             if (result.data && result.data.supabaseCode) {
-              msg += ' [Supabase ' + String(result.data.supabaseCode) + ']';
+              msg += ' [' + String(result.data.supabaseCode) + ']';
             }
             if (result.data && result.data.supabaseMessage) {
               msg += ' ' + String(result.data.supabaseMessage);
