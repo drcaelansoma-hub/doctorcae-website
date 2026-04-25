@@ -47,7 +47,13 @@ function readRawBody(req) {
 
 async function readParsedBody(req) {
   var existing = req.body;
-
+  if (Buffer.isBuffer(existing)) {
+    try {
+      return JSON.parse(existing.toString('utf8'));
+    } catch {
+      return {};
+    }
+  }
   if (typeof existing === 'string' && existing.length > 0) {
     try {
       return JSON.parse(existing);
@@ -55,25 +61,17 @@ async function readParsedBody(req) {
       return bodyFromUrlEncoded(existing);
     }
   }
-
   if (existing != null && typeof existing === 'object' && !Buffer.isBuffer(existing)) {
     var keys = Object.keys(existing);
-    if (keys.length > 0) {
-      return existing;
-    }
+    if (keys.length > 0) return existing;
   }
-
-  var raw;
+  var raw = '';
   try {
     raw = await readRawBody(req);
   } catch {
     return {};
   }
-
-  if (!raw) {
-    return {};
-  }
-
+  if (!raw) return {};
   var ct = String(req.headers['content-type'] || '').toLowerCase();
   if (ct.includes('application/json')) {
     try {
@@ -82,9 +80,7 @@ async function readParsedBody(req) {
       return {};
     }
   }
-  if (ct.includes('application/x-www-form-urlencoded')) {
-    return bodyFromUrlEncoded(raw);
-  }
+  if (ct.includes('application/x-www-form-urlencoded')) return bodyFromUrlEncoded(raw);
   try {
     return JSON.parse(raw);
   } catch {
@@ -92,10 +88,40 @@ async function readParsedBody(req) {
   }
 }
 
+function normalizeEnvSecret(value) {
+  var s = String(value || '').trim();
+  if (
+    (s.charAt(0) === '"' && s.charAt(s.length - 1) === '"') ||
+    (s.charAt(0) === "'" && s.charAt(s.length - 1) === "'")
+  ) {
+    s = s.slice(1, -1).trim();
+  }
+  return s;
+}
+
+function supabaseInsertFailurePayloadGuide(err) {
+  var code = err && err.code ? err.code : null;
+  var message = err && err.message ? String(err.message) : '';
+  var details = err && err.details != null ? err.details : null;
+  var userError = 'Something went wrong saving your signup. Please try again.';
+  if (/invalid api key/i.test(message) || /jwt\s*(is\s*)?(invalid|expired)/i.test(message)) {
+    userError =
+      'Supabase rejected the server key (often “Invalid API key”). In Vercel, set SUPABASE_URL_FREE_GUIDE (or SUPABASE_URL) and SUPABASE_SERVICE_ROLE_KEY_FREE_GUIDE to the Project URL and service_role secret from the same Supabase project—not the anon key. Redeploy after saving.';
+  }
+  return {
+    ok: false,
+    error: userError,
+    supabaseCode: code,
+    supabaseMessage: message || null,
+    supabaseDetails: details,
+  };
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Content-Type', 'application/json');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -106,6 +132,7 @@ module.exports = async (req, res) => {
     return res.status(405).json({ ok: false, error: 'Method not allowed' });
   }
 
+  try {
   console.log('[submit-free-guide] request received POST url=', req.url);
 
   const body = await readParsedBody(req);
@@ -134,12 +161,12 @@ module.exports = async (req, res) => {
 
   const email = emailRaw.toLowerCase();
 
-  const supabaseUrl = String(
+  const supabaseUrl = normalizeEnvSecret(
     process.env.SUPABASE_URL_FREE_GUIDE || process.env.SUPABASE_URL || '',
-  ).trim();
-  const serviceRole = String(
+  );
+  const serviceRole = normalizeEnvSecret(
     process.env.SUPABASE_SERVICE_ROLE_KEY_FREE_GUIDE || process.env.SUPABASE_SERVICE_ROLE_KEY || '',
-  ).trim();
+  );
   console.log(
     '[submit-free-guide] env check has_SUPABASE_URL=',
     Boolean(supabaseUrl),
@@ -196,11 +223,14 @@ module.exports = async (req, res) => {
 
       if (sel.error || !sel.data) {
         logSupabaseError('select existing lead failed', sel.error);
+        if (sel.error) {
+          return res.status(500).json(supabaseInsertFailurePayloadGuide(sel.error));
+        }
         return res.status(500).json({
           ok: false,
           error: 'Something went wrong saving your signup. Please try again.',
-          supabaseCode: sel.error ? sel.error.code : 'NO_ROW',
-          supabaseMessage: sel.error ? sel.error.message : null,
+          supabaseCode: 'NO_ROW',
+          supabaseMessage: null,
         });
       }
       row = sel.data;
@@ -217,13 +247,7 @@ module.exports = async (req, res) => {
       }
     } else if (ins.error) {
       logSupabaseError('insert failed', ins.error);
-      return res.status(500).json({
-        ok: false,
-        error: 'Something went wrong saving your signup. Please try again.',
-        supabaseCode: ins.error.code || null,
-        supabaseMessage: ins.error.message || null,
-        supabaseDetails: ins.error.details || null,
-      });
+      return res.status(500).json(supabaseInsertFailurePayloadGuide(ins.error));
     } else {
       var insertedRows = Array.isArray(ins.data) ? ins.data : ins.data ? [ins.data] : [];
       if (insertedRows.length > 0) {
@@ -240,11 +264,14 @@ module.exports = async (req, res) => {
           console.log('[submit-free-guide] recovered row after insert returned no rows');
         } else {
           logSupabaseError('insert returned no rows and recover failed', recover.error);
+          if (recover.error) {
+            return res.status(500).json(supabaseInsertFailurePayloadGuide(recover.error));
+          }
           return res.status(500).json({
             ok: false,
             error: 'Something went wrong saving your signup. Please try again.',
-            supabaseCode: recover.error ? recover.error.code : 'EMPTY_INSERT',
-            supabaseMessage: recover.error ? recover.error.message : null,
+            supabaseCode: 'EMPTY_INSERT',
+            supabaseMessage: null,
           });
         }
       }
@@ -290,10 +317,10 @@ module.exports = async (req, res) => {
   }
 
   const resendKey = process.env.RESEND_API_KEY;
-  const resendFrom = process.env.RESEND_FROM;
+  const resendFrom = process.env.RESEND_FROM_EMAIL || process.env.RESEND_FROM;
   if (!resendKey || !resendFrom) {
     console.error(
-      '[submit-free-guide] lead saved; nurture email skipped — set RESEND_API_KEY, RESEND_FROM',
+      '[submit-free-guide] lead saved; nurture email skipped — set RESEND_API_KEY, RESEND_FROM or RESEND_FROM_EMAIL',
     );
     return res.status(200).json({
       ok: true,
@@ -354,4 +381,12 @@ module.exports = async (req, res) => {
     emailSent: emailSent,
     alreadyDelivered: false,
   });
+  } catch (err) {
+    console.error('[submit-free-guide] unhandled exception', err && err.stack ? err.stack : err);
+    return res.status(500).json({
+      ok: false,
+      error: 'Something went wrong. Please try again.',
+      detail: err && err.message ? String(err.message) : null,
+    });
+  }
 };

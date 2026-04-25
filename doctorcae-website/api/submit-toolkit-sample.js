@@ -23,6 +23,36 @@ function readRawBody(req) {
   });
 }
 
+/** Trim and strip a single layer of wrapping quotes (common copy/paste mistake in Vercel). */
+function normalizeEnvSecret(value) {
+  var s = String(value || '').trim();
+  if (
+    (s.charAt(0) === '"' && s.charAt(s.length - 1) === '"') ||
+    (s.charAt(0) === "'" && s.charAt(s.length - 1) === "'")
+  ) {
+    s = s.slice(1, -1).trim();
+  }
+  return s;
+}
+
+function supabaseInsertFailurePayload(err) {
+  var code = err && err.code ? err.code : null;
+  var message = err && err.message ? String(err.message) : '';
+  var details = err && err.details != null ? err.details : null;
+  var userError = 'Something went wrong saving your signup. Please try again.';
+  if (/invalid api key/i.test(message) || /jwt\s*(is\s*)?(invalid|expired)/i.test(message)) {
+    userError =
+      'Supabase rejected the server key (often shown as “Invalid API key”). In Vercel, open your toolkit Supabase project → Settings → API: copy Project URL into SUPABASE_URL_TOOLKIT and the service_role secret into SUPABASE_SERVICE_ROLE_KEY_TOOLKIT (not the anon public key). Remove extra quotes or spaces, save, then Redeploy.';
+  }
+  return {
+    ok: false,
+    error: userError,
+    supabaseCode: code,
+    supabaseMessage: message || null,
+    supabaseDetails: details,
+  };
+}
+
 function toErrorString(x, fallback) {
   var fb = fallback || 'Resend send returned not ok';
   if (x == null) return fb;
@@ -98,12 +128,12 @@ module.exports = async (req, res) => {
   }
   const email = emailRaw.toLowerCase();
 
-  const supabaseUrl = String(
+  const supabaseUrl = normalizeEnvSecret(
     process.env.SUPABASE_URL_TOOLKIT || process.env.SUPABASE_URL || '',
-  ).trim();
-  const serviceRole = String(
+  );
+  const serviceRole = normalizeEnvSecret(
     process.env.SUPABASE_SERVICE_ROLE_KEY_TOOLKIT || process.env.SUPABASE_SERVICE_ROLE_KEY || '',
-  ).trim();
+  );
   if (!supabaseUrl || !serviceRole) {
     return res.status(503).json({
       ok: false,
@@ -144,25 +174,13 @@ module.exports = async (req, res) => {
         .single();
       if (upd.error) {
         console.error('[submit-toolkit-sample] duplicate update failed', upd.error);
-        return res.status(500).json({
-          ok: false,
-          error: 'Something went wrong saving your signup. Please try again.',
-          supabaseCode: upd.error.code || null,
-          supabaseMessage: upd.error.message || null,
-          supabaseDetails: upd.error.details || null,
-        });
+        return res.status(500).json(supabaseInsertFailurePayload(upd.error));
       }
       leadId = upd.data && upd.data.id ? upd.data.id : null;
       console.log('[submit-toolkit-sample] duplicate lead updated id=', leadId, 'email=', email);
     } else if (ins.error) {
       console.error('[submit-toolkit-sample] insert failed', ins.error);
-      return res.status(500).json({
-        ok: false,
-        error: 'Something went wrong saving your signup. Please try again.',
-        supabaseCode: ins.error.code || null,
-        supabaseMessage: ins.error.message || null,
-        supabaseDetails: ins.error.details || null,
-      });
+      return res.status(500).json(supabaseInsertFailurePayload(ins.error));
     } else {
       leadId = ins.data && ins.data.id ? ins.data.id : null;
       console.log('[submit-toolkit-sample] lead inserted id=', leadId, 'email=', email);
