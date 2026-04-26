@@ -205,26 +205,26 @@ module.exports = async (req, res) => {
       '[submit-toolkit-sample] failed to load nurture email module',
       err && err.stack ? err.stack : err,
     );
-    return res.status(500).json({
-      ok: false,
-      error: 'Toolkit email module failed to load on the server.',
-      detail: err && err.message ? String(err.message) : 'Unknown module load error',
-    });
+    sendToolkitSampleEmail = null;
   }
 
   var emailSent = false;
   var resendMessageId = null;
   var resendErrorMessage = null;
-  try {
-    const sent = await sendToolkitSampleEmail(name || 'there', emailRaw);
-    emailSent = !!(sent && sent.ok);
-    resendMessageId = sent && sent.resendMessageId ? String(sent.resendMessageId) : null;
-    if (!emailSent) {
-      resendErrorMessage = toErrorString(sent && sent.error, 'Resend send returned not ok');
+  if (typeof sendToolkitSampleEmail === 'function') {
+    try {
+      const sent = await sendToolkitSampleEmail(name || 'there', emailRaw);
+      emailSent = !!(sent && sent.ok);
+      resendMessageId = sent && sent.resendMessageId ? String(sent.resendMessageId) : null;
+      if (!emailSent) {
+        resendErrorMessage = toErrorString(sent && sent.error, 'Resend send returned not ok');
+      }
+    } catch (err) {
+      emailSent = false;
+      resendErrorMessage = err && err.message ? String(err.message) : 'Resend send exception';
     }
-  } catch (err) {
-    emailSent = false;
-    resendErrorMessage = err && err.message ? String(err.message) : 'Resend send exception';
+  } else {
+    resendErrorMessage = 'Email module unavailable on server; lead saved and email can be resent later.';
   }
 
   if (emailSent) {

@@ -3,7 +3,6 @@
 // Nurture: email_step 0→1 on successful Email 1; daily cron sends 2–5 (see api/cron-nurture-emails.js).
 
 const { createClient } = require('@supabase/supabase-js');
-const { sendEmailStep1 } = require('../lib/nurture-emails');
 
 function logSupabaseError(context, err) {
   if (err == null) return;
@@ -331,17 +330,26 @@ module.exports = async (req, res) => {
   }
 
   var emailSent = false;
+  var sendEmailStep1 = null;
   try {
-    console.log('[submit-free-guide] nurture Email 1 send starting');
-    const nurture = await sendEmailStep1(first_name, emailRaw);
-    if (!nurture.ok) {
-      console.error('[submit-free-guide] nurture Email 1 failed', nurture.error);
-    } else {
-      emailSent = true;
-      console.log('[submit-free-guide] nurture Email 1 accepted');
-    }
+    sendEmailStep1 = require('../lib/nurture-emails').sendEmailStep1;
   } catch (e) {
-    console.error('[submit-free-guide] nurture Email 1 exception', e && e.stack ? e.stack : e);
+    console.error('[submit-free-guide] failed to load nurture email module', e && e.stack ? e.stack : e);
+  }
+
+  if (typeof sendEmailStep1 === 'function') {
+    try {
+      console.log('[submit-free-guide] nurture Email 1 send starting');
+      const nurture = await sendEmailStep1(first_name, emailRaw);
+      if (!nurture.ok) {
+        console.error('[submit-free-guide] nurture Email 1 failed', nurture.error);
+      } else {
+        emailSent = true;
+        console.log('[submit-free-guide] nurture Email 1 accepted');
+      }
+    } catch (e) {
+      console.error('[submit-free-guide] nurture Email 1 exception', e && e.stack ? e.stack : e);
+    }
   }
 
   if (emailSent) {
