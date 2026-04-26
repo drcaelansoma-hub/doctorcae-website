@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Why Transitions Are So Hard for Kids (and What Actually Helps) - Dr. Caelan Soma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Struggling with meltdowns during transitions? Learn why transitions are hard for kids and how to support your child using a nervous system-based approach." />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f6f8;
+      --primary: #3b6c94;
+      --primary-soft: #7fa4c1;
+      --brown: #a4744a;
+      --text-main: #29333b;
+      --text-muted: #6b7280;
+      --card-bg: #ffffff;
+      --border-subtle: #dde2e7;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 2rem 0;
+    }
+
+    .article-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .article-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .article-logo {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      margin: 0 auto 1.5rem;
+      display: block;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    .article-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .article-content {
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 1.3rem;
+      padding: 3rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
+      font-size: 1.1rem;
+      line-height: 1.8;
+      backdrop-filter: blur(10px);
+    }
+
+    .article-content h2 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .article-content h2:first-child {
+      margin-top: 0;
+    }
+
+    .article-content h3 {
+      font-size: 1.2rem;
+      color: var(--text-main);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    .article-content p {
+      margin-bottom: 1.5rem;
+      color: var(--text-main);
+    }
+
+    .article-content ul,
+    .article-content ol {
+      margin-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-content li {
+      margin-bottom: 0.75rem;
+      color: var(--text-main);
+    }
+
+    .article-pullquote {
+      margin: 1.5rem 0;
+      padding: 1.25rem 1.5rem;
+      border-left: 4px solid var(--primary-soft);
+      background: rgba(230, 237, 245, 0.45);
+      border-radius: 0 0.75rem 0.75rem 0;
+      font-style: italic;
+      color: var(--text-main);
+    }
+
+    .article-cta-group {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .article-cta-heading {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .article-cta-button {
+      display: inline-block;
+      margin: 0.35rem 0.6rem 0.35rem 0;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(59, 108, 148, 0.25);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .article-cta-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(59, 108, 148, 0.3);
+    }
+
+    .article-cta-button-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--primary-soft);
+      box-shadow: none;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 999px;
+      font-weight: 500;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 36px rgba(15, 23, 42, 0.2);
+    }
+
+    @media (max-width: 640px) {
+      .article-container {
+        padding: 0 1.3rem;
+      }
+      .article-title {
+        font-size: 1.75rem;
+      }
+      .article-content {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926033047"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'AW-17926033047');
+    gtag('config', 'G-R4CEN25RRM');
+  </script>
+</head>
+<body>
+  <div class="article-container">
+    <header class="article-header">
+      <img src="Logo.svg" alt="Dr. Caelan Soma logo" class="article-logo" />
+      <h1 class="article-title">Why Transitions Are So Hard for Kids (and What Actually Helps)</h1>
+      <p class="article-subtitle">Body First Parenting &middot; Dr. Caelan Soma</p>
+    </header>
+
+    <article class="article-content">
+      <p>
+        If you&rsquo;ve ever said,<br>
+        &ldquo;We&rsquo;re leaving in 5 minutes,&rdquo;<br>
+        and somehow it still turns into a meltdown&hellip;<br>
+        you&rsquo;re not alone.
+      </p>
+
+      <p>
+        Transitions&mdash;like turning off a screen, leaving the house, or getting ready for bed&mdash;are some of the hardest moments in a child&rsquo;s day.
+      </p>
+
+      <p>Not because kids are trying to be difficult.<br>Not because they didn&rsquo;t hear you.</p>
+
+      <p>
+        But because their nervous system has to shift states&mdash;not just activities.
+      </p>
+
+      <h2>What&rsquo;s really happening during transitions</h2>
+
+      <p>When your child is:</p>
+      <ul>
+        <li>deeply focused on a game</li>
+        <li>relaxed and comfortable</li>
+        <li>or doing something they enjoy</li>
+      </ul>
+
+      <p>their body is in a specific regulated state.</p>
+
+      <p>A transition requires their nervous system to:</p>
+      <ul>
+        <li>stop what it&rsquo;s doing</li>
+        <li>shift gears</li>
+        <li>and move into something new</li>
+      </ul>
+
+      <p>That&rsquo;s a big ask.</p>
+
+      <p>
+        And for many kids, that shift doesn&rsquo;t feel smooth&mdash;it feels abrupt, uncomfortable, and overwhelming.
+      </p>
+
+      <p>So what looks like:</p>
+      <ul>
+        <li>ignoring</li>
+        <li>arguing</li>
+        <li>refusing</li>
+        <li>melting down</li>
+      </ul>
+
+      <p>is often the body saying:</p>
+      <p class="article-pullquote">&ldquo;I&rsquo;m not ready yet.&rdquo;</p>
+
+      <h2>Why &ldquo;just listen&rdquo; doesn&rsquo;t work</h2>
+
+      <p>
+        In the middle of a hard transition, your child&rsquo;s thinking brain isn&rsquo;t fully available.
+      </p>
+
+      <p>This is what we call <strong>state-dependent functioning</strong>.</p>
+
+      <p>When the body is dysregulated:</p>
+      <ul>
+        <li>flexibility drops</li>
+        <li>frustration rises</li>
+        <li>cooperation becomes much harder</li>
+      </ul>
+
+      <p>So repeating:</p>
+      <ul>
+        <li>&ldquo;I already told you&rdquo;</li>
+        <li>&ldquo;You need to listen&rdquo;</li>
+        <li>&ldquo;Let&rsquo;s go, now&rdquo;</li>
+      </ul>
+
+      <p>&hellip;usually makes things escalate, not improve.</p>
+
+      <p>Because the issue isn&rsquo;t understanding.<br>It&rsquo;s the state of the nervous system.</p>
+
+      <h2>How to help kids with transitions (Body First approach)</h2>
+
+      <p>Instead of focusing only on behavior, start by supporting the state shift.</p>
+      <p>Here&rsquo;s what that looks like in real life:</p>
+
+      <h3>1. Preview the transition</h3>
+      <p>Give the body time to prepare.</p>
+      <ul>
+        <li>&ldquo;5 more minutes, then we&rsquo;re leaving&rdquo;</li>
+        <li>&ldquo;After this episode, it&rsquo;s time for bed&rdquo;</li>
+      </ul>
+      <p>This reduces the shock of sudden change.</p>
+
+      <h3>2. Bridge the moment with connection</h3>
+      <p>Help your child feel understood as they shift.</p>
+      <ul>
+        <li>&ldquo;I know it&rsquo;s hard to stop when you&rsquo;re in the middle of something&rdquo;</li>
+        <li>&ldquo;You really wish you could keep going&rdquo;</li>
+      </ul>
+      <p>This lowers resistance and helps the nervous system settle.</p>
+
+      <h3>3. Slow the exit instead of forcing it</h3>
+      <p>Abrupt endings are hard on the body.</p>
+      <p>Try:</p>
+      <ul>
+        <li>&ldquo;Let&rsquo;s finish this part together&rdquo;</li>
+        <li>&ldquo;One last turn, then we go&rdquo;</li>
+      </ul>
+      <p>A small bridge makes a big difference.</p>
+
+      <h3>4. Expect some friction</h3>
+      <p>Even with support, transitions take effort.</p>
+      <p>Support doesn&rsquo;t mean no feelings.<br>It means safer, more manageable feelings.</p>
+
+      <h2>Common transition triggers for kids</h2>
+
+      <p>You might notice transitions are especially hard when:</p>
+      <ul>
+        <li>your child is already tired or hungry</li>
+        <li>they&rsquo;re deeply engaged in something they enjoy</li>
+        <li>the next activity feels harder or less predictable</li>
+        <li>the transition is rushed or unexpected</li>
+      </ul>
+
+      <p>These aren&rsquo;t behavior problems.<br>They&rsquo;re nervous system load problems.</p>
+
+      <h2>The shift that changes everything</h2>
+
+      <p>When you start to see transitions as body-based, not behavior-based&hellip;</p>
+      <p>you stop asking:</p>
+      <p class="article-pullquote">&ldquo;Why are they making this so hard?&rdquo;</p>
+      <p>&hellip;and start asking:</p>
+      <p class="article-pullquote">&ldquo;How can I support their nervous system through this shift?&rdquo;</p>
+      <p>That&rsquo;s where things begin to change.</p>
+
+      <h2>Want more support with moments like this?</h2>
+
+      <p>
+        If transitions, meltdowns, or daily power struggles feel like a constant cycle, you&rsquo;re not alone&mdash;and you don&rsquo;t have to figure it out on your own.
+      </p>
+
+      <p><strong>Start here:</strong> download the free guide, <em>A Beginner&rsquo;s Guide to the Body First Framework</em>&mdash;how to understand your child&rsquo;s behavior through a nervous system lens, and what to do in real-life moments.</p>
+
+      <p><strong>Ready for deeper support?</strong> In the online course, <em>When Big Feelings Take Over: Understanding Regulation from the Inside Out</em>, I walk you step-by-step through why behavior happens, how to respond in hard moments, and how to build regulation skills that actually stick.</p>
+
+      <div class="article-cta-group">
+        <p class="article-cta-heading">Resources</p>
+        <a href="/guide" class="article-cta-button">Download the free Body First guide</a>
+        <a href="online-course.html" class="article-cta-button article-cta-button-outline">Explore the course</a>
+        <a href="consultation.html" class="article-cta-button article-cta-button-outline">Learn about consultations</a>
+      </div>
+
+      <p>
+        Transitions aren&rsquo;t just about getting from one activity to another.<br>
+        They&rsquo;re about helping a child&rsquo;s body move from one state to another&mdash;without feeling pushed, overwhelmed, or alone.
+      </p>
+
+      <p>And when you support that shift first&hellip;<br>everything else gets easier.</p>
+
+      <p>
+        Dr. Caelan Soma is a clinical psychologist specializing in trauma-informed care, nervous system regulation, and parent education. She is the creator of the Body First framework and provides resources for families and professionals.
+      </p>
+    </article>
+
+    <a href="blog.html" class="back-link">&larr; Back to Blog</a>
+  </div>
+</body>
+</html>
