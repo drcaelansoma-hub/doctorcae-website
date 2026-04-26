@@ -189,23 +189,44 @@ module.exports = async (req, res) => {
 
   var duplicate = false;
   var row = null;
+  var hasNurtureColumns = true;
 
   try {
-    const insertPayload = {
+    const schemaCheck = await supabase.from('guide_leads').select('email_step, last_email_sent_at').limit(1);
+    if (schemaCheck.error && schemaCheck.error.code === 'PGRST204') {
+      hasNurtureColumns = false;
+      console.warn('[submit-free-guide] guide_leads missing nurture columns; using legacy fallback mode');
+    } else if (schemaCheck.error) {
+      logSupabaseError('schema check failed (non-fatal)', schemaCheck.error);
+    }
+  } catch (schemaErr) {
+    console.error(
+      '[submit-free-guide] schema check exception (non-fatal)',
+      schemaErr && schemaErr.message ? schemaErr.message : schemaErr,
+    );
+  }
+
+  try {
+    var insertPayload = {
       first_name,
       email,
       source,
       tag,
       download_sent: false,
-      email_step: 0,
-      last_email_sent_at: null,
     };
+    if (hasNurtureColumns) {
+      insertPayload.email_step = 0;
+      insertPayload.last_email_sent_at = null;
+    }
     console.log('[submit-free-guide] insert attempted public.guide_leads email=', email);
 
+    const insertSelectColumns = hasNurtureColumns
+      ? 'id, email, download_sent, email_step, last_email_sent_at'
+      : 'id, email, download_sent';
     const ins = await supabase
       .from('guide_leads')
       .insert(insertPayload)
-      .select('id, email, download_sent, email_step, last_email_sent_at');
+      .select(insertSelectColumns);
 
     if (ins.error && ins.error.code === '23505') {
       duplicate = true;
@@ -216,7 +237,11 @@ module.exports = async (req, res) => {
 
       const sel = await supabase
         .from('guide_leads')
-        .select('id, email, download_sent, email_step, last_email_sent_at, first_name')
+        .select(
+          hasNurtureColumns
+            ? 'id, email, download_sent, email_step, last_email_sent_at, first_name'
+            : 'id, email, download_sent, first_name',
+        )
         .eq('email', email)
         .maybeSingle();
 
@@ -255,7 +280,11 @@ module.exports = async (req, res) => {
       } else {
         const recover = await supabase
           .from('guide_leads')
-          .select('id, email, download_sent, email_step, last_email_sent_at')
+          .select(
+            hasNurtureColumns
+              ? 'id, email, download_sent, email_step, last_email_sent_at'
+              : 'id, email, download_sent',
+          )
           .eq('email', email)
           .maybeSingle();
         if (!recover.error && recover.data) {
@@ -292,7 +321,7 @@ module.exports = async (req, res) => {
     });
   }
 
-  var step = Number(row.email_step);
+  var step = hasNurtureColumns ? Number(row.email_step) : 0;
   if (Number.isNaN(step)) step = 0;
 
   if (step >= 1) {
@@ -354,14 +383,21 @@ module.exports = async (req, res) => {
 
   if (emailSent) {
     const nowIso = new Date().toISOString();
-    const updFlag = await supabase
-      .from('guide_leads')
-      .update({
-        download_sent: true,
-        email_step: 1,
-        last_email_sent_at: nowIso,
-      })
-      .eq('email', email);
+    const updFlag = hasNurtureColumns
+      ? await supabase
+          .from('guide_leads')
+          .update({
+            download_sent: true,
+            email_step: 1,
+            last_email_sent_at: nowIso,
+          })
+          .eq('email', email)
+      : await supabase
+          .from('guide_leads')
+          .update({
+            download_sent: true,
+          })
+          .eq('email', email);
 
     if (updFlag.error) {
       logSupabaseError('failed to set nurture fields after send', updFlag.error);
