@@ -195,8 +195,11 @@ module.exports = async (req, res) => {
   }
 
   var sendToolkitSampleEmail = null;
+  var addResendContactToAudience = null;
   try {
-    sendToolkitSampleEmail = require('../lib/nurture-emails').sendToolkitSampleEmail;
+    var nurture = require('../lib/nurture-emails');
+    sendToolkitSampleEmail = nurture.sendToolkitSampleEmail;
+    addResendContactToAudience = nurture.addResendContactToAudience;
     if (typeof sendToolkitSampleEmail !== 'function') {
       throw new Error('sendToolkitSampleEmail export is missing');
     }
@@ -206,6 +209,23 @@ module.exports = async (req, res) => {
       err && err.stack ? err.stack : err,
     );
     sendToolkitSampleEmail = null;
+  }
+
+  const resendAudienceId = String(process.env.RESEND_AUDIENCE_ID_TOOLKIT || '').trim();
+  if (resendAudienceId && typeof addResendContactToAudience === 'function') {
+    try {
+      const sync = await addResendContactToAudience(emailRaw, name || 'there', resendAudienceId, 'toolkit_sample');
+      if (!sync.ok && !sync.skipped) {
+        console.warn('[submit-toolkit-sample] resend contact sync failed', sync.error);
+      } else {
+        console.log('[submit-toolkit-sample] resend contact sync ok duplicate=', Boolean(sync.duplicate));
+      }
+    } catch (syncErr) {
+      console.warn(
+        '[submit-toolkit-sample] resend contact sync exception',
+        syncErr && syncErr.message ? syncErr.message : syncErr,
+      );
+    }
   }
 
   var emailSent = false;

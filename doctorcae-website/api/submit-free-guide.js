@@ -360,10 +360,30 @@ module.exports = async (req, res) => {
 
   var emailSent = false;
   var sendEmailStep1 = null;
+  var addResendContactToAudience = null;
   try {
-    sendEmailStep1 = require('../lib/nurture-emails').sendEmailStep1;
+    var nurture = require('../lib/nurture-emails');
+    sendEmailStep1 = nurture.sendEmailStep1;
+    addResendContactToAudience = nurture.addResendContactToAudience;
   } catch (e) {
     console.error('[submit-free-guide] failed to load nurture email module', e && e.stack ? e.stack : e);
+  }
+
+  const resendAudienceId = String(process.env.RESEND_AUDIENCE_ID_FREE_GUIDE || '').trim();
+  if (resendAudienceId && typeof addResendContactToAudience === 'function') {
+    try {
+      const sync = await addResendContactToAudience(emailRaw, first_name, resendAudienceId, 'free_guide');
+      if (!sync.ok && !sync.skipped) {
+        console.warn('[submit-free-guide] resend contact sync failed', sync.error);
+      } else {
+        console.log('[submit-free-guide] resend contact sync ok duplicate=', Boolean(sync.duplicate));
+      }
+    } catch (syncErr) {
+      console.warn(
+        '[submit-free-guide] resend contact sync exception',
+        syncErr && syncErr.message ? syncErr.message : syncErr,
+      );
+    }
   }
 
   if (typeof sendEmailStep1 === 'function') {

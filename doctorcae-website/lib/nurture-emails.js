@@ -104,6 +104,48 @@ async function sendWithResend(toEmail, subject, text, html) {
   }
 }
 
+/**
+ * Add/update a contact in a Resend Audience list.
+ * Non-fatal helper for lead syncing: callers should treat failures as warnings.
+ */
+async function addResendContactToAudience(email, name, audienceId, sourceTag) {
+  var bundle = getResend();
+  var aud = String(audienceId || '').trim();
+  var em = String(email || '').trim().toLowerCase();
+  if (!bundle || !aud || !em) {
+    return { ok: false, skipped: true, error: 'Missing Resend config, audience ID, or email' };
+  }
+
+  try {
+    var payload = {
+      audienceId: aud,
+      email: em,
+      unsubscribed: false,
+    };
+    var cleanName = String(name || '').trim();
+    if (cleanName) payload.firstName = cleanName;
+    if (sourceTag) payload.lastName = String(sourceTag).trim();
+
+    var created = await bundle.client.contacts.create(payload);
+    if (created && created.error) {
+      var errMsg = formatProviderError(created.error);
+      // Duplicate contacts should not be treated as a hard failure.
+      if (/already exists|duplicate|conflict/i.test(errMsg)) {
+        return { ok: true, duplicate: true };
+      }
+      return { ok: false, error: errMsg };
+    }
+    return { ok: true };
+  } catch (e) {
+    var msg = formatProviderError(e);
+    if (/already exists|duplicate|conflict/i.test(msg)) {
+      return { ok: true, duplicate: true };
+    }
+    console.error(LOG, 'contact sync exception', msg);
+    return { ok: false, error: msg };
+  }
+}
+
 /** Email 1 — immediate on signup */
 function contentEmail1(name) {
   var n = displayName(name);
@@ -511,5 +553,6 @@ module.exports = {
   sendEmailStep4,
   sendEmailStep5,
   sendToolkitSampleEmail,
+  addResendContactToAudience,
   displayName,
 };
