@@ -331,6 +331,9 @@ module.exports = async (req, res) => {
       duplicate: duplicate,
       emailSent: false,
       alreadyDelivered: true,
+      emailDeliveryCode: 'skipped_nurture_started',
+      emailDeliveryHint:
+        'No new email sent: nurture sequence already started for this address (email_step≥1). Resend won’t show a new send for this signup.',
     });
   }
 
@@ -341,6 +344,9 @@ module.exports = async (req, res) => {
       duplicate: duplicate,
       emailSent: false,
       alreadyDelivered: true,
+      emailDeliveryCode: 'skipped_already_delivered',
+      emailDeliveryHint:
+        'No email sent: this address is already marked delivered in Supabase (download_sent=true). Try a brand‑new email, or reset download_sent for a test.',
     });
   }
 
@@ -355,12 +361,17 @@ module.exports = async (req, res) => {
       duplicate: duplicate,
       emailSent: false,
       alreadyDelivered: false,
+      emailDeliveryCode: 'skipped_no_resend_env',
+      emailDeliveryHint:
+        'Lead saved, but RESEND_API_KEY or RESEND_FROM / RESEND_FROM_EMAIL is missing in Vercel — Resend was never called.',
     });
   }
 
   var emailSent = false;
   var sendEmailStep1 = null;
   var addResendContactToAudience = null;
+  var nurtureSendError = null;
+  var nurtureSendException = null;
   try {
     var nurture = require('../lib/nurture-emails');
     sendEmailStep1 = nurture.sendEmailStep1;
@@ -389,14 +400,16 @@ module.exports = async (req, res) => {
   if (typeof sendEmailStep1 === 'function') {
     try {
       console.log('[submit-free-guide] nurture Email 1 send starting');
-      const nurture = await sendEmailStep1(first_name, emailRaw);
-      if (!nurture.ok) {
-        console.error('[submit-free-guide] nurture Email 1 failed', nurture.error);
+      const nurtureResult = await sendEmailStep1(first_name, emailRaw);
+      if (!nurtureResult.ok) {
+        nurtureSendError = nurtureResult.error ? String(nurtureResult.error) : 'Resend returned not ok';
+        console.error('[submit-free-guide] nurture Email 1 failed', nurtureSendError);
       } else {
         emailSent = true;
         console.log('[submit-free-guide] nurture Email 1 accepted');
       }
     } catch (e) {
+      nurtureSendException = e && e.message ? String(e.message) : String(e);
       console.error('[submit-free-guide] nurture Email 1 exception', e && e.stack ? e.stack : e);
     }
   }
@@ -439,12 +452,34 @@ module.exports = async (req, res) => {
     'alreadyDelivered=',
     false,
   );
-  return res.status(200).json({
+
+  var deliveryPayload = {
     ok: true,
     duplicate: duplicate,
     emailSent: emailSent,
     alreadyDelivered: false,
-  });
+  };
+  if (emailSent) {
+    deliveryPayload.emailDeliveryCode = 'sent';
+    deliveryPayload.emailDeliveryHint =
+      'Welcome email accepted by Resend — check Resend → Emails for this recipient.';
+  } else if (typeof sendEmailStep1 !== 'function') {
+    deliveryPayload.emailDeliveryCode = 'module_load_failed';
+    deliveryPayload.emailDeliveryHint =
+      'Email module failed to load on the server — Resend send was not attempted. Check Vercel logs for nurture-emails.';
+  } else if (nurtureSendException) {
+    deliveryPayload.emailDeliveryCode = 'send_exception';
+    deliveryPayload.emailDeliveryHint = nurtureSendException.slice(0, 280);
+  } else if (nurtureSendError) {
+    deliveryPayload.emailDeliveryCode = 'send_failed';
+    deliveryPayload.emailDeliveryHint = nurtureSendError.slice(0, 280);
+  } else {
+    deliveryPayload.emailDeliveryCode = 'send_not_completed';
+    deliveryPayload.emailDeliveryHint =
+      'Lead saved but Email 1 did not complete — check Vercel logs for submit-free-guide.';
+  }
+
+  return res.status(200).json(deliveryPayload);
   } catch (err) {
     console.error('[submit-free-guide] unhandled exception', err && err.stack ? err.stack : err);
     return res.status(500).json({

@@ -332,6 +332,24 @@
       }
 
       /** API may return `error` as a string or nested object — never show [object Object]. */
+      function escapeHtmlHint(s) {
+        return String(s || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function withDeliveryHint(html, data) {
+        if (!data || !data.emailDeliveryHint) return html;
+        return (
+          html +
+          '<br /><small style="opacity:0.88">' +
+          escapeHtmlHint(data.emailDeliveryHint) +
+          "</small>"
+        );
+      }
+
       function readableError(err) {
         if (err == null || err === "") return "";
         if (typeof err === "string") return err;
@@ -402,20 +420,29 @@
               if (d.alreadyDelivered) {
                 showStatus(
                   "success",
-                  "You&rsquo;re already on the list. <a href=\"" + thankYouUrl + "\">Get your guide</a>."
+                  withDeliveryHint(
+                    "You&rsquo;re already on the list. <a href=\"" + thankYouUrl + "\">Get your guide</a>.",
+                    d,
+                  ),
                 );
                 return;
               }
               if (d.emailSent) {
                 showStatus(
                   "success",
-                  "You&rsquo;re in. <a href=\"" + thankYouUrl + "\">Continue to your guide</a>."
+                  withDeliveryHint(
+                    "You&rsquo;re in. <a href=\"" + thankYouUrl + "\">Continue to your guide</a>.",
+                    d,
+                  ),
                 );
                 return;
               }
               showStatus(
                 "warning",
-                "You&rsquo;re signed up. <a href=\"" + thankYouUrl + "\">Get your guide here</a>."
+                withDeliveryHint(
+                  "You&rsquo;re signed up. <a href=\"" + thankYouUrl + "\">Get your guide here</a>.",
+                  d,
+                ),
               );
               return;
             }

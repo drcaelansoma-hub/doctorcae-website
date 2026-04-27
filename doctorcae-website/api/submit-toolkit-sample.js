@@ -301,11 +301,30 @@ module.exports = async (req, res) => {
     }
   }
 
+  var deliveryCode = emailSent ? 'sent' : 'send_failed';
+  var deliveryHint = null;
+  if (!emailSent) {
+    if (typeof sendToolkitSampleEmail !== 'function') {
+      deliveryCode = 'module_load_failed';
+      deliveryHint =
+        'Email module failed to load on the server — Resend send was not attempted. Check Vercel logs.';
+    } else if (resendErrorMessage) {
+      deliveryHint = String(resendErrorMessage).slice(0, 280);
+    } else {
+      deliveryCode = 'send_not_completed';
+      deliveryHint = 'Lead saved but sample email did not complete — check Vercel logs for submit-toolkit-sample.';
+    }
+  } else {
+    deliveryHint = 'Sample email accepted by Resend — check Resend → Emails for this recipient.';
+  }
+
   return res.status(200).json({
     ok: true,
     emailSent,
     resendMessageId,
     showThankYouAnyway: !emailSent,
     leadId,
+    emailDeliveryCode: deliveryCode,
+    emailDeliveryHint: deliveryHint,
   });
 };

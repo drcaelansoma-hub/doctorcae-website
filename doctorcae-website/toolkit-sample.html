@@ -236,6 +236,24 @@
         status.innerHTML = msg;
       }
 
+      function escapeHtmlHint(s) {
+        return String(s || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function withDeliveryHint(html, data) {
+        if (!data || !data.emailDeliveryHint) return html;
+        return (
+          html +
+          '<br /><small style="opacity:0.88">' +
+          escapeHtmlHint(data.emailDeliveryHint) +
+          '</small>'
+        );
+      }
+
       function readableError(err) {
         if (err == null || err === '') return '';
         if (typeof err === 'string') return err;
@@ -278,11 +296,24 @@
           })
           .then(function (result) {
             if (result.ok && result.data && result.data.ok) {
-              show('ok', 'You&rsquo;re in. <a href="' + thankYouUrl + '">Continue to your sample</a>.');
+              var dOk = result.data;
+              show(
+                'ok',
+                withDeliveryHint(
+                  'You&rsquo;re in. <a href="' + thankYouUrl + '">Continue to your sample</a>.',
+                  dOk,
+                ),
+              );
               return;
             }
             if (result.data && result.data.showThankYouAnyway) {
-              show('warn', 'You can still access the sample here: <a href="' + thankYouUrl + '">Open sample page</a>.');
+              show(
+                'warn',
+                withDeliveryHint(
+                  'You can still access the sample here: <a href="' + thankYouUrl + '">Open sample page</a>.',
+                  result.data,
+                ),
+              );
               return;
             }
             var rawErr = result.data && result.data.error;
