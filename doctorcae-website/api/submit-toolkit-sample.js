@@ -211,10 +211,15 @@ module.exports = async (req, res) => {
     sendToolkitSampleEmail = null;
   }
 
-  const resendAudienceId = String(process.env.RESEND_AUDIENCE_ID_TOOLKIT || '').trim();
+  const resendAudienceId = String(
+    process.env.RESEND_AUDIENCE_ID_TOOLKIT ||
+      process.env.RESEND_AUDIENCE_ID_FREE_GUIDE ||
+      process.env.RESEND_AUDIENCE_ID ||
+      '',
+  ).trim();
   if (resendAudienceId && typeof addResendContactToAudience === 'function') {
     try {
-      const sync = await addResendContactToAudience(emailRaw, name || 'there', resendAudienceId, 'toolkit_sample');
+      const sync = await addResendContactToAudience(email, name || 'there', resendAudienceId, 'toolkit_sample');
       if (!sync.ok && !sync.skipped) {
         console.warn('[submit-toolkit-sample] resend contact sync failed', sync.error);
       } else {
@@ -233,7 +238,7 @@ module.exports = async (req, res) => {
   var resendErrorMessage = null;
   if (typeof sendToolkitSampleEmail === 'function') {
     try {
-      const sent = await sendToolkitSampleEmail(name || 'there', emailRaw);
+      const sent = await sendToolkitSampleEmail(name || 'there', email);
       emailSent = !!(sent && sent.ok);
       resendMessageId = sent && sent.resendMessageId ? String(sent.resendMessageId) : null;
       if (!emailSent) {
