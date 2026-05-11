@@ -1,0 +1,99 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "functions": {
+    "api/admin-bundle.js": { "includeFiles": "lib/**" },
+    "api/social-bundle.js": { "includeFiles": "lib/**" },
+    "api/instagram-bundle.js": { "includeFiles": "lib/**" },
+    "api/submit-free-guide.js": { "includeFiles": "lib/**" },
+    "api/submit-toolkit-sample.js": { "includeFiles": "lib/**" },
+    "api/submit-cards-sample.js": { "includeFiles": "lib/**" },
+    "api/cron-nurture-emails.js": { "includeFiles": "lib/**" },
+    "api/journal-posts.js": { "includeFiles": "lib/**" },
+    "api/create-checkout-session.js": { "includeFiles": "lib/**" }
+  },
+  "crons": [
+    {
+      "path": "/api/cron-nurture-emails",
+      "schedule": "0 13 * * *"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/admin/:path*",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/admin-login",
+      "destination": "/api/admin-bundle?__=login"
+    },
+    {
+      "source": "/api/admin-logout",
+      "destination": "/api/admin-bundle?__=logout"
+    },
+    {
+      "source": "/api/admin-session",
+      "destination": "/api/admin-bundle?__=session"
+    },
+    {
+      "source": "/api/admin-financial",
+      "destination": "/api/admin-bundle?__=financial"
+    },
+    {
+      "source": "/api/admin-formspree-forms",
+      "destination": "/api/admin-bundle?__=formspree-forms"
+    },
+    {
+      "source": "/api/admin-formspree-submissions",
+      "destination": "/api/admin-bundle?__=formspree-submissions"
+    },
+    {
+      "source": "/api/social-drafts",
+      "destination": "/api/social-bundle?__=drafts"
+    },
+    {
+      "source": "/api/social-templates",
+      "destination": "/api/social-bundle?__=templates"
+    },
+    {
+      "source": "/api/social-products",
+      "destination": "/api/social-bundle?__=products"
+    },
+    {
+      "source": "/api/generate-post",
+      "destination": "/api/social-bundle?__=generate-post"
+    },
+    {
+      "source": "/api/social-content-posts",
+      "destination": "/api/social-bundle?__=content-posts"
+    },
+    {
+      "source": "/api/instagram-post-generate",
+      "destination": "/api/instagram-bundle?__=generate"
+    },
+    {
+      "source": "/api/instagram-post-ai-drafts",
+      "destination": "/api/instagram-bundle?__=drafts"
+    },
+    {
+      "source": "/free-guide/thank-you",
+      "destination": "/free-guide/thank-you.html"
+    },
+    {
+      "source": "/free-guide/thank-you/",
+      "destination": "/free-guide/thank-you.html"
+    },
+    {
+      "source": "/toolkit-sample/thank-you",
+      "destination": "/toolkit-sample/thank-you.html"
+    },
+    {
+      "source": "/toolkit-sample/thank-you/",
+      "destination": "/toolkit-sample/thank-you.html"
+    }
+  ]
+}

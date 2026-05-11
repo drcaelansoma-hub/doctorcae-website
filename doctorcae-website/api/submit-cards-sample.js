@@ -2,7 +2,7 @@
 // Env: RESEND_API_KEY, RESEND_FROM or RESEND_FROM_EMAIL
 // Optional: RESEND_AUDIENCE_ID_CARDS, RESEND_AUDIENCE_ID, RESEND_AUDIENCE_ID_FREE_GUIDE
 // Optional: SITE_URL (absolute base for email PDF link; else inferred from request / Vercel)
-// Optional: BEHIND_THE_BEHAVIOR_SAMPLE_PATH (default matches public/downloads/FREE Behind the Behavior Sample.pdf)
+// Optional: BEHIND_THE_BEHAVIOR_SAMPLE_PATH (default: /downloads/Free Behind the Behavior Sample.pdf)
 
 function bodyFromUrlEncoded(raw) {
   const out = {};
@@ -94,7 +94,7 @@ function encodePathSegments(path) {
 function samplePdfAbsoluteUrl(req) {
   var path = String(
     process.env.BEHIND_THE_BEHAVIOR_SAMPLE_PATH ||
-      '/downloads/FREE Behind the Behavior Sample.pdf',
+      '/downloads/Free Behind the Behavior Sample.pdf',
   ).trim();
   if (!path.startsWith('/')) path = '/' + path;
   return absoluteSiteBase(req) + encodePathSegments(path);
