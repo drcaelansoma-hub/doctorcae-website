@@ -546,6 +546,42 @@ async function sendToolkitSampleEmail(name, email) {
   return sendWithResend(email, subject, text, html);
 }
 
+/**
+ * Behind the Behavior sample cards — transactional download email.
+ * downloadUrl must be an absolute https URL to the public PDF.
+ */
+async function sendCardsSampleEmail(firstName, email, downloadUrl) {
+  var n = displayName(firstName);
+  var subject = 'Your free Behind the Behavior sample cards';
+  var link = String(downloadUrl || '').trim();
+  var text = [
+    'Hi ' + n + ',',
+    '',
+    'Your free Behind the Behavior sample cards are here:',
+    '',
+    'Download the sample cards:',
+    link,
+    '',
+    'These cards are designed to help you pause, look beneath the behavior, and respond in a way that supports regulation instead of escalation.',
+    '',
+    'Warmly,',
+    'Dr. Cae',
+  ].join('\n');
+  var html =
+    '<p>Hi ' +
+    escapeHtml(n) +
+    ',</p>' +
+    '<p>Your free Behind the Behavior sample cards are here:</p>' +
+    '<p><strong>Download the sample cards:</strong><br /><a href="' +
+    escapeHtml(link) +
+    '">' +
+    escapeHtml(link) +
+    '</a></p>' +
+    '<p>These cards are designed to help you pause, look beneath the behavior, and respond in a way that supports regulation instead of escalation.</p>' +
+    '<p>Warmly,<br />Dr. Cae</p>';
+  return sendWithResend(email, subject, text, html);
+}
+
 module.exports = {
   sendEmailStep1,
   sendEmailStep2,
@@ -553,6 +589,7 @@ module.exports = {
   sendEmailStep4,
   sendEmailStep5,
   sendToolkitSampleEmail,
+  sendCardsSampleEmail,
   addResendContactToAudience,
   displayName,
 };
