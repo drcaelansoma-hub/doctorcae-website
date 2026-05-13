@@ -195,7 +195,7 @@
               } catch (err) {
                 data = {};
               }
-              return { ok: r.ok, status: r.status, data: data };
+              return { ok: r.ok, status: r.status, data: data, rawText: text || '' };
             });
           })
           .then(function (result) {
@@ -203,9 +203,19 @@
               window.location.href = result.data.redirect;
               return;
             }
+            var d = result.data || {};
+            var parts = [];
+            if (d.error) parts.push(String(d.error));
+            if (d.hint && d.hint !== d.error) parts.push(String(d.hint));
+            if (!result.ok && result.status) {
+              parts.push('(HTTP ' + result.status + ')');
+            }
+            if (!parts.length && result.rawText) {
+              parts.push(result.rawText.slice(0, 200));
+            }
             var msg =
-              (result.data && result.data.error) ||
-              'Something went wrong. Please try again.';
+              parts.join(' ') ||
+              'Something went wrong. If this keeps happening, open the browser Network tab: look for POST /api/submit-cards-sample (404 = API file missing on server; 503 = Resend env vars).';
             show('err', msg);
           })
           .catch(function () {
@@ -219,4 +229,3 @@
   </script>
 </body>
 </html>
-cards-sample
