@@ -96,6 +96,22 @@
       "destination": "/toolkit-sample/thank-you.html"
     },
     {
+      "source": "/cards-sample",
+      "destination": "/cards-sample/index.html"
+    },
+    {
+      "source": "/cards-sample/",
+      "destination": "/cards-sample/index.html"
+    },
+    {
+      "source": "/cards-sample-thank-you",
+      "destination": "/cards-sample-thank-you/index.html"
+    },
+    {
+      "source": "/cards-sample-thank-you/",
+      "destination": "/cards-sample-thank-you/index.html"
+    },
+    {
       "source": "/downloads/behind-the-behavior-sample.pdf",
       "destination": "/cards-sample/behind-the-behavior-sample.pdf"
     }
