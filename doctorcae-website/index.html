@@ -1,72 +1,1017 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
+  <title>Dr. Caelan Soma – Clinical Psychologist</title>
+  <meta name="description"
+    content="Body-based, regulation-focused practice. Trauma and nervous system science translated into practical tools for parents, caregivers, and professionals." />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Thank you — Behind the Behavior sample cards</title>
-  <meta name="robots" content="noindex, nofollow" />
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17926033047"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'AW-17926033047');
-    gtag('config', 'G-R4CEN25RRM');
-  </script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #f4f6f8;
+      --bg-accent: #e7edf3;
+      --primary: #3b6c94;
+      --primary-soft: #7fa4c1;
+      --brown: #a4744a;
+      --text-main: #29333b;
+      --text-muted: #6b7280;
+      --card-bg: #ffffff;
+      --border-subtle: #dde2e7;
+    }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f4f6f8;
-      color: #29333b;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 1.5rem;
-      line-height: 1.6;
+      background: radial-gradient(circle at top, #e6edf5 0, #f7f5f2 60%, #f4f1ec 100%);
+      color: var(--text-main);
+      line-height: 1.7;
     }
-    .card {
-      width: 100%;
-      max-width: 40rem;
-      background: #fff;
-      border: 1px solid #dde3ea;
-      border-radius: 1rem;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 0 12px 35px rgba(41, 51, 59, 0.08);
-    }
-    h1 { margin-bottom: 0.9rem; font-size: 1.45rem; line-height: 1.3; }
-    p { color: #5c6673; margin-bottom: 1rem; }
-    .btn {
-      display: inline-block;
-      padding: 0.9rem 1.35rem;
-      border-radius: 999px;
+
+    a {
+      color: inherit;
       text-decoration: none;
-      background: #3b6c94;
-      color: #fff;
-      font-weight: 600;
-      margin-top: 0.5rem;
     }
-    .btn:hover { background: #2d5678; }
-    .hint {
-      font-size: 0.82rem;
-      color: #8b95a1;
-      margin-top: 1rem;
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1.4rem 8vw 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .brand-text-main {
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      color: var(--primary);
+    }
+
+    .brand-text-sub {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    .brand-tagline-block {
+      margin-top: 0.75rem;
+      max-width: 22rem;
+    }
+
+    .brand-tagline-pill {
+      display: inline-block;
+      padding: 0.4rem 0.85rem;
+      border-radius: 0.5rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      background: linear-gradient(135deg, rgba(59, 108, 148, 0.12), rgba(127, 164, 193, 0.1));
+      border: 1px solid rgba(59, 108, 148, 0.25);
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    .brand-tagline-line2 {
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: #1a365d;
+      font-weight: 500;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .nav-link {
+      position: relative;
+      padding-bottom: 0.1rem;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--brown));
+      transition: width 0.2s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 88, 124, 0.16);
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--primary);
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+      font-size: 0.85rem;
+    }
+
+    main {
+      padding: 2.8rem 8vw 3rem;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 3.2rem;
+      align-items: center;
+    }
+
+    .hero-intro-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.75rem;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 1.4rem;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .hero-intro-pill {
+      padding: 0.35rem 0.85rem;
+      border-radius: 0.5rem;
+      background: linear-gradient(135deg, #b4cce0, #e1c2a0);
+      color: #28323a;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .hero-intro-badge>span:not(.hero-intro-pill) {
+      color: var(--text-muted);
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 3vw + 1.2rem, 3rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .hero-title span {
+      color: var(--primary);
+    }
+
+    .hero-framework-link {
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+    }
+
+    .hero-framework-link a {
+      color: var(--primary);
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .hero-framework-link a:hover {
+      opacity: 0.9;
+    }
+
+    .hero-subtitle {
+      max-width: 32rem;
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-note {
+      max-width: 32rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-guide-hint {
+      max-width: 38rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-top: -0.25rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-guide-hint--spaced {
+      margin-top: 0.5rem;
       margin-bottom: 0;
     }
-    .nav { margin-top: 1.25rem; font-size: 0.92rem; }
-    .nav a { color: #3b6c94; font-weight: 600; }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      border-radius: 999px;
+      padding: 0.8rem 1.5rem;
+      font-size: 0.92rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 36px rgba(15, 23, 42, 0.2);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.8);
+      border-color: rgba(221, 226, 232, 0.9);
+      color: var(--primary);
+    }
+
+    .btn-ghost:hover {
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.4rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .hero-meta strong {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .hero-meta a {
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease;
+    }
+
+    .hero-meta a:hover {
+      border-bottom-color: var(--primary);
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 1.3rem;
+      padding: 1.8rem 1.6rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow:
+        0 18px 45px rgba(148, 163, 184, 0.16),
+        0 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+
+    .hero-card-heading {
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary-soft);
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+      color: var(--text-main);
+    }
+
+    .hero-card-text {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-bottom: 1.1rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .tag {
+      font-size: 0.8rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: #f4f6f9;
+      color: #4b5563;
+      border: 1px solid rgba(221, 226, 232, 0.9);
+    }
+
+    .list-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
+    }
+
+    .list {
+      list-style: none;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .list li {
+      padding-left: 1.1rem;
+      position: relative;
+      margin-bottom: 0.35rem;
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0.2rem;
+      top: 0.65rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary-soft), var(--brown));
+      opacity: 0.7;
+    }
+
+    .info-line {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid #edf0f3;
+      padding-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .info-line strong {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .section {
+      margin-top: 2.5rem;
+      padding: 1.8rem 1.6rem;
+      border-radius: 1.3rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--text-main);
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--primary-soft);
+      margin-bottom: 1rem;
+    }
+
+    .section-body {
+      overflow: auto;
+    }
+
+    .section-body p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+      max-width: 48rem;
+    }
+
+    .about-specialties-list {
+      list-style: none;
+      margin: 1rem 0 1.5rem;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .about-specialties-list li {
+      padding: 0.75rem 1rem;
+      background: linear-gradient(135deg, rgba(59, 108, 148, 0.1), rgba(127, 164, 193, 0.08));
+      border-radius: 0.5rem;
+      border-left: 4px solid var(--primary);
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .about-headshot {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--border-subtle);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      float: left;
+      margin: 0 1.25rem 1rem 0;
+    }
+
+    .testimonials-section {
+      margin-top: 2.5rem;
+      padding: 1.8rem 1.6rem;
+      border-radius: 1.3rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 12px 30px rgba(148, 163, 184, 0.12);
+    }
+
+    .testimonials-section .section-title {
+      margin-bottom: 1.25rem;
+    }
+
+    .testimonial-card {
+      padding: 1.25rem 1.1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.75rem;
+      background: rgba(59, 108, 148, 0.05);
+      border-left: 4px solid var(--primary-soft);
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.65;
+    }
+
+    .testimonial-card:last-child {
+      margin-bottom: 0;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .resource-card {
+      padding: 1rem 1.1rem;
+      border-radius: 1rem;
+      border: 1px solid #e2e7ee;
+      background: #f8fafc;
+    }
+
+    .resource-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--primary-soft);
+      margin-bottom: 0.3rem;
+    }
+
+    .resource-title {
+      font-size: 0.96rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: var(--text-main);
+    }
+
+    .resource-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .resource-link {
+      font-size: 0.85rem;
+      color: var(--primary);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .guide-cta {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.9rem 1.75rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      box-shadow: 0 10px 28px rgba(59, 108, 148, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .guide-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px rgba(59, 108, 148, 0.35);
+    }
+
+    .coming-soon-link:hover {
+      border-color: var(--primary-soft);
+      box-shadow: 0 8px 24px rgba(59, 108, 148, 0.12);
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .option-card {
+      padding: 1.35rem 1.25rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border-subtle);
+      background: var(--card-bg);
+      box-shadow: 0 4px 14px rgba(148, 163, 184, 0.08);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .option-card:hover {
+      border-color: var(--primary-soft);
+      box-shadow: 0 8px 24px rgba(59, 108, 148, 0.12);
+    }
+
+    .option-card a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .option-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.4rem;
+    }
+
+    .option-card-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .option-card-link-text {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--primary);
+      margin-top: 0.6rem;
+      display: inline-block;
+    }
+
+    .option-card-link-text:hover {
+      text-decoration: underline;
+    }
+
+    .option-card .option-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .option-card .option-btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--brown));
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(59, 108, 148, 0.25);
+    }
+
+    .option-card .option-btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(59, 108, 148, 0.3);
+    }
+
+    .option-card .option-btn-ghost {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border-subtle);
+      color: var(--primary);
+    }
+
+    .option-card .option-btn-ghost:hover {
+      background: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    footer {
+      padding: 1.2rem 8vw 1.6rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(209, 213, 219, 0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer a {
+      opacity: 0.85;
+    }
+
+    footer a:hover {
+      opacity: 1;
+    }
+
+    @media (max-width: 900px) {
+      .hero-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-card {
+        order: -1;
+        margin-bottom: 1.8rem;
+      }
+
+      .section {
+        margin-top: 2rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      header {
+        padding-inline: 1.3rem;
+      }
+
+      main {
+        padding-inline: 1.3rem;
+      }
+
+      footer {
+        padding-inline: 1.3rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+      }
+
+      nav {
+        display: none;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <main class="card">
-    <h1>You&rsquo;re all set.</h1>
-    <p>Your free sample cards are on the way to your inbox.</p>
-    <p>
-      If these feel helpful, the full deck includes 20+ behavior translations for meltdowns, shutdowns, arguing, clinginess, perfectionism, aggression, refusal, transitions, and more.
-    </p>
-    <a class="btn" href="https://guide.doctorcae.com/behind-the-behavior-regulation-cards">Get the Full Deck</a>
-    <p class="nav"><a href="../cards-sample">Back to sample signup</a> &middot; <a href="../index.html">Home</a></p>
-  </main>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <img src="doctorcaelogo.png" alt="Dr. Caelan Soma logo" class="brand-logo" />
+        <div>
+          <div class="brand-text-main">Dr. Caelan Soma</div>
+          <div class="brand-text-sub">Clinical Psychologist – Children, Adolescents, Parents and Professionals</div>
+          <div class="brand-tagline-block">
+            <div class="brand-tagline-pill">Body-based, regulation-focused practice</div>
+            <div class="brand-tagline-line2">I translate trauma and nervous system science into usable tools for real
+              people.</div>
+          </div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#options" class="nav-link">Options</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="#resources" class="nav-link">Resources</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="hero-layout">
+        <section aria-labelledby="hero-title">
+          <h1 id="hero-title" class="hero-title">
+            The Body First Framework was created for parents so they can understand what's happening underneath behavior and learn ways to support emotional regulation.
+          </h1>
+          <p class="hero-framework-link">
+            <a href="body-first-framework.html">What is the Body First Framework?</a>
+          </p>
+          <div class="hero-actions">
+            <a href="online-course.html" class="btn-primary">Explore the Course</a>
+            <a href="consultation.html" class="btn-ghost">Work With Me</a>
+            <a href="/guide" class="btn-primary">Body First Framework FREE Guide</a>
+          </div>
+          <p class="hero-guide-hint">
+            Body First Framework FREE Guide — simple page on this site; download the PDF free.
+          </p>
+
+          <div class="hero-meta">
+            <div><strong><a href="consultation.html">Consultation</a></strong> available</div>
+            <div><strong><a href="#resources">Resources</a></strong></div>
+          </div>
+        </section>
+
+        <aside class="hero-card" aria-label="For parents and caregivers">
+          <div class="hero-card-heading">For Parents &amp; Caregivers</div>
+
+          <p class="hero-card-text">
+            If big emotions are taking over — in your child, in your home, or in yourself — you're not alone.
+          </p>
+
+          <p class="hero-card-text">
+            Many families and adults are navigating:
+          </p>
+
+          <ul class="list" style="margin-bottom: 1rem;">
+            <li>Explosive reactions or shutdown</li>
+            <li>Anxiety that feels ever-present</li>
+            <li>Emotional overwhelm that appears "out of proportion"</li>
+            <li>Cycles of trying harder without lasting change</li>
+          </ul>
+
+          <p class="hero-card-text">
+            This isn't about bad behavior, poor parenting, or lack of insight.<br>
+            It's about a stressed nervous system.
+          </p>
+
+          <p class="hero-card-text">
+            <strong>Regulation isn't about control.</strong><br>
+            It's about capacity.
+          </p>
+
+          <p class="hero-card-text">
+            When stress or trauma overwhelms the nervous system, the thinking brain goes offline. No amount of
+            reasoning, consequences, or "knowing better" can override that in the moment. Lasting change begins with
+            understanding how the nervous system works—and learning how to respond when it's activated.
+          </p>
+
+          <div class="info-line" id="contact">
+            <span>Email: <a href="mailto:drcaelansoma@gmail.com">drcaelansoma@gmail.com</a></span>
+            <span>Location: Berkley, Michigan &amp; virtual</span>
+          </div>
+        </aside>
+      </div>
+
+      <section id="about" class="section" aria-labelledby="about-title">
+        <h2 id="about-title" class="section-title">About</h2>
+
+        <div class="section-body">
+          <img src="headshot.png.jpeg" alt="Dr. Caelan Soma" class="about-headshot" />
+          <p>
+            Dr. Caelan Soma is a licensed clinical psychologist and master level social worker with more than 25 years of experience working with children, adolescents, adults, and families. Her work focuses on helping people understand and regulate strong emotions by translating trauma and nervous system science into practical tools for everyday life.
+          </p>
+          <p>
+            Over the course of her career, Dr. Soma has authored and co-authored multiple books and developed widely used curricula designed to help children and adolescents understand and manage stress, trauma, emotional overwhelm, and challenging behavior. Her work has been used by educators, clinicians, and organizations supporting children and families.
+          </p>
+          <p>
+            Much of this work was developed while she served as Chief Clinical Officer of a nonprofit organization focused on trauma-informed education. In that role, she helped lead the development of books, training programs, and practical frameworks used by schools, clinicians, and caregivers to support children impacted by stress and trauma.
+          </p>
+          <p>
+            In addition to her clinical work, Dr. Soma has created online courses for parents, professionals, and graduate-level university programs. She has presented to thousands of parents, educators, and clinicians through conferences, professional trainings, and keynote presentations. Her work has also contributed to broader efforts to strengthen social and emotional wellness for children, including influencing public policy and professional practice related to trauma-informed care.
+          </p>
+          <p>
+            Dr. Soma's clinical background is rooted in trauma-informed care, with a specialization in emotional regulation across the lifespan. She helps parents, caregivers, and professionals better understand why strong emotions arise and how to respond in ways that support regulation and connection.
+          </p>
+          <p>
+            Her work focuses on:
+          </p>
+          <ul class="about-specialties-list">
+            <li>Trauma-informed, nervous system based education</li>
+            <li>Practical strategies for emotional regulation</li>
+            <li>Consultation for parents, caregivers, and professionals</li>
+            <li>Select trauma-focused therapy offered on a limited basis</li>
+          </ul>
+          <p>
+            Whether supporting a child through big feelings, helping parents respond differently during moments of overwhelm, or working with adults whose early experiences continue to shape emotional responses, the goal is the same: helping people develop greater stability, flexibility, and choice in how they respond to life's challenges.
+          </p>
+          <p>
+            Translating trauma and nervous system science into practical tools that help children, parents, and professionals understand emotional regulation.
+          </p>
+
+          <div class="hero-actions" style="margin-top: 2rem; margin-bottom: 0;">
+            <a href="online-course.html" class="btn-primary">Explore the Course</a>
+            <a href="/guide" class="btn-primary">Body First Framework FREE Guide</a>
+            <a href="adult-trauma-therapy.html" class="btn-ghost">Adult Trauma Therapy (EMDR)</a>
+            <a href="consultation.html" class="btn-ghost">Schedule a Consultation</a>
+          </div>
+          <p class="hero-guide-hint hero-guide-hint--spaced">
+            Body First Framework FREE Guide — simple page on this site; download the PDF free.
+          </p>
+        </div>
+      </section>
+
+      <section class="testimonials-section" aria-labelledby="testimonials-title">
+        <h2 id="testimonials-title" class="section-title">What parents and caregivers are noticing</h2>
+        <div class="testimonial-card">
+          "What stood out most was how practical and compassionate this approach felt. We weren't blamed, we were
+          guided. Our child now has language for what's happening in their body, and meltdowns don't last as long or
+          feel as scary anymore."
+        </div>
+        <div class="testimonial-card">
+          "As parents, we were stuck between wanting to be supportive and needing to hold boundaries. This approach
+          showed us we don't have to choose one or the other. We learned how to regulate first, then problem-solve. Our
+          child is more confident, and we're no longer walking on eggshells."
+        </div>
+        <div class="testimonial-card">
+          "Learning to support regulation instead of trying to 'fix' emotions changed everything. Our child feels safer,
+          recovers faster, and trusts us more. I am a lot less overwhelmed."
+        </div>
+      </section>
+
+      <a href="online-course.html" class="coming-soon-link"
+        style="display: block; text-align: center; padding: 2.4rem; margin: 2.5rem 0 1.75rem 0; background: linear-gradient(135deg, rgba(59, 108, 148, 0.18), rgba(164, 116, 74, 0.12)); border-radius: 1.5rem; border: 2px solid var(--primary-soft); text-decoration: none; color: inherit; box-shadow: 0 16px 40px rgba(59, 108, 148, 0.25); transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;">
+        <span
+          style="display:inline-block; padding:0.25rem 0.75rem; border-radius:999px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; color: #ffffff; background: rgba(26, 54, 93, 0.9);">Online
+          Course — Available Now</span>
+        <h2 style="font-size: 1.6rem; color: #1a365d; margin: 0.75rem 0 0.35rem 0; font-weight: 700;">The Body First Framework: 7 Steps to Helping Kids and Teens Regulate Emotions and Behavior</h2>
+        <p style="font-size: 0.98rem; color: #29333b; margin: 0;">Move beyond managing behavior and learn how to respond to your child's nervous system with clarity, confidence, and calm. Enroll now →</p>
+      </a>
+
+      <section id="options" class="section" aria-labelledby="options-title">
+        <h2 id="options-title" class="section-title">Your options</h2>
+        <p class="section-subtitle">Ways to work with me and resources you can use right away.</p>
+
+        <div class="options-grid">
+          <div class="option-card">
+            <div class="option-card-title">Learn how regulation actually works</div>
+            <p class="option-card-text">If you're looking for clear explanations, practical tools, and a framework that
+              finally makes sense, start here.</p>
+            <p class="option-card-text">The Body First Framework: 7 Steps to Helping Kids and Teens Regulate Emotions and Behavior is an on-demand course designed to help you:</p>
+            <ul class="list" style="margin-bottom: 1rem;">
+              <li>Recognize when your child is dysregulated and respond without escalating</li>
+              <li>Understand how your own nervous system shapes your child's behavior</li>
+              <li>Create small, repeatable moments of safety that lead to change</li>
+              <li>Move from reacting to responding with intention</li>
+            </ul>
+            <p class="option-card-text">This course is ideal for parents who feel overwhelmed by big emotions or behaviors and want to respond differently.</p>
+            <a href="online-course.html" class="option-btn option-btn-primary">Explore the Course</a>
+          </div>
+
+          <div class="option-card">
+            <div class="option-card-title">Body First Framework Manual &amp; Toolkit for Therapists</div>
+            <p class="option-card-text">A complete clinical system for translating nervous system science into real-time action.</p>
+            <ul class="list" style="margin-bottom: 1rem;">
+              <li>Full 7-step Body First Framework&trade;</li>
+              <li>Expanded scripts and clinical decision trees</li>
+              <li>Parent coaching tools and implementation guidance</li>
+            </ul>
+            <p class="option-card-text">Start with the free sample, then access the full Toolkit on Podia.</p>
+            <a href="toolkit-sample.html" class="option-btn option-btn-ghost">Download Free Sample</a>
+            <a href="https://guide.doctorcae.com/body-first-framework-manual-and-toolkit-for-therapists" class="option-btn option-btn-primary" target="_blank" rel="noopener noreferrer">Get the Full Toolkit</a>
+          </div>
+
+          <div class="option-card">
+            <div class="option-card-title">Consultation &amp; Support</div>
+            <p class="option-card-text">Thoughtful guidance when you need it.</p>
+            <p class="option-card-text">I offer consultation for:</p>
+            <ul class="list" style="margin-bottom: 1rem;">
+              <li>Parents navigating complex emotional or behavioral challenges</li>
+              <li>Caregivers seeking trauma-informed guidance</li>
+              <li>Professionals wanting a nervous-system lens for their work</li>
+            </ul>
+            <p class="option-card-text">Consultations are focused, practical, and grounded in a deep understanding of
+              trauma and regulation.</p>
+            <a href="consultation.html" class="option-btn option-btn-primary">Learn About Consultations</a>
+          </div>
+
+          <div class="option-card">
+            <div class="option-card-title">Trauma-Focused Therapy (Limited Availability)</div>
+            <p class="option-card-text">Intensive support for deeper work.</p>
+            <p class="option-card-text">In addition to education and consultation, I provide trauma-focused therapy for
+              adults on a limited, private-pay basis, including EMDR.</p>
+            <p class="option-card-text">This work is offered selectively and is designed for individuals seeking
+              focused, intensive support.</p>
+            <a href="adult-trauma-therapy.html" class="option-btn option-btn-primary">Adult Trauma Therapy</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="resources" class="section" aria-labelledby="resources-title">
+        <h2 id="resources-title" class="section-title">Resources for Parents</h2>
+        <p class="section-subtitle">
+          Simple tools, visuals, and language you can use at home with your child or teen.
+        </p>
+
+        <div class="section-body">
+          <p>
+            Below are some of my most‑used resources with families.
+          </p>
+
+          <div class="resource-grid">
+            <div class="resource-card">
+              <div class="resource-label">Visual tool</div>
+              <div class="resource-title">Zones of Feelings</div>
+              <p class="resource-text">
+                Help your child identify how their body sends them signals to know which feeling zone they are in.
+              </p>
+              <a href="Feelings Ladder.pdf" class="resource-link">Download PDF</a>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-label">Downloadable tool</div>
+              <div class="resource-title">Body Map</div>
+              <p class="resource-text">
+                Help your child with emotional awareness by noticing body sensations with this body map.
+              </p>
+              <a href="Close your eyes. Take a deep breath in through your nose, and out through your mouth. Starting with the top of your head, become aware of how your body feels. Slowly move down your body, noticing .pdf"
+                class="resource-link">Download PDF</a>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-label">Article</div>
+              <div class="resource-title">When Worry Shows Up at Bedtime</div>
+              <p class="resource-text">
+                A short article for parents on why anxiety often appears at night, and three gentle,
+                concrete steps you can try this week.
+              </p>
+              <a href="when-worry-shows-up-at-bedtime.html" class="resource-link">Read article</a>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-label">Article</div>
+              <div class="resource-title">Defiant or Dysregulated?</div>
+              <p class="resource-text">
+                What your child's behavior is really telling you — and how to respond when what looks like opposition may be an overwhelmed nervous system.
+              </p>
+              <a href="defiant-or-dysregulated.html" class="resource-link">Read article</a>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-label">Article</div>
+              <div class="resource-title">Why Transitions Are So Hard for Kids</div>
+              <p class="resource-text">
+                Meltdowns at screen-off, leaving the house, or bedtime? A nervous system lens on why transitions are hard — and what actually helps.
+              </p>
+              <a href="why-transitions-are-hard-for-kids.html" class="resource-link">Read article</a>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-label">Article</div>
+              <div class="resource-title">Why Consequences Don't Work When Kids Are Overwhelmed</div>
+              <p class="resource-text">
+                Timing, the thinking brain vs. the body, and shifting to regulation first so accountability can actually land.
+              </p>
+              <a href="why-consequences-dont-work-when-kids-are-overwhelmed.html" class="resource-link">Read article</a>
+            </div>
+
+            <div class="resource-card">
+              <div class="resource-label">Article</div>
+              <div class="resource-title">The After-School Meltdown</div>
+              <p class="resource-text">
+                Why falling apart at home after a “fine” day at school is often nervous system collapse — not misbehavior — and how to help kids decompress.
+              </p>
+              <a href="after-school-meltdown-nervous-system-collapse.html" class="resource-link">Read article</a>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>© <span id="year"></span> Dr. Caelan Soma. All rights reserved.</span>
+      <div>
+        <a href="mailto:hello@doctorcae.com">Contact</a> ·
+        <a href="https://www.doctorcae.com">doctorcae.com</a> ·
+        <a href="mailto:drcaelansoma@gmail.com">drcaelansoma@gmail.com</a> ·
+        <a href="https://www.instagram.com/drcaesoma/" target="_blank" rel="noopener noreferrer">@drcaesoma</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
+
 </html>
